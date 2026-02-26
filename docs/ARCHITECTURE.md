@@ -113,3 +113,11 @@ Standardized JSON Response Envelope
 - **Grading Scale Architecture**: Standardized through `GradeScaleModel`, providing continuous GPA conversion ranges ($4.0$ scale) and descriptive outcome bands from A+ down to F.
 - **System Error Code Taxonomy**: Managed under `AppErrorCodes`, mapping low-level transport and database exceptions into user-facing, actionable guidance across Auth, Network, and Database boundaries.
 
+---
+
+## 7. Campus Bell Schedules & Staff Tracking
+
+- **Bell Schedule Pipeline**: Managed through `BellScheduleModel`, enforcing minute-level slot calculation, period sequencing, and structured recess intervals.
+- **Staff Attendance & Biometric Audit**: Handled via `StaffAttendanceModel`, tracking arrival punctuality (`present`, `lateArrival`, `halfDay`, `absent`, `onLeave`) and computing worked hours.
+- **Academic Term Intervals**: Declared in `SchoolTermsConfig`, standardizing term boundaries, midterm assessment milestones, and semester exam dates.
+
