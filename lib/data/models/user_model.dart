@@ -63,6 +63,10 @@ class UserModel {
     };
   }
 
+  bool get isAdmin => role.toLowerCase() == 'admin';
+  bool get isTeacher => role.toLowerCase() == 'teacher';
+  bool get isStudent => role.toLowerCase() == 'student';
+
   UserModel copyWith({
     String? name,
     String? email,
@@ -86,4 +90,21 @@ class UserModel {
       createdAt: createdAt,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserModel &&
+          runtimeType == other.runtimeType &&
+          uid == other.uid &&
+          email == other.email &&
+          role == other.role &&
+          approved == other.approved;
+
+  @override
+  int get hashCode =>
+      uid.hashCode ^ email.hashCode ^ role.hashCode ^ approved.hashCode;
+
+  @override
+  String toString() => 'UserModel(uid: $uid, name: $name, role: $role, approved: $approved)';
 }
