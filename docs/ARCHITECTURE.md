@@ -103,6 +103,13 @@ Standardized JSON Response Envelope
 
 ## 5. Domain Models & Utility Standards
 
-- **Value Equality & Immutability**: All client-side domain entities (`ClassModel`, `TeacherModel`, `NoticeModel`, `ResultModel`, etc.) implement explicit `copyWith`, `operator ==`, `hashCode`, and `toString` overrides, ensuring clean state comparisons and caching predictability in Riverpod state trees.
-- **Shared Data Transformations**: Centralized `DataHelpers` encapsulates reusable data presentation logic (letter grade thresholds, semantic color mapping, ISO and relative date-key generation, safe division percentage, and currency formatting), avoiding duplicated formatting implementations across screens.
+- **Value Equality & Immutability**: All client-side domain entities (`ClassModel`, `TeacherModel`, `NoticeModel`, `ResultModel`, `UserModel`, `GradeScaleModel`, etc.) implement explicit `copyWith`, `operator ==`, `hashCode`, and `toString` overrides, ensuring clean state comparisons and caching predictability in Riverpod state trees.
+- **Shared Data Transformations**: Centralized `DataHelpers` and `EduStringX` encapsulate reusable data presentation logic (letter grade thresholds, semantic color mapping, ISO and relative date-key generation, safe division percentage, string formatting, and currency formatting), avoiding duplicated formatting implementations across screens.
+
+---
+
+## 6. Grading Standards & Error Resolution
+
+- **Grading Scale Architecture**: Standardized through `GradeScaleModel`, providing continuous GPA conversion ranges ($4.0$ scale) and descriptive outcome bands from A+ down to F.
+- **System Error Code Taxonomy**: Managed under `AppErrorCodes`, mapping low-level transport and database exceptions into user-facing, actionable guidance across Auth, Network, and Database boundaries.
 
