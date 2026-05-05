@@ -84,6 +84,12 @@ class AssignmentModel {
     return DateTime.now().isAfter(dueDate!);
   }
 
+  bool get isDueSoon {
+    if (dueDate == null || isOverdue) return false;
+    final difference = dueDate!.difference(DateTime.now());
+    return difference.inDays <= 2;
+  }
+
   String get formattedDueDate {
     if (dueDate == null) return 'No due date';
     return DateFormat('MMM d, yyyy').format(dueDate!);
@@ -116,4 +122,22 @@ class AssignmentModel {
       createdAt: createdAt ?? this.createdAt,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AssignmentModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          title == other.title &&
+          subject == other.subject &&
+          className == other.className;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^ title.hashCode ^ subject.hashCode ^ className.hashCode;
+
+  @override
+  String toString() =>
+      'AssignmentModel(id: $id, title: $title, subject: $subject, class: $className)';
 }
