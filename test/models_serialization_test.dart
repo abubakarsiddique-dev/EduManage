@@ -6,6 +6,7 @@ import 'package:school_management_system/data/models/class_model.dart';
 import 'package:school_management_system/data/models/fee_model.dart';
 import 'package:school_management_system/data/models/notice_model.dart';
 import 'package:school_management_system/data/models/result_model.dart';
+import 'package:school_management_system/data/models/student_model.dart';
 import 'package:school_management_system/data/models/teacher_model.dart';
 import 'package:school_management_system/data/models/timetable_model.dart';
 
@@ -352,6 +353,71 @@ void main() {
       expect(teacher1, isNot(equals(updated)));
     });
   });
+
+  group('StudentModel Tests', () {
+    test('serializes and deserializes student document map correctly', () {
+      final student = StudentModel(
+        id: 'std_99',
+        name: 'Sara Khan',
+        email: 'sara.khan@student.edu',
+        rollNo: 'STD-2026-099',
+        className: 'Grade 10',
+        section: 'B',
+        contact: '+92 300 7654321',
+        approved: true,
+      );
+
+      final map = student.toMap();
+      expect(map['uid'], 'std_99');
+      expect(map['name'], 'Sara Khan');
+      expect(map['rollNo'], 'STD-2026-099');
+      expect(map['class'], 'Grade 10');
+      expect(map['section'], 'B');
+
+      final fromMap = StudentModel.fromMap('std_99', {
+        'name': 'Sara Khan',
+        'email': 'sara.khan@student.edu',
+        'rollNo': 'STD-2026-099',
+        'class': 'Grade 10',
+        'section': 'B',
+        'contact': '+92 300 7654321',
+        'approved': true,
+      });
+
+      expect(fromMap.id, 'std_99');
+      expect(fromMap.name, 'Sara Khan');
+      expect(fromMap.fullClassSection, 'Grade 10 - B');
+    });
+
+    test('value equality, copyWith, and hashCode work as expected', () {
+      final s1 = StudentModel(
+        id: 's1',
+        name: 'Ali',
+        email: 'ali@student.edu',
+        rollNo: 'R-01',
+        className: 'Grade 9',
+        section: 'A',
+        contact: '0300',
+      );
+      final sClone = StudentModel(
+        id: 's1',
+        name: 'Ali',
+        email: 'ali@student.edu',
+        rollNo: 'R-01',
+        className: 'Grade 9',
+        section: 'A',
+        contact: '0300',
+      );
+
+      expect(s1, equals(sClone));
+      expect(s1.hashCode, equals(sClone.hashCode));
+
+      final sUpdated = s1.copyWith(section: 'B');
+      expect(sUpdated.section, 'B');
+      expect(s1, isNot(equals(sUpdated)));
+    });
+  });
 }
+
 
 
