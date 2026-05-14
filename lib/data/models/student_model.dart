@@ -67,4 +67,64 @@ class StudentModel {
           : FieldValue.serverTimestamp(),
     };
   }
+
+  /// Convenience label combining class name and section (e.g. 'Grade 10 - A').
+  String get fullClassSection => '$className - $section';
+
+  StudentModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? rollNo,
+    String? className,
+    String? section,
+    String? contact,
+    bool? approved,
+    DateTime? createdAt,
+  }) {
+    return StudentModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      rollNo: rollNo ?? this.rollNo,
+      className: className ?? this.className,
+      section: section ?? this.section,
+      contact: contact ?? this.contact,
+      approved: approved ?? this.approved,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StudentModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          email == other.email &&
+          rollNo == other.rollNo &&
+          className == other.className &&
+          section == other.section &&
+          contact == other.contact &&
+          approved == other.approved &&
+          createdAt == other.createdAt;
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        name,
+        email,
+        rollNo,
+        className,
+        section,
+        contact,
+        approved,
+        createdAt,
+      );
+
+  @override
+  String toString() =>
+      'StudentModel(id: $id, name: $name, rollNo: $rollNo, class: $fullClassSection)';
 }
+
