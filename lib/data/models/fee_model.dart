@@ -126,6 +126,10 @@ class FeeModel {
     return DateTime.now().isAfter(dueDate!);
   }
 
+  bool get isPaid => status == FeeStatus.paid;
+  bool get isPending => status == FeeStatus.pending;
+  bool get isPendingVerification => status == FeeStatus.pendingVerification;
+
   String get formattedDueDate {
     if (dueDate == null) return 'No due date';
     return DateFormat('MMM d, yyyy').format(dueDate!);
@@ -164,4 +168,22 @@ class FeeModel {
       createdAt: createdAt ?? this.createdAt,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FeeModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          studentId == other.studentId &&
+          amount == other.amount &&
+          status == other.status;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^ studentId.hashCode ^ amount.hashCode ^ status.hashCode;
+
+  @override
+  String toString() =>
+      'FeeModel(id: $id, student: $studentName, amount: $amount, status: $status)';
 }
