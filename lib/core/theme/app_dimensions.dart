@@ -13,10 +13,17 @@ class AppDimensions {
   static const double space24 = 24;
   static const double space32 = 32;
 
+  static const double radiusXSmall = 6;
   static const double radiusSmall = 10;
   static const double radiusMedium = 14;
   static const double radiusLarge = 18;
+  static const double radiusRound = 999;
+
+  static const double elevationLow = 2;
+  static const double elevationMedium = 4;
+  static const double elevationHigh = 8;
 
   static const EdgeInsets screenPadding = EdgeInsets.all(space20);
   static const EdgeInsets cardPadding = EdgeInsets.all(space16);
+  static const EdgeInsets badgePadding = EdgeInsets.symmetric(horizontal: space8, vertical: space4);
 }
