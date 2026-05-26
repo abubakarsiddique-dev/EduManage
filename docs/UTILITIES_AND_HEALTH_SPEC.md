@@ -113,3 +113,23 @@ Ultra-fast, lightweight probe for load balancers and container orchestrators:
   "timestamp": "2026-09-11T06:46:22.000Z"
 }
 ```
+
+---
+
+## 7. MathStatsHelper (`lib/core/utils/math_stats_helper.dart`)
+
+High-performance statistical analysis utility for academic evaluation:
+- **Central Tendency**: Mean and median calculations with empty set safety.
+- **Dispersion**: Sample standard deviation and variance analysis.
+- **Percentiles**: Boundary-clamped percentile calculations with linear interpolation for percentile ranking.
+
+---
+
+## 8. AppNotificationChannels (`lib/core/constants/app_notification_channels.dart`)
+
+Standardized Android and iOS push notification channel groupings:
+- `academic_alerts`: Homework assignments, quiz reminders, and term reports.
+- `attendance_updates`: Daily check-in alerts and attendance logs.
+- `fee_reminders`: Due dates, payment proofs, and billing notices.
+- `school_notices`: Administrative circulars and event calendar alerts.
+- `system_announcements`: Critical platform security updates and maintenance.
