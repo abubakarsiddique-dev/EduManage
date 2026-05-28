@@ -56,7 +56,28 @@ class AppSubjects {
     }
     return gradeLevelSubjects;
   }
+
+  /// Categorizes subjects into standard academic faculties.
+  static String subjectCategory(String? subject) {
+    if (subject == null) return 'General';
+    final s = subject.trim().toLowerCase();
+    if (['physics', 'chemistry', 'biology'].contains(s)) return 'Sciences';
+    if (['maths', 'mathematics'].contains(s)) return 'Mathematics';
+    if (['english', 'urdu'].contains(s)) return 'Languages';
+    if (['computer science', 'computer'].contains(s)) return 'Technology';
+    if (['islamiyat', 'pakistan studies', 'history', 'geography'].contains(s)) {
+      return 'Humanities';
+    }
+    return 'General';
+  }
+
+  /// Checks if a given subject belongs to the STEM (Science, Technology, Engineering, Mathematics) group.
+  static bool isStemSubject(String? subject) {
+    final cat = subjectCategory(subject);
+    return cat == 'Sciences' || cat == 'Mathematics' || cat == 'Technology';
+  }
 }
+
 
 /// Teacher qualification levels — replaces the old free-text
 /// Qualification field on Add Teacher.
