@@ -62,4 +62,25 @@ class AppStrings {
   static const String invalidEmail = 'Enter a valid email';
   static const String passwordTooShort = 'Minimum 6 characters';
   static const String passwordsDoNotMatch = 'Passwords do not match';
+
+  // ── Standard Actions ─────────────────────────────────────────────────
+  static const String save = 'Save';
+  static const String cancel = 'Cancel';
+  static const String submit = 'Submit';
+  static const String delete = 'Delete';
+  static const String edit = 'Edit';
+  static const String update = 'Update';
+  static const String search = 'Search';
+  static const String refresh = 'Refresh';
+  static const String retry = 'Retry';
+  static const String confirm = 'Confirm';
+
+  // ── Status Labels ────────────────────────────────────────────────────
+  static const String statusApproved = 'Approved';
+  static const String statusPending = 'Pending';
+  static const String statusRejected = 'Rejected';
+  static const String statusPaid = 'Paid';
+  static const String statusUnpaid = 'Unpaid';
+  static const String statusOverdue = 'Overdue';
 }
+
