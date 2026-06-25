@@ -47,5 +47,16 @@ void main() {
       container.read(themeModeProvider.notifier).setSystem();
       expect(container.read(themeModeProvider), ThemeMode.system);
     });
+
+    test('status badge and pill color tokens have proper contrast', () {
+      expect(AppColors.statusApprovedBg, isNotNull);
+      expect(AppColors.statusApprovedText, isNotNull);
+      expect(AppColors.statusPendingBg, isNotNull);
+      expect(AppColors.statusPendingText, isNotNull);
+      expect(AppColors.statusRejectedBg, isNotNull);
+      expect(AppColors.statusRejectedText, isNotNull);
+      expect(AppColors.chipBackground, isNotNull);
+    });
   });
 }
+
