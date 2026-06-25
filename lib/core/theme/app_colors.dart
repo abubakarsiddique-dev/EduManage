@@ -71,6 +71,18 @@ class AppColors {
   static const Color error = danger;
   static const Color errorLight = dangerLight;
 
+  // ── Status Badges & Pills ──────────────────────────────────
+  static const Color statusApprovedBg = Color(0xFFDCFCE7);
+  static const Color statusApprovedText = Color(0xFF15803D);
+  static const Color statusPendingBg = Color(0xFFFEF3C7);
+  static const Color statusPendingText = Color(0xFFB45309);
+  static const Color statusRejectedBg = Color(0xFFFEE2E2);
+  static const Color statusRejectedText = Color(0xFFB91C1C);
+  static const Color statusOverdueBg = Color(0xFFFFE4E6);
+  static const Color statusOverdueText = Color(0xFFBE123C);
+  static const Color chipBackground = Color(0xFFF1F5F9);
+
+
   // ── Categories & Notice Types ──────────────────────────────
   static const Color categoryEvent = Color(0xFF7C3AED); // Event purple
   static const Color categoryExam = Color(0xFF1A56DB); // Exam blue
