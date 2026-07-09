@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
   final double? width;
   final double borderRadius;
   final IconData? icon;
+  final IconData? suffixIcon;
 
   const CustomButton({
     super.key,
@@ -28,7 +29,9 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.borderRadius = AppDimensions.radiusMedium,
     this.icon,
+    this.suffixIcon,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +86,14 @@ class CustomButton extends StatelessWidget {
                           ? AppTextStyles.button.copyWith(color: textColor)
                           : AppTextStyles.button,
                     ),
+                    if (suffixIcon != null) ...[
+                      SizedBox(width: 2.w.clamp(6.0, 10.0)),
+                      Icon(
+                        suffixIcon,
+                        color: textColor ?? AppColors.onPrimary,
+                        size: iconSize,
+                      ),
+                    ],
                   ],
                 ),
         ),
@@ -98,6 +109,7 @@ class CustomOutlineButton extends StatelessWidget {
   final Color? textColor;
   final double? height;
   final IconData? icon;
+  final IconData? suffixIcon;
 
   const CustomOutlineButton({
     super.key,
@@ -107,6 +119,7 @@ class CustomOutlineButton extends StatelessWidget {
     this.textColor,
     this.height,
     this.icon,
+    this.suffixIcon,
   });
 
   @override
@@ -145,6 +158,14 @@ class CustomOutlineButton extends StatelessWidget {
                     ? AppTextStyles.button.copyWith(color: textColor)
                     : AppTextStyles.button.copyWith(color: AppColors.primary),
               ),
+              if (suffixIcon != null) ...[
+                SizedBox(width: 2.w.clamp(6.0, 10.0)),
+                Icon(
+                  suffixIcon,
+                  color: textColor ?? AppColors.primary,
+                  size: iconSize,
+                ),
+              ],
             ],
           ),
         ),
@@ -152,3 +173,4 @@ class CustomOutlineButton extends StatelessWidget {
     );
   }
 }
+
