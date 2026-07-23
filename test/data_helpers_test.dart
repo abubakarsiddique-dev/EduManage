@@ -86,5 +86,21 @@ void main() {
       expect(DataHelpers.titleCase(''), '');
       expect(DataHelpers.titleCase(null), '');
     });
+
+    test('formatFileSize formats byte amounts accurately', () {
+      expect(DataHelpers.formatFileSize(500), '500 B');
+      expect(DataHelpers.formatFileSize(1024), '1.0 KB');
+      expect(DataHelpers.formatFileSize(1048576), '1.0 MB');
+      expect(DataHelpers.formatFileSize(1073741824), '1.0 GB');
+      expect(DataHelpers.formatFileSize(0), '0 B');
+      expect(DataHelpers.formatFileSize(null), '0 B');
+    });
+
+    test('clampNumeric limits values strictly within bounds', () {
+      expect(DataHelpers.clampNumeric(5, 0, 10), 5.0);
+      expect(DataHelpers.clampNumeric(-5, 0, 10), 0.0);
+      expect(DataHelpers.clampNumeric(15, 0, 10), 10.0);
+    });
   });
 }
+
