@@ -142,5 +142,26 @@ class DataHelpers {
       return '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}';
     }).join(' ');
   }
+
+  /// Formats byte count into a human-readable file size string (B, KB, MB, GB).
+  static String formatFileSize(int? bytes) {
+    if (bytes == null || bytes <= 0) return '0 B';
+    const suffixes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    int i = 0;
+    double size = bytes.toDouble();
+    while (size >= 1024 && i < suffixes.length - 1) {
+      size /= 1024;
+      i++;
+    }
+    return '${size.toStringAsFixed(i == 0 ? 0 : 1)} ${suffixes[i]}';
+  }
+
+  /// Clamps a numeric value safely between [min] and [max].
+  static double clampNumeric(num value, num min, num max) {
+    if (value < min) return min.toDouble();
+    if (value > max) return max.toDouble();
+    return value.toDouble();
+  }
 }
+
 
