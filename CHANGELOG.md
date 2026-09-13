@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.5.0] - 2026-09-13
+
+### Added
+- **EventBus & Reactive AppEvent Architecture**: Decoupled, type-safe publish-subscribe event dispatcher in Flutter with specialized domain events (`AuthEvent`, `AttendanceEvent`, `FeePaymentEvent`, `GradeSubmissionEvent`, `SystemNotificationEvent`), FIFO history replay buffer, and isolated subscriber error handling.
+- **Automated System Snapshot & Backup Engine**: Production snapshot management service in Express with recursive deterministic serialization, SHA-256 cryptographic checksums, tampering detection, point-in-time collection restoration, and administrative endpoints (`GET/POST /api/v1/system/backups`, `/verify`, `/restore`).
+- **Universal SearchFilterEngine**: Client-side collection filtering pipeline with tokenized multi-field search, composable `FilterPredicate` rules (equals, inList, range, dateBetween, custom), multi-level sorting, categorical facet frequencies, and windowed pagination.
+- **Notification Templating & Dispatch Engine**: Educational template renderer (`FEE_DUE_REMINDER`, `ASSIGNMENT_POSTED`, `ATTENDANCE_ABSENT_ALERT`, `EXAM_RESULT_PUBLISHED`) with parameter interpolation, fallback formatting, multi-channel routing (`IN_APP`, `EMAIL`, `SMS`), batch queuing, and delivery statistics.
+- **Automated Test Expansion**: Added comprehensive test suites bringing backend test coverage to 65 passing automated tests across 13 suites and client unit tests to 138 passing test cases.
+
+---
+
 ## [1.4.0] - 2026-09-12
 
 ### Added

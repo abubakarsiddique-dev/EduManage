@@ -43,9 +43,10 @@ edumanage-backend/
 │       ├── export/           # CSV data export streaming for students and fee records
 │       ├── fees/             # Fee invoicing, online receipt submission, and verification
 │       ├── notices/          # School notices, announcements, and push alerts
+│       ├── notifications/    # Notification template rendering & batch dispatch engine
 │       ├── results/          # Academic exam results and grading management
 │       ├── students/         # Student directory, enrollment, and profile details
-│       ├── system/           # Relational integrity validator and diagnostic probes
+│       ├── system/           # Relational integrity validator, snapshot & backup engine
 │       ├── teachers/         # Teacher staff records, qualifications, and approvals
 │       └── timetable/        # Class timetable and weekly schedule slots
 └── tests/
@@ -54,8 +55,10 @@ edumanage-backend/
     ├── core_api.test.js              # Auth, classes, students, teachers integration
     ├── extended_api.test.js          # Fees, notices, timetable, results, dashboard
     ├── health.test.js                # System health check endpoints
+    ├── notification_engine.test.js   # Notification templates & dispatch test suite
     ├── query_pagination.test.js      # Search, pagination, and sorting tests
     ├── security_and_export.test.js   # Rate limiting & CSV export security tests
+    ├── system_backup.test.js         # System snapshot & cryptographic backup test suite
     └── system_integrity.test.js      # Relational database integrity & diagnostic tests
 ```
 
@@ -103,6 +106,8 @@ npm test
 ## 🔒 Security & Middleware Features
 
 - **JWT Authentication & RBAC**: Enforces role access (`admin`, `teacher`, `student`, `parent`).
+- **System Snapshot & Backup Engine**: Point-in-time database snapshotting with deterministic JSON serialization, SHA-256 integrity verification, and atomic collection restoration.
+- **Automated Notification Engine**: Multi-channel educational templating (`IN_APP`, `EMAIL`, `SMS`) with variable interpolation and delivery metrics.
 - **Administrative Audit Trail**: Records sensitive operations, actor identity, client IP, execution duration, and payload redaction.
 - **Relational Integrity Probes**: Live checks for foreign key consistency and orphaned records via `/api/v1/health/integrity`.
 - **Sliding-Window Rate Limiter**: Configured with standard headers (`RateLimit-Limit`, `RateLimit-Remaining`).
@@ -114,7 +119,7 @@ npm test
 
 ## 🧪 Testing
 
-All 48 integration and unit test suites run with Node's native test runner (`node --test`):
+All 65 integration and unit tests across 13 test suites run with Node's native test runner (`node --test`):
 ```bash
 npm test
 ```

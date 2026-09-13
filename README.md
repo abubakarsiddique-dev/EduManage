@@ -23,6 +23,10 @@ EduManage is a comprehensive, multi-role School Management System featuring a cr
 - **Fee Management**: Invoice generation, receipt upload, admin verification, and fee collection analytics.
 - **Notices & Timetable**: Institutional notice broadcasts and dynamic class schedule management.
 - **Results & Grading**: Exam grade tracking with automated GPA and letter grade calculations.
+- **EventBus & Reactive AppEvent Architecture**: Decoupled, type-safe publish-subscribe event dispatcher in Flutter with specialized domain events (`AuthEvent`, `AttendanceEvent`, `FeePaymentEvent`, `GradeSubmissionEvent`, `SystemNotificationEvent`), FIFO history replay buffer, and isolated error handling.
+- **Automated Database Snapshots & Backups**: Automated system snapshot engine with recursive deterministic JSON serialization, SHA-256 cryptographic verification, tamper detection, and administrative restore endpoints.
+- **Universal SearchFilterEngine**: Client-side collection query pipeline with multi-field tokenized search, composable `FilterPredicate` rules, multi-level sorting, facet counts, and pagination.
+- **Notification Templating & Dispatch Engine**: Educational template renderer (`FEE_DUE_REMINDER`, `ASSIGNMENT_POSTED`, `ATTENDANCE_ABSENT_ALERT`, `EXAM_RESULT_PUBLISHED`) with parameter interpolation, multi-channel routing (`IN_APP`, `EMAIL`, `SMS`), batch queuing, and delivery stats.
 - **MemoryCache & CacheManager**: High-performance client-side caching with configurable TTL, LRU eviction, tag-based invalidation, and hit/miss statistics.
 - **Academic Analytics Engine**: Attendance streak calculation, linear regression grade trajectory analysis, academic risk detection, and class percentile ranking.
 - **Backend Audit Logging & Security Trail**: Structured audit logging middleware tracking administrative events, actor metadata, client IP, execution duration, and payload redaction.
