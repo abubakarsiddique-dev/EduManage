@@ -82,6 +82,7 @@ const dashboardRoutes = require('./modules/dashboard/dashboard.routes');
 const exportRoutes = require('./modules/export/export.routes');
 const auditRoutes = require('./modules/audit/audit.routes');
 const backupRoutes = require('./modules/system/backup.routes');
+const notificationRoutes = require('./modules/notifications/notification_engine.routes');
 
 // Apply rate limiter to API router in production/development
 if (config.env !== 'test') {
@@ -102,6 +103,7 @@ apiRouter.use('/dashboard', dashboardRoutes);
 apiRouter.use('/export', exportRoutes);
 apiRouter.use('/audit', auditRoutes);
 apiRouter.use('/system/backups', backupRoutes);
+apiRouter.use('/notifications', notificationRoutes);
 
 // Mount root api router
 app.use(config.apiPrefix, apiRouter);
