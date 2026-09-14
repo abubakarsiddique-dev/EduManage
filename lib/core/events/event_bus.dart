@@ -144,6 +144,37 @@ class SystemNotificationEvent extends AppEvent {
   String get eventName => 'SystemNotificationEvent';
 }
 
+/// Synchronization events representing offline mutation queue state changes.
+enum SyncEventType {
+  mutationQueued,
+  syncStarted,
+  batchCompleted,
+  mutationFailed,
+  queueDrained,
+}
+
+class SyncEvent extends AppEvent {
+  final SyncEventType type;
+  final String? mutationId;
+  final String? entityType;
+  final int pendingCount;
+  final String? errorMessage;
+
+  SyncEvent({
+    required this.type,
+    this.mutationId,
+    this.entityType,
+    required this.pendingCount,
+    this.errorMessage,
+    super.id,
+    super.timestamp,
+    super.metadata,
+  });
+
+  @override
+  String get eventName => 'SyncEvent.${type.name}';
+}
+
 /// Central publish-subscribe event bus enabling decoupled reactive communication
 /// across feature modules, services, and presentation layers.
 class EventBus {
