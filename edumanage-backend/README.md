@@ -44,6 +44,8 @@ edumanage-backend/
 │       ├── fees/             # Fee invoicing, online receipt submission, and verification
 │       ├── notices/          # School notices, announcements, and push alerts
 │       ├── notifications/    # Notification template rendering & batch dispatch engine
+│       ├── rbac/             # Dynamic RBAC permission matrix and user override service
+│       ├── reports/          # Institutional academic, attendance, and financial reporting API
 │       ├── results/          # Academic exam results and grading management
 │       ├── students/         # Student directory, enrollment, and profile details
 │       ├── system/           # Relational integrity validator, snapshot & backup engine
@@ -57,6 +59,8 @@ edumanage-backend/
     ├── health.test.js                # System health check endpoints
     ├── notification_engine.test.js   # Notification templates & dispatch test suite
     ├── query_pagination.test.js      # Search, pagination, and sorting tests
+    ├── rbac.test.js                  # Dynamic RBAC permission evaluation & override tests
+    ├── reports.test.js               # Institutional reporting analytics & role security tests
     ├── security_and_export.test.js   # Rate limiting & CSV export security tests
     ├── system_backup.test.js         # System snapshot & cryptographic backup test suite
     └── system_integrity.test.js      # Relational database integrity & diagnostic tests
@@ -105,7 +109,8 @@ npm test
 
 ## 🔒 Security & Middleware Features
 
-- **JWT Authentication & RBAC**: Enforces role access (`admin`, `teacher`, `student`, `parent`).
+- **Dynamic RBAC Permission Matrix**: Granular capability model with 19 operation permissions, least-privilege matrix, custom user overrides, and `requirePermissions` middleware.
+- **Institutional Reporting & Analytics**: Performance summaries, GPA cohort distributions, chronic absenteeism detection, and fee collection efficiency.
 - **System Snapshot & Backup Engine**: Point-in-time database snapshotting with deterministic JSON serialization, SHA-256 integrity verification, and atomic collection restoration.
 - **Automated Notification Engine**: Multi-channel educational templating (`IN_APP`, `EMAIL`, `SMS`) with variable interpolation and delivery metrics.
 - **Administrative Audit Trail**: Records sensitive operations, actor identity, client IP, execution duration, and payload redaction.
@@ -119,7 +124,7 @@ npm test
 
 ## 🧪 Testing
 
-All 65 integration and unit tests across 13 test suites run with Node's native test runner (`node --test`):
+All 83 integration and unit tests across 15 test suites run with Node's native test runner (`node --test`):
 ```bash
 npm test
 ```

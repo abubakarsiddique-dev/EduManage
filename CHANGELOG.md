@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.6.0] - 2026-09-14
+
+### Added
+- **OfflineSyncEngine & Mutation Queue**: Client-side offline synchronization engine (`SyncQueueManager`) with priority weighting (`high`, `normal`, `low`), idempotency key deduplication, exponential retry backoff, and conflict resolution strategies (`serverWins`, `clientWins`, `merge`). Integrates directly with `NetworkService` for automatic background queue draining and emits `SyncEvent` lifecycle updates via `EventBus`.
+- **Dynamic RBAC Permission Matrix & Policy Enforcer**: Granular permission catalog covering 19 domain operations across academics, finance, attendance, and administration. Features role-to-permission resolution, least-privilege matrix, user-specific override grants/revocations, and `requirePermissions` middleware with security audit logging (`/api/v1/rbac/permissions`, `/roles`, `/evaluate`, `/overrides`).
+- **Institutional Report Document Formatter**: Production document generator (`ReportDocumentFormatter`) producing official student academic transcripts, fee payment receipts, and attendance certifications. Features dual render engines (ASCII text/markdown tables and print-ready HTML with CSS `@media print` styling), FNV-1a deterministic verification checksums, and built-in XSS input sanitization via `SecurityHelper`.
+- **Institutional Reporting & Performance Analytics API**: REST analytics module (`/api/v1/reports/academic`, `/attendance`, `/financial`) aggregating term-wide scores, pass/fail ratios, grade distribution buckets, top performers, attendance rates, chronic absenteeism alerts (<75%), fee reconciliation, and collection efficiency metrics.
+- **Race-Condition-Proof Database Seeding**: Thread-safe idempotent database seeding architecture preventing duplicate record inserts and test pollution during parallel automated test runs.
+- **Expanded Automated Test Coverage**: Total backend test coverage expanded to 83 passing automated tests across 15 suites, and Flutter client unit test coverage expanded to 151 passing test cases with 0 static analysis warnings.
+
+---
+
 ## [1.5.0] - 2026-09-13
 
 ### Added
