@@ -8,6 +8,10 @@ const router = express.Router();
 router.use(authenticate);
 
 router.get('/', timetableController.getAll);
+router.get('/conflicts', authorizeRoles('admin', 'teacher'), timetableController.getConflicts);
+router.get('/workload/:teacherId', authorizeRoles('admin', 'teacher'), timetableController.getWorkload);
+router.post('/validate', authorizeRoles('admin', 'teacher'), timetableController.validateSlot);
+
 router.get('/:id', timetableController.getById);
 
 router.post(

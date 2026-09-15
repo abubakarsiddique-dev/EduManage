@@ -26,10 +26,40 @@ const remove = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, message: 'Timetable entry removed' });
 });
 
+const validateSlot = asyncHandler(async (req, res) => {
+  const conflicts = timetableService.detectConflicts(req.body, req.body.id || null);
+  res.status(200).json({
+    success: true,
+    valid: conflicts.length === 0,
+    conflictCount: conflicts.length,
+    conflicts,
+  });
+});
+
+const getConflicts = asyncHandler(async (req, res) => {
+  const conflicts = await timetableService.getAllConflicts(req.query.day);
+  res.status(200).json({
+    success: true,
+    count: conflicts.length,
+    data: conflicts,
+  });
+});
+
+const getWorkload = asyncHandler(async (req, res) => {
+  const workload = await timetableService.getTeacherWorkload(req.params.teacherId);
+  res.status(200).json({
+    success: true,
+    data: workload,
+  });
+});
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   remove,
+  validateSlot,
+  getConflicts,
+  getWorkload,
 };

@@ -177,6 +177,11 @@ test('Extended APIs Integration Suite', async (t) => {
       assert.strictEqual(res.status, 201);
       const data = await res.json();
       assert.strictEqual(data.data.subject, 'Physics');
+
+      await fetch(`${baseUrl}/timetable/${data.data.id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${adminToken}` },
+      });
     });
 
     // 6. Test Results
