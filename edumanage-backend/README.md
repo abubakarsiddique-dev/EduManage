@@ -47,13 +47,14 @@ edumanage-backend/
 │       ├── rbac/             # Dynamic RBAC permission matrix and user override service
 │       ├── reports/          # Institutional academic, attendance, and financial reporting API
 │       ├── results/          # Academic exam results and grading management
-│       ├── students/         # Student directory, enrollment, and profile details
+│       ├── students/         # Student directory, enrollment, bulk ingestion, and profile details
 │       ├── system/           # Relational integrity validator, snapshot & backup engine
 │       ├── teachers/         # Teacher staff records, qualifications, and approvals
-│       └── timetable/        # Class timetable and weekly schedule slots
+│       └── timetable/        # Class timetable, weekly schedule slots, and collision guards
 └── tests/
     ├── attendance_validation.test.js # Validation & alias test suite
     ├── audit.test.js                 # Audit logging and event query test suite
+    ├── bulk_enrollment.test.js       # Batch student admission & validation test suite
     ├── core_api.test.js              # Auth, classes, students, teachers integration
     ├── extended_api.test.js          # Fees, notices, timetable, results, dashboard
     ├── health.test.js                # System health check endpoints
@@ -63,7 +64,8 @@ edumanage-backend/
     ├── reports.test.js               # Institutional reporting analytics & role security tests
     ├── security_and_export.test.js   # Rate limiting & CSV export security tests
     ├── system_backup.test.js         # System snapshot & cryptographic backup test suite
-    └── system_integrity.test.js      # Relational database integrity & diagnostic tests
+    ├── system_integrity.test.js      # Relational database integrity & diagnostic tests
+    └── timetable_conflicts.test.js   # Timetable collision guard & schedule validation test suite
 ```
 
 ---
@@ -109,6 +111,8 @@ npm test
 
 ## 🔒 Security & Middleware Features
 
+- **Timetable Collision Guard & Validation**: Automated schedule overlap detection preventing teacher, room, and section collisions with pre-flight check endpoint (`POST /api/v1/timetable/validate`).
+- **Batch Student Admission & Bulk Ingestion**: High-throughput student bulk admission engine (`POST /api/v1/students/bulk-validate`, `/bulk-enroll`) with atomic rollback and partial ingestion support.
 - **Dynamic RBAC Permission Matrix**: Granular capability model with 19 operation permissions, least-privilege matrix, custom user overrides, and `requirePermissions` middleware.
 - **Institutional Reporting & Analytics**: Performance summaries, GPA cohort distributions, chronic absenteeism detection, and fee collection efficiency.
 - **System Snapshot & Backup Engine**: Point-in-time database snapshotting with deterministic JSON serialization, SHA-256 integrity verification, and atomic collection restoration.
@@ -124,7 +128,7 @@ npm test
 
 ## 🧪 Testing
 
-All 83 integration and unit tests across 15 test suites run with Node's native test runner (`node --test`):
+All 95 integration and unit tests across 17 test suites run with Node's native test runner (`node --test`):
 ```bash
 npm test
 ```

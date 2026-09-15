@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.7.0] - 2026-09-15
+
+### Added
+- **ScheduleConflictEngine & Timetable Intelligence**: Client-side scheduling intelligence engine (`ScheduleConflictEngine`) in Flutter detecting teacher double-booking, room overlap, and class section collisions. Computes instructor teaching workload distribution with daily period thresholds and overload alerts, and provides automated available gap window discovery for smart timetable rescheduling.
+- **Timetable Collision Guard & Schedule Validation API**: Express backend scheduling engine with automated conflict prevention, rejecting conflicting timetable insertions and updates with `409 Conflict` unless explicitly overridden via `allowConflict`. Exposes `POST /api/v1/timetable/validate`, `GET /api/v1/timetable/conflicts`, and `GET /api/v1/timetable/workload/:teacherId`.
+- **FeeLedgerCalculator & Tuition Financing Suite**: Client-side financial ledger engine in Flutter (`FeeLedgerCalculator`) supporting percentage and fixed scholarship discounts (`FeeDiscount`), configurable late penalty policies (`LatePenaltyPolicy`) with grace period enforcement, compounding/flat daily fines, and maximum liability caps. Generates deterministic multi-installment schedules (`FeeInstallment`) with exact sum preservation.
+- **Batch Student Admission & Bulk Ingestion API**: Enterprise high-throughput bulk enrollment module in Express (`/api/v1/students/bulk-validate`, `/api/v1/students/bulk-enroll`) with schema validation, email syntax checking, intra-batch duplicate detection, and database uniqueness guards. Supports atomic rollback transactions and best-effort partial enrollment modes.
+- **Expanded Automated Test Coverage**: Total backend test coverage expanded to 95 passing automated tests across 17 suites, and Flutter client unit test coverage expanded to 171 passing test cases with 0 static analysis warnings.
+
+---
+
 ## [1.6.0] - 2026-09-14
 
 ### Added
