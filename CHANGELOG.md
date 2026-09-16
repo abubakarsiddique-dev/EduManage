@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.8.0] - 2026-09-16
+
+### Added
+- **ExamAssessmentEngine & Grade Analytics**: Client-side statistical evaluation engine (`ExamAssessmentEngine`) in Flutter computing comprehensive cohort metrics (mean, median, mode, sample standard deviation, IQR, variance, min/max). Provides standardized scoring (Z-score, T-score, mid-rank percentile ranks), multi-component weighted assessment aggregation (quizzes, midterms, finals), academic standing classifications (Summa Cum Laude, Magna Cum Laude, Cum Laude, Academic Probation), and multi-strategy curving (anchorToMax, linearBoost, squareRoot, and Gaussian bell curving).
+- **Exam Management & Automated Curving API**: Express backend exam suite (`/api/v1/exams`) supporting exam scheduling, boundary-validated grade submissions (`0 <= score <= maxScore`), real-time cohort statistics (`/statistics`), and non-destructive grade curving simulations (`/curve`) with role-based access control.
+- **AttendanceForecastingEngine & Threshold Trajectory**: Predictive attendance engine (`AttendanceForecastingEngine`) in Flutter analyzing historical presence logs to project best-case and worst-case end-of-term attendance percentages. Computes maximum allowable future absences before breaching statutory 75% institutional thresholds, calculates consecutive recovery streak requirements for students in deficit, and assesses post-leave risk impacts (`LeaveImpactAssessment`).
+- **Student Leave Management API**: Enterprise student leave workflow module in Express (`/api/v1/leaves`) supporting multi-day leave applications with ISO date validation, teacher/admin review and approval workflows with reviewer remarks, student-scoped access controls, and integrated attendance deficit impact simulation (`/impact/:studentId`).
+- **Expanded Automated Test Coverage**: Total backend test coverage expanded to 113 passing automated tests across 19 suites, and Flutter client unit test coverage expanded to 193 passing test cases with 0 static analysis warnings (306 automated tests total).
+
+---
+
 ## [1.7.0] - 2026-09-15
 
 ### Added

@@ -40,8 +40,10 @@ edumanage-backend/
 │       ├── auth/             # Authentication, login, profile, and JWT generation
 │       ├── classes/          # Academic classes and sections management
 │       ├── dashboard/        # Aggregated analytics for admin, teachers, students
+│       ├── exams/            # Exam scheduling, grade submission, cohort stats, and curving
 │       ├── export/           # CSV data export streaming for students and fee records
 │       ├── fees/             # Fee invoicing, online receipt submission, and verification
+│       ├── leaves/           # Student leave applications, review workflows, and attendance impact
 │       ├── notices/          # School notices, announcements, and push alerts
 │       ├── notifications/    # Notification template rendering & batch dispatch engine
 │       ├── rbac/             # Dynamic RBAC permission matrix and user override service
@@ -56,8 +58,10 @@ edumanage-backend/
     ├── audit.test.js                 # Audit logging and event query test suite
     ├── bulk_enrollment.test.js       # Batch student admission & validation test suite
     ├── core_api.test.js              # Auth, classes, students, teachers integration
+    ├── exams.test.js                 # Exam management, grade curving & cohort stats test suite
     ├── extended_api.test.js          # Fees, notices, timetable, results, dashboard
     ├── health.test.js                # System health check endpoints
+    ├── leaves.test.js                # Student leave application, review & impact test suite
     ├── notification_engine.test.js   # Notification templates & dispatch test suite
     ├── query_pagination.test.js      # Search, pagination, and sorting tests
     ├── rbac.test.js                  # Dynamic RBAC permission evaluation & override tests
@@ -111,6 +115,8 @@ npm test
 
 ## 🔒 Security & Middleware Features
 
+- **Exam Management & Automated Curving API**: Comprehensive exam lifecycle management (`POST /api/v1/exams`, `/grades`, `/curve`, `/statistics`) with grade boundary validation and non-destructive curving transformations.
+- **Student Leave Management API**: Multi-day leave application submission, approval/rejection workflows, and attendance deficit impact analysis (`GET /api/v1/leaves/impact/:studentId`).
 - **Timetable Collision Guard & Validation**: Automated schedule overlap detection preventing teacher, room, and section collisions with pre-flight check endpoint (`POST /api/v1/timetable/validate`).
 - **Batch Student Admission & Bulk Ingestion**: High-throughput student bulk admission engine (`POST /api/v1/students/bulk-validate`, `/bulk-enroll`) with atomic rollback and partial ingestion support.
 - **Dynamic RBAC Permission Matrix**: Granular capability model with 19 operation permissions, least-privilege matrix, custom user overrides, and `requirePermissions` middleware.
@@ -128,7 +134,7 @@ npm test
 
 ## 🧪 Testing
 
-All 95 integration and unit tests across 17 test suites run with Node's native test runner (`node --test`):
+All 113 integration and unit tests across 19 test suites run with Node's native test runner (`node --test`):
 ```bash
 npm test
 ```

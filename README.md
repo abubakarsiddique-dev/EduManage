@@ -21,6 +21,10 @@ EduManage is a comprehensive, multi-role School Management System featuring a cr
 - **Attendance Management**: Class attendance marking, student percentage tracking, and monthly reports.
 - **Assignments & Submissions**: Assignment distribution, deadline reminders, and file submission workflows.
 - **Fee Management**: Invoice generation, receipt upload, admin verification, and fee collection analytics.
+- **ExamAssessmentEngine & Grade Analytics**: Client-side statistical evaluation engine in Flutter (`ExamAssessmentEngine`) computing cohort distribution metrics (mean, median, mode, sample standard deviation, IQR), standardized Z/T-scores, weighted assessment aggregation, honors classifications, and four curving models (anchorToMax, linearBoost, squareRoot, bellCurve).
+- **Exam Management & Automated Curving API**: Express backend exam suite (`/api/v1/exams`) supporting exam scheduling, boundary-validated grade submissions (`0 <= score <= maxScore`), real-time cohort statistics, and non-destructive grade curving simulations.
+- **AttendanceForecastingEngine & Threshold Trajectory**: Predictive attendance engine (`AttendanceForecastingEngine`) in Flutter analyzing historical presence logs to project best-case/worst-case end-of-term attendance, maximum allowable future absences before breaching 75% statutory threshold, and deficit recovery streak requirements.
+- **Student Leave Management API**: Enterprise student leave workflow module in Express (`/api/v1/leaves`) supporting multi-day leave applications with ISO date validation, teacher/admin review and approval workflows, student-scoped access controls, and integrated attendance deficit impact simulation (`/impact/:studentId`).
 - **ScheduleConflictEngine & Timetable Intelligence**: Client-side scheduling intelligence engine (`ScheduleConflictEngine`) in Flutter detecting teacher double-booking, room overlap, and class section collisions, computing workload distribution and open gap discovery.
 - **Timetable Collision Guard & Schedule Validation API**: Express backend scheduling engine with automated conflict prevention, rejecting conflicting timetable slots with `409 Conflict` (`/api/v1/timetable/validate`, `/conflicts`, `/workload/:teacherId`).
 - **FeeLedgerCalculator & Tuition Financing Suite**: Client-side financial ledger engine in Flutter (`FeeLedgerCalculator`) supporting percentage/fixed scholarship discounts, configurable late penalty policies, and multi-installment schedules with exact sum preservation.
@@ -68,12 +72,12 @@ EduManage is a comprehensive, multi-role School Management System featuring a cr
 
 ## Testing & Verification
 
-Run automated test suites across both layers:
+Run automated test suites across both layers (total **306** automated tests with 100% pass rate):
 
 ```bash
-# Flutter Test Suite
+# Flutter Test Suite (193 tests)
 flutter test
 
-# Backend API Tests
+# Backend API Tests (113 tests across 19 suites)
 cd edumanage-backend && npm test
 ```
