@@ -85,6 +85,7 @@ const backupRoutes = require('./modules/system/backup.routes');
 const notificationRoutes = require('./modules/notifications/notification_engine.routes');
 const rbacRoutes = require('./modules/rbac/rbac.routes');
 const reportsRoutes = require('./modules/reports/reports.routes');
+const examRoutes = require('./modules/exams/exam.routes');
 
 // Apply rate limiter to API router in production/development
 if (config.env !== 'test') {
@@ -101,6 +102,7 @@ apiRouter.use('/fees', feesRoutes);
 apiRouter.use('/notices', noticesRoutes);
 apiRouter.use('/timetable', timetableRoutes);
 apiRouter.use('/results', resultsRoutes);
+apiRouter.use('/exams', examRoutes);
 apiRouter.use('/dashboard', dashboardRoutes);
 apiRouter.use('/export', exportRoutes);
 apiRouter.use('/audit', auditRoutes);
