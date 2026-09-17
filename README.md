@@ -59,6 +59,14 @@ EduManage is a comprehensive, multi-role School Management System featuring a cr
 
 ---
 
+## Quick Start
+
+1. Clone the repository: `git clone https://github.com/mrabukust-cmd/EduManage.git`
+2. Install dependencies: `flutter pub get`
+3. Run the app: `flutter run`
+
+---
+
 ## Documentation & Navigation
 
 - **[System Architecture](docs/ARCHITECTURE.md)**: Deep-dive into client and server components, state management, and security model.
