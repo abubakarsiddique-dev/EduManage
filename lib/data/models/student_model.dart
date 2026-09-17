@@ -24,6 +24,7 @@ class StudentModel {
     this.createdAt,
   });
 
+  /// Creates a StudentModel instance from a Firestore document map.
   factory StudentModel.fromMap(String id, Map<String, dynamic> map) {
     DateTime? parseDate(dynamic val) {
       if (val is Timestamp) return val.toDate();
@@ -49,6 +50,7 @@ class StudentModel {
     return StudentModel.fromMap(doc.id, data);
   }
 
+  /// Serializes the StudentModel into a map suitable for Firestore storage.
   Map<String, dynamic> toMap() {
     return {
       'uid': id,
