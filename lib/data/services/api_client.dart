@@ -15,6 +15,8 @@ class ApiException implements Exception {
   String toString() => message;
 }
 
+/// A versatile HTTP client wrapper handling token injection, JSON serialization,
+/// error parsing, and timeout configurations.
 class ApiClient {
   ApiClient({http.Client? client}) : _client = client ?? http.Client();
 
