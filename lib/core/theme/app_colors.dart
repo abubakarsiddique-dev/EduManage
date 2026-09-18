@@ -6,11 +6,15 @@ import 'package:flutter/material.dart';
 /// from this single centralized definition to maintain brand consistency
 /// and ensure rapid, dependable theming.
 class AppColors {
+  /// Private constructor to prevent instantiation.
   AppColors._();
 
   // ── Pure Base & Neutrals ────────────────────────────────────
+  /// Standard solid white.
   static const Color white          = Color(0xFFFFFFFF);
+  /// Standard solid black.
   static const Color black          = Color(0xFF000000);
+  /// Completely transparent.
   static const Color transparent    = Color(0x00000000);
 
   // ── Slate / Gray Scale ──────────────────────────────────────
