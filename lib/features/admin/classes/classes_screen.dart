@@ -12,6 +12,9 @@ import '../../../../core/widgets/custom_text_field.dart';
 class ClassesScreen extends ConsumerWidget {
   const ClassesScreen({super.key});
 
+  /// Shows a modal bottom sheet to add a new class.
+  /// 
+  /// The form requires a class name and optionally assigns a class teacher.
   void _showAddClassSheet(BuildContext context, WidgetRef ref) {
     final nameCtrl = TextEditingController();
     String? selectedTeacherId;
@@ -338,6 +341,7 @@ class ClassesScreen extends ConsumerWidget {
   }
 }
 
+/// A card widget displaying the details of a specific class.
 class _ClassCard extends ConsumerWidget {
   final String docId, name, classTeacher;
 
