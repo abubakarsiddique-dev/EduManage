@@ -25,8 +25,10 @@ class StudentAssignmentsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Assignments',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Assignments',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: uid == null
           ? const Center(child: CircularProgressIndicator())
@@ -42,21 +44,23 @@ class StudentAssignmentsScreen extends ConsumerWidget {
 
                 final studentData =
                     studentSnap.data?.data() as Map<String, dynamic>?;
-                final className =
-                    studentData?['class'] as String?;
+                final className = studentData?['class'] as String?;
 
                 if (className == null || className.trim().isEmpty) {
                   return Center(
                     child: Text(
                       'No class assigned yet.',
-                      style: AppTextStyles.bodyMedium
-                          .copyWith(color: AppColors.textSecondary),
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   );
                 }
 
                 return StreamBuilder<List<AssignmentModel>>(
-                  stream: AssignmentRepository.instance.watchByClass(className.trim()),
+                  stream: AssignmentRepository.instance.watchByClass(
+                    className.trim(),
+                  ),
                   builder: (context, snap) {
                     if (snap.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -66,8 +70,9 @@ class StudentAssignmentsScreen extends ConsumerWidget {
                       return Center(
                         child: Text(
                           'Could not load assignments.',
-                          style: AppTextStyles.bodyMedium
-                              .copyWith(color: AppColors.textSecondary),
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       );
                     }
@@ -79,14 +84,18 @@ class StudentAssignmentsScreen extends ConsumerWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.assignment_turned_in_outlined,
-                                size: 64, color: AppColors.textHint),
+                            const Icon(
+                              Icons.assignment_turned_in_outlined,
+                              size: 64,
+                              color: AppColors.textHint,
+                            ),
                             const SizedBox(height: 16),
                             Text(
                               'No assignments right now.\nCheck back later!',
                               textAlign: TextAlign.center,
                               style: AppTextStyles.bodyMedium.copyWith(
-                                  color: AppColors.textSecondary),
+                                color: AppColors.textSecondary,
+                              ),
                             ),
                           ],
                         ),
@@ -96,7 +105,7 @@ class StudentAssignmentsScreen extends ConsumerWidget {
                     return ListView.separated(
                       padding: const EdgeInsets.all(20),
                       itemCount: assignments.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (context, i) {
                         final assignment = assignments[i];
                         final overdue = assignment.isOverdue;
@@ -109,7 +118,10 @@ class StudentAssignmentsScreen extends ConsumerWidget {
                             boxShadow: AppColors.cardShadow,
                             border: overdue
                                 ? Border.all(
-                                    color: AppColors.danger.withValues(alpha: 0.4))
+                                    color: AppColors.danger.withValues(
+                                      alpha: 0.4,
+                                    ),
+                                  )
                                 : null,
                           ),
                           child: Column(
@@ -119,17 +131,21 @@ class StudentAssignmentsScreen extends ConsumerWidget {
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 4),
+                                      horizontal: 10,
+                                      vertical: 4,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: AppColors.studentColor
-                                          .withValues(alpha: 0.1),
+                                      color: AppColors.studentColor.withValues(
+                                        alpha: 0.1,
+                                      ),
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
                                       assignment.subject,
                                       style: AppTextStyles.labelTiny.copyWith(
-                                          color: AppColors.studentColor,
-                                          fontWeight: FontWeight.w700),
+                                        color: AppColors.studentColor,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                   const Spacer(),
@@ -147,13 +163,16 @@ class StudentAssignmentsScreen extends ConsumerWidget {
                                     Text(
                                       'No due date',
                                       style: AppTextStyles.labelTiny.copyWith(
-                                          color: AppColors.textHint),
+                                        color: AppColors.textHint,
+                                      ),
                                     ),
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(assignment.title,
-                                  style: AppTextStyles.bodyMediumBold),
+                              Text(
+                                assignment.title,
+                                style: AppTextStyles.bodyMediumBold,
+                              ),
                               if (assignment.description.isNotEmpty) ...[
                                 const SizedBox(height: 6),
                                 Text(

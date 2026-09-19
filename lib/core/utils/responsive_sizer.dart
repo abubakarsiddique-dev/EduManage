@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Screen type categorization based on standard breakpoint guidelines.
-enum ScreenType {
-  mobile,
-  tablet,
-  desktop,
-  watch,
-}
+enum ScreenType { mobile, tablet, desktop, watch }
 
 /// Device dimension and orientation state store.
 /// Populated by [ResponsiveSizer] at application root or screen level.
@@ -152,11 +147,7 @@ extension ResponsiveContextExtension on BuildContext {
   bool get isLandscape => Device.orientation == Orientation.landscape;
 
   /// Return value matching current screen type.
-  T responsive<T>({
-    required T mobile,
-    T? tablet,
-    T? desktop,
-  }) {
+  T responsive<T>({required T mobile, T? tablet, T? desktop}) {
     if (isDesktop && desktop != null) return desktop;
     if (isTablet && tablet != null) return tablet;
     return mobile;
@@ -164,20 +155,18 @@ extension ResponsiveContextExtension on BuildContext {
 }
 
 /// Signature for responsive sizer builder function.
-typedef ResponsiveBuild = Widget Function(
-  BuildContext context,
-  Orientation orientation,
-  ScreenType screenType,
-);
+typedef ResponsiveBuild =
+    Widget Function(
+      BuildContext context,
+      Orientation orientation,
+      ScreenType screenType,
+    );
 
 /// Root or local widget that initializes and updates [Device] metrics.
 class ResponsiveSizer extends StatelessWidget {
   final ResponsiveBuild builder;
 
-  const ResponsiveSizer({
-    super.key,
-    required this.builder,
-  });
+  const ResponsiveSizer({super.key, required this.builder});
 
   @override
   Widget build(BuildContext context) {

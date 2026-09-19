@@ -45,12 +45,17 @@ class ClassDropdownField extends StatelessWidget {
           return _loadingField();
         }
 
-        final names = (snap.data?.docs ?? [])
-            .map((d) => (d.data() as Map<String, dynamic>)['name'] as String? ?? '')
-            .where((n) => n.trim().isNotEmpty)
-            .toSet() // de-dupe in case classes collection itself has dupes
-            .toList()
-          ..sort();
+        final names =
+            (snap.data?.docs ?? [])
+                .map(
+                  (d) =>
+                      (d.data() as Map<String, dynamic>)['name'] as String? ??
+                      '',
+                )
+                .where((n) => n.trim().isNotEmpty)
+                .toSet() // de-dupe in case classes collection itself has dupes
+                .toList()
+              ..sort();
 
         if (names.isEmpty) {
           return _noClassesYetField(context);
@@ -68,29 +73,28 @@ class ClassDropdownField extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              label,
-              style: AppTextStyles.labelMedium,
-            ),
+            Text(label, style: AppTextStyles.labelMedium),
             const SizedBox(height: AppDimensions.space8),
             DropdownButtonFormField<String>(
               initialValue: items.contains(value) ? value : null,
               decoration: _decor(),
               hint: Text(
                 'Select a class',
-                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textHint),
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.textHint,
+                ),
               ),
               items: items
-                  .map((c) => DropdownMenuItem(
-                        value: c,
-                        child: Text(
-                          c,
-                          style: AppTextStyles.bodyMedium,
-                        ),
-                      ))
+                  .map(
+                    (c) => DropdownMenuItem(
+                      value: c,
+                      child: Text(c, style: AppTextStyles.bodyMedium),
+                    ),
+                  )
                   .toList(),
               validator: isRequired
-                  ? (v) => v == null || v.isEmpty ? 'Please select a class' : null
+                  ? (v) =>
+                        v == null || v.isEmpty ? 'Please select a class' : null
                   : null,
               onChanged: onChanged,
             ),
@@ -104,10 +108,7 @@ class ClassDropdownField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: AppTextStyles.labelMedium,
-        ),
+        Text(label, style: AppTextStyles.labelMedium),
         const SizedBox(height: AppDimensions.space8),
         Container(
           height: 54,
@@ -131,21 +132,22 @@ class ClassDropdownField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: AppTextStyles.labelMedium,
-        ),
+        Text(label, style: AppTextStyles.labelMedium),
         const SizedBox(height: AppDimensions.space8),
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.warning.withOpacity(0.08),
+            color: AppColors.warning.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-            border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+            border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
           ),
           child: Row(
             children: [
-              const Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 20),
+              const Icon(
+                Icons.warning_amber_rounded,
+                color: AppColors.warning,
+                size: 20,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(

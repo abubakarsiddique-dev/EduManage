@@ -158,7 +158,9 @@ class _SplashScreenState extends State<SplashScreen>
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: AppColors.white.withValues(alpha: 0.15),
+                                        color: AppColors.white.withValues(
+                                          alpha: 0.15,
+                                        ),
                                         width: 1.5,
                                       ),
                                     ),
@@ -170,7 +172,9 @@ class _SplashScreenState extends State<SplashScreen>
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: AppColors.white.withValues(alpha: 0.25),
+                                        color: AppColors.white.withValues(
+                                          alpha: 0.25,
+                                        ),
                                         width: 1.5,
                                       ),
                                     ),
@@ -182,10 +186,14 @@ class _SplashScreenState extends State<SplashScreen>
                                       width: logoContainer,
                                       height: logoContainer,
                                       decoration: BoxDecoration(
-                                        color: AppColors.white.withValues(alpha: 0.15),
+                                        color: AppColors.white.withValues(
+                                          alpha: 0.15,
+                                        ),
                                         borderRadius: BorderRadius.circular(28),
                                         border: Border.all(
-                                          color: AppColors.white.withValues(alpha: 0.4),
+                                          color: AppColors.white.withValues(
+                                            alpha: 0.4,
+                                          ),
                                           width: 1.5,
                                         ),
                                       ),
@@ -194,12 +202,13 @@ class _SplashScreenState extends State<SplashScreen>
                                         child: Image.asset(
                                           'assets/logo/logo.png',
                                           fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) =>
-                                              Icon(
-                                                Icons.school_rounded,
-                                                size: logoIconSize,
-                                                color: AppColors.white,
-                                              ),
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  Icon(
+                                                    Icons.school_rounded,
+                                                    size: logoIconSize,
+                                                    color: AppColors.white,
+                                                  ),
                                         ),
                                       ),
                                     ),
@@ -235,7 +244,9 @@ class _SplashScreenState extends State<SplashScreen>
                                 style: AppTextStyles.bodyMedium.copyWith(
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: AppColors.white.withValues(alpha: 0.75),
+                                  color: AppColors.white.withValues(
+                                    alpha: 0.75,
+                                  ),
                                   letterSpacing: 0.5,
                                 ),
                               ),
@@ -285,9 +296,7 @@ class _SplashScreenState extends State<SplashScreen>
                   height: 5.w.clamp(20.0, 24.0),
                   child: const CircularProgressIndicator(
                     strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.white,
-                    ),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
                   ),
                 ),
               ),

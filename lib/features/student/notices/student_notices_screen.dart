@@ -18,8 +18,10 @@ class StudentNoticesScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Notices',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Notices',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -32,25 +34,27 @@ class StudentNoticesScreen extends StatelessWidget {
           }
           if (!snap.hasData || snap.data!.docs.isEmpty) {
             return Center(
-              child: Text('No notices yet.',
-                  style: AppTextStyles.bodyMedium
-                      .copyWith(color: AppColors.textSecondary)),
+              child: Text(
+                'No notices yet.',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
             );
           }
 
           return ListView.separated(
             padding: const EdgeInsets.all(20),
             itemCount: snap.data!.docs.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            separatorBuilder: (_, _) => const SizedBox(height: 12),
             itemBuilder: (context, i) {
-              final data =
-                  snap.data!.docs[i].data() as Map<String, dynamic>;
+              final data = snap.data!.docs[i].data() as Map<String, dynamic>;
               final type = data['type'] as String? ?? 'general';
               final color = type == 'urgent'
                   ? AppColors.danger
                   : type == 'exam'
-                      ? AppColors.warning
-                      : AppColors.studentColor;
+                  ? AppColors.warning
+                  : AppColors.studentColor;
 
               return Container(
                 decoration: BoxDecoration(
@@ -67,34 +71,44 @@ class StudentNoticesScreen extends StatelessWidget {
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 4),
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
-                            color: color.withOpacity(0.1),
+                            color: color.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Text(type.toUpperCase(),
-                              style: AppTextStyles.labelTiny.copyWith(
-                                  color: color,
-                                  fontWeight: FontWeight.w700)),
+                          child: Text(
+                            type.toUpperCase(),
+                            style: AppTextStyles.labelTiny.copyWith(
+                              color: color,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                         const Spacer(),
                         Text(
                           data['createdAt'] != null
                               ? _formatDate(
-                                  (data['createdAt'] as Timestamp).toDate())
+                                  (data['createdAt'] as Timestamp).toDate(),
+                                )
                               : '',
                           style: AppTextStyles.labelTiny,
                         ),
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Text(data['title'] ?? '',
-                        style: AppTextStyles.bodyMediumBold),
+                    Text(
+                      data['title'] ?? '',
+                      style: AppTextStyles.bodyMediumBold,
+                    ),
                     const SizedBox(height: 6),
-                    Text(data['body'] ?? '',
-                        style: AppTextStyles.labelSmall,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis),
+                    Text(
+                      data['body'] ?? '',
+                      style: AppTextStyles.labelSmall,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               );
@@ -106,5 +120,5 @@ class StudentNoticesScreen extends StatelessWidget {
   }
 
   String _formatDate(DateTime d) =>
-      '${d.day} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.month - 1]}';
+      '${d.day} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.month - 1]}';
 }

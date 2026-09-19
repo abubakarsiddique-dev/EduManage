@@ -6,7 +6,11 @@ class SecurityHelper {
 
   static final Random _secureRandom = Random.secure();
 
-  static final RegExp _htmlTagRegex = RegExp(r'<[^>]*>', multiLine: true, caseSensitive: false);
+  static final RegExp _htmlTagRegex = RegExp(
+    r'<[^>]*>',
+    multiLine: true,
+    caseSensitive: false,
+  );
   static final RegExp _scriptInjectionRegex = RegExp(
     r'(<script|javascript:|onerror=|onload=|document\.cookie|eval\(|<iframe|<object)',
     caseSensitive: false,
@@ -30,7 +34,8 @@ class SecurityHelper {
   /// Evaluates whether an input contains potentially malicious script or SQL fragments.
   static bool containsSuspiciousPayload(String input) {
     if (input.isEmpty) return false;
-    return _scriptInjectionRegex.hasMatch(input) || _sqlInjectionRegex.hasMatch(input);
+    return _scriptInjectionRegex.hasMatch(input) ||
+        _sqlInjectionRegex.hasMatch(input);
   }
 
   /// Masks email addresses to protect Personally Identifiable Information (PII).
@@ -88,7 +93,10 @@ class SecurityHelper {
 
   /// Generates a cryptographically secure random hexadecimal token.
   static String generateSecureToken({int byteLength = 16}) {
-    final values = List<int>.generate(byteLength, (i) => _secureRandom.nextInt(256));
+    final values = List<int>.generate(
+      byteLength,
+      (i) => _secureRandom.nextInt(256),
+    );
     return values.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
   }
 

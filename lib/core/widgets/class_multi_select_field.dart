@@ -44,12 +44,17 @@ class ClassMultiSelectField extends StatelessWidget {
           return _loadingField();
         }
 
-        final names = (snap.data?.docs ?? [])
-            .map((d) => (d.data() as Map<String, dynamic>)['name'] as String? ?? '')
-            .where((n) => n.trim().isNotEmpty)
-            .toSet()
-            .toList()
-          ..sort();
+        final names =
+            (snap.data?.docs ?? [])
+                .map(
+                  (d) =>
+                      (d.data() as Map<String, dynamic>)['name'] as String? ??
+                      '',
+                )
+                .where((n) => n.trim().isNotEmpty)
+                .toSet()
+                .toList()
+              ..sort();
 
         if (names.isEmpty) {
           return _noClassesYetField();
@@ -67,10 +72,7 @@ class ClassMultiSelectField extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              label,
-              style: AppTextStyles.labelMedium,
-            ),
+            Text(label, style: AppTextStyles.labelMedium),
             const SizedBox(height: AppDimensions.space8),
             Container(
               width: double.infinity,
@@ -98,7 +100,10 @@ class ClassMultiSelectField extends StatelessWidget {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 150),
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 9,
+                      ),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? AppColors.teacherColor
@@ -107,19 +112,28 @@ class ClassMultiSelectField extends StatelessWidget {
                         border: Border.all(
                           color: isSelected
                               ? AppColors.teacherColor
-                              : (stillExists ? AppColors.divider : AppColors.danger.withOpacity(0.4)),
+                              : (stillExists
+                                    ? AppColors.divider
+                                    : AppColors.danger.withValues(alpha: 0.4)),
                         ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (isSelected) ...[
-                            const Icon(Icons.check_rounded, size: 14, color: AppColors.onPrimary),
+                            const Icon(
+                              Icons.check_rounded,
+                              size: 14,
+                              color: AppColors.onPrimary,
+                            ),
                             const SizedBox(width: AppDimensions.space4),
                           ],
                           if (!stillExists) ...[
-                            Icon(Icons.error_outline_rounded,
-                                size: 14, color: AppColors.danger.withOpacity(0.7)),
+                            Icon(
+                              Icons.error_outline_rounded,
+                              size: 14,
+                              color: AppColors.danger.withValues(alpha: 0.7),
+                            ),
                             const SizedBox(width: AppDimensions.space4),
                           ],
                           Text(
@@ -128,8 +142,8 @@ class ClassMultiSelectField extends StatelessWidget {
                               color: isSelected
                                   ? AppColors.onPrimary
                                   : (stillExists
-                                      ? AppColors.textPrimary
-                                      : AppColors.danger),
+                                        ? AppColors.textPrimary
+                                        : AppColors.danger),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -141,10 +155,15 @@ class ClassMultiSelectField extends StatelessWidget {
               ),
             ),
             if (selected.isEmpty) ...[
-              const SizedBox(height: AppDimensions.space4 + AppDimensions.space2),
+              const SizedBox(
+                height: AppDimensions.space4 + AppDimensions.space2,
+              ),
               Text(
                 'No classes selected yet — tap to assign.',
-                style: AppTextStyles.labelSmall.copyWith(fontSize: 11, color: AppColors.textHint),
+                style: AppTextStyles.labelSmall.copyWith(
+                  fontSize: 11,
+                  color: AppColors.textHint,
+                ),
               ),
             ],
           ],
@@ -157,10 +176,7 @@ class ClassMultiSelectField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: AppTextStyles.labelMedium,
-        ),
+        Text(label, style: AppTextStyles.labelMedium),
         const SizedBox(height: AppDimensions.space8),
         Container(
           height: 54,
@@ -185,22 +201,25 @@ class ClassMultiSelectField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: AppTextStyles.labelMedium,
-        ),
+        Text(label, style: AppTextStyles.labelMedium),
         const SizedBox(height: AppDimensions.space8),
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.warning.withOpacity(0.08),
+            color: AppColors.warning.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-            border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+            border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
           ),
           child: Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 20),
-              const SizedBox(width: AppDimensions.space8 + AppDimensions.space2),
+              Icon(
+                Icons.warning_amber_rounded,
+                color: AppColors.warning,
+                size: 20,
+              ),
+              const SizedBox(
+                width: AppDimensions.space8 + AppDimensions.space2,
+              ),
               Expanded(
                 child: Text(
                   'No classes exist yet. Create classes in Manage Classes first, '

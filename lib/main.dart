@@ -6,7 +6,6 @@
 // 2. startListening() called correctly whenever uid changes.
 // 3. Removed duplicate initialize() call inside auth listener.
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -115,16 +114,30 @@ class _EduManageAppState extends ConsumerState<EduManageApp> {
       String route = '/notifications';
       if (role == 'student') {
         switch (type) {
-          case 'assignment': route = '/student/home/assignments'; break;
-          case 'result':     route = '/student/home/results';     break;
-          case 'attendance': route = '/student/home/attendance';  break;
+          case 'assignment':
+            route = '/student/home/assignments';
+            break;
+          case 'result':
+            route = '/student/home/results';
+            break;
+          case 'attendance':
+            route = '/student/home/attendance';
+            break;
         }
       } else if (role == 'parent') {
         switch (type) {
-          case 'assignment': route = '/parent/home/assignments'; break;
-          case 'result':     route = '/parent/home/results';     break;
-          case 'attendance': route = '/parent/home/attendance';  break;
-          case 'finance':    route = '/parent/home/fees';        break;
+          case 'assignment':
+            route = '/parent/home/assignments';
+            break;
+          case 'result':
+            route = '/parent/home/results';
+            break;
+          case 'attendance':
+            route = '/parent/home/attendance';
+            break;
+          case 'finance':
+            route = '/parent/home/fees';
+            break;
         }
       }
       ref.read(routerProvider).push(route);

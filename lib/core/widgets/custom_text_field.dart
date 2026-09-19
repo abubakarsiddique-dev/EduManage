@@ -48,10 +48,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: AppTextStyles.labelMedium,
-        ),
+        Text(widget.label, style: AppTextStyles.labelMedium),
         const SizedBox(height: AppDimensions.space8),
         Focus(
           onFocusChange: (val) => setState(() => _isFocused = val),
@@ -64,7 +61,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             readOnly: widget.readOnly,
             onTap: widget.onTap,
             onChanged: widget.onChanged,
-            style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.w500),
+            style: AppTextStyles.bodyMedium.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
             decoration: InputDecoration(
               hintText: widget.hint ?? 'Enter ${widget.label.toLowerCase()}',
               filled: true,
@@ -102,8 +101,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-                borderSide:
-                    const BorderSide(color: AppColors.primary, width: 2),
+                borderSide: const BorderSide(
+                  color: AppColors.primary,
+                  width: 2,
+                ),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
@@ -111,8 +112,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-                borderSide:
-                    const BorderSide(color: AppColors.danger, width: 2),
+                borderSide: const BorderSide(color: AppColors.danger, width: 2),
               ),
             ),
           ),

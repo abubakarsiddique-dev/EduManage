@@ -11,10 +11,9 @@ class FeeRepository {
 
   /// Stream all fee records for a specific student, sorted by due date descending.
   Stream<List<FeeModel>> watchByStudent(String studentId) {
-    return _fs.fees
-        .where('studentId', isEqualTo: studentId)
-        .snapshots()
-        .map((snap) {
+    return _fs.fees.where('studentId', isEqualTo: studentId).snapshots().map((
+      snap,
+    ) {
       final list = snap.docs.map(FeeModel.fromDoc).toList();
       list.sort((a, b) {
         final aDate = a.dueDate ?? DateTime(0);
@@ -43,9 +42,9 @@ class FeeRepository {
 
   /// Stream all fee records.
   Stream<List<FeeModel>> watchAll() {
-    return _fs.fees
-        .snapshots()
-        .map((snap) => snap.docs.map(FeeModel.fromDoc).toList());
+    return _fs.fees.snapshots().map(
+      (snap) => snap.docs.map(FeeModel.fromDoc).toList(),
+    );
   }
 
   /// Submit payment proof from parent/student.
@@ -70,13 +69,13 @@ class FeeRepository {
       await _fs.fees.doc(feeId).update({
         'status': 'paid',
         'paidAt': FieldValue.serverTimestamp(),
-        if (adminNotes != null) 'adminNotes': adminNotes,
+        'adminNotes': ?adminNotes,
         'updatedAt': FieldValue.serverTimestamp(),
       });
     } else {
       await _fs.fees.doc(feeId).update({
         'status': 'pending',
-        if (adminNotes != null) 'adminNotes': adminNotes,
+        'adminNotes': ?adminNotes,
         'updatedAt': FieldValue.serverTimestamp(),
       });
     }

@@ -31,8 +31,10 @@ class _PendingApprovalsScreenState extends State<PendingApprovalsScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Pending Approvals',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Pending Approvals',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: Column(
         children: [
@@ -51,13 +53,18 @@ class _PendingApprovalsScreenState extends State<PendingApprovalsScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       margin: const EdgeInsets.only(right: 8),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: isSel ? Colors.white : Colors.white24,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        r == 'all' ? 'All' : '${r[0].toUpperCase()}${r.substring(1)}s',
+                        r == 'all'
+                            ? 'All'
+                            : '${r[0].toUpperCase()}${r.substring(1)}s',
                         style: AppTextStyles.labelSmall.copyWith(
                           color: isSel ? AppColors.adminColor : Colors.white,
                           fontWeight: isSel ? FontWeight.w700 : FontWeight.w400,
@@ -75,13 +82,18 @@ class _PendingApprovalsScreenState extends State<PendingApprovalsScreen> {
             child: StreamBuilder<List<Map<String, dynamic>>>(
               stream: _repo.watchPendingUsers(),
               builder: (context, snap) {
-                if (snap.connectionState == ConnectionState.waiting && !snap.hasData) {
+                if (snap.connectionState == ConnectionState.waiting &&
+                    !snap.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snap.hasError) {
                   return Center(
-                    child: Text('Failed to load pending users',
-                        style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+                    child: Text(
+                      'Failed to load pending users',
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                   );
                 }
 
@@ -95,10 +107,18 @@ class _PendingApprovalsScreenState extends State<PendingApprovalsScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.task_alt_rounded, size: 64, color: AppColors.textHint),
+                        const Icon(
+                          Icons.task_alt_rounded,
+                          size: 64,
+                          color: AppColors.textHint,
+                        ),
                         const SizedBox(height: 16),
-                        Text('No pending approvals',
-                            style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+                        Text(
+                          'No pending approvals',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -107,21 +127,25 @@ class _PendingApprovalsScreenState extends State<PendingApprovalsScreen> {
                 return ListView.separated(
                   padding: const EdgeInsets.all(20),
                   itemCount: users.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
                   itemBuilder: (context, i) => _PendingUserCard(
                     user: users[i],
                     onApprove: (studentId) async {
-                      await _repo.approveUser (
+                      await _repo.approveUser(
                         users[i]['uid'] as String,
                         studentId: studentId,
                       );
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('${users[i]['name'] ?? 'User'} approved'),
+                            content: Text(
+                              '${users[i]['name'] ?? 'User'} approved',
+                            ),
                             backgroundColor: AppColors.success,
                             behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         );
                       }
@@ -131,10 +155,14 @@ class _PendingApprovalsScreenState extends State<PendingApprovalsScreen> {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('${users[i]['name'] ?? 'User'} rejected'),
+                            content: Text(
+                              '${users[i]['name'] ?? 'User'} rejected',
+                            ),
                             backgroundColor: AppColors.danger,
                             behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         );
                       }
@@ -214,7 +242,7 @@ class _PendingUserCardState extends State<_PendingUserCard> {
             children: [
               CircleAvatar(
                 radius: 22,
-                backgroundColor: color.withOpacity(0.12),
+                backgroundColor: color.withValues(alpha: 0.12),
                 child: Icon(_roleIcon(role), color: color, size: 20),
               ),
               const SizedBox(width: 14),
@@ -229,14 +257,20 @@ class _PendingUserCardState extends State<_PendingUserCard> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   role[0].toUpperCase() + role.substring(1),
-                  style: AppTextStyles.labelTiny.copyWith(color: color, fontWeight: FontWeight.w700),
+                  style: AppTextStyles.labelTiny.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
@@ -245,21 +279,35 @@ class _PendingUserCardState extends State<_PendingUserCard> {
           // ── Parent-only: pick which student to link ─────────
           if (isParent) ...[
             const SizedBox(height: 14),
-            Text('Link to student', style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary)),
+            Text(
+              'Link to student',
+              style: AppTextStyles.labelSmall.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
             const SizedBox(height: 6),
             StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('students').orderBy('name').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('students')
+                  .orderBy('name')
+                  .snapshots(),
               builder: (context, snap) {
                 final docs = snap.data?.docs ?? [];
                 if (snap.connectionState == ConnectionState.waiting) {
                   return const SizedBox(
                     height: 44,
-                    child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                    child: Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
                   );
                 }
                 if (docs.isEmpty) {
-                  return Text('No students available to link yet.',
-                      style: AppTextStyles.labelSmall.copyWith(color: AppColors.textHint));
+                  return Text(
+                    'No students available to link yet.',
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: AppColors.textHint,
+                    ),
+                  );
                 }
                 return DropdownButtonFormField<String>(
                   initialValue: _selectedStudentId,
@@ -267,7 +315,10 @@ class _PendingUserCardState extends State<_PendingUserCard> {
                     hintText: 'Select a student (optional)',
                     filled: true,
                     fillColor: AppColors.background,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(color: AppColors.divider),
@@ -275,7 +326,8 @@ class _PendingUserCardState extends State<_PendingUserCard> {
                   ),
                   items: docs.map((d) {
                     final data = d.data() as Map<String, dynamic>;
-                    final label = '${data['name'] ?? 'Unknown'} — ${data['class'] ?? '-'}';
+                    final label =
+                        '${data['name'] ?? 'Unknown'} — ${data['class'] ?? '-'}';
                     return DropdownMenuItem(value: d.id, child: Text(label));
                   }).toList(),
                   onChanged: (v) => setState(() => _selectedStudentId = v),

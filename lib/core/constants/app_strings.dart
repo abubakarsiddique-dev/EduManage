@@ -47,7 +47,8 @@ class AppStrings {
   // only holds the truly generic fallback used when nothing more specific
   // applies.
   static const String genericEmptyState = 'Nothing here yet.';
-  static const String genericErrorState = 'Something went wrong. Please try again.';
+  static const String genericErrorState =
+      'Something went wrong. Please try again.';
   static const String genericLoading = 'Loading...';
 
   // ── Auth ─────────────────────────────────────────────────────────────

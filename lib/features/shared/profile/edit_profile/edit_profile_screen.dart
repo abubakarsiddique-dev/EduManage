@@ -114,7 +114,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
       // Prefer the new `subjects` array; fall back to the legacy single
       // `subject` string field for teachers created before that change.
-      final subjectsList = (tData['subjects'] as List<dynamic>?)
+      final subjectsList =
+          (tData['subjects'] as List<dynamic>?)
               ?.map((e) => e.toString().trim())
               .where((s) => s.isNotEmpty)
               .toList() ??
@@ -129,8 +130,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       // had a dropdown would otherwise crash DropdownButtonFormField.
       _selectedQualification =
           AppQualifications.all.contains(storedQualification)
-              ? storedQualification
-              : null;
+          ? storedQualification
+          : null;
     }
 
     if (mounted) setState(() => _isFetching = false);
@@ -163,21 +164,19 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       // NOTE: rollNo/class are intentionally NEVER written here anymore —
       // they are admin-managed fields (see header comment).
       if (role == 'student') {
-        await FirebaseFirestore.instance
-            .collection('students')
-            .doc(uid)
-            .update({'name': name});
+        await FirebaseFirestore.instance.collection('students').doc(uid).update(
+          {'name': name},
+        );
       } else if (role == 'teacher') {
-        await FirebaseFirestore.instance
-            .collection('teachers')
-            .doc(uid)
-            .update({
-          'name': name,
-          'phone': _phoneCtrl.text.trim(),
-          // 'subject'/'subjects' intentionally NEVER written here — see
-          // header comment (admin-managed, locked in the UI below).
-          'qualification': _selectedQualification ?? '',
-        });
+        await FirebaseFirestore.instance.collection('teachers').doc(uid).update(
+          {
+            'name': name,
+            'phone': _phoneCtrl.text.trim(),
+            // 'subject'/'subjects' intentionally NEVER written here — see
+            // header comment (admin-managed, locked in the UI below).
+            'qualification': _selectedQualification ?? '',
+          },
+        );
       }
 
       if (mounted) {
@@ -186,8 +185,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             content: const Text('Profile updated successfully'),
             backgroundColor: AppColors.success,
             behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
         context.pop();
@@ -199,8 +199,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             content: Text('Failed to update profile: $e'),
             backgroundColor: AppColors.danger,
             behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -225,8 +226,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final roleColor = role == 'admin'
         ? AppColors.adminColor
         : role == 'teacher'
-            ? AppColors.teacherColor
-            : AppColors.studentColor;
+        ? AppColors.teacherColor
+        : AppColors.studentColor;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -237,8 +238,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Edit Profile',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Edit Profile',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: _isFetching
           ? const Center(child: CircularProgressIndicator())
@@ -255,9 +258,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         children: [
                           CircleAvatar(
                             radius: 52,
-                            backgroundColor: roleColor.withOpacity(0.15),
-                            child: Icon(Icons.person_rounded,
-                                size: 56, color: roleColor),
+                            backgroundColor: roleColor.withValues(alpha: 0.15),
+                            child: Icon(
+                              Icons.person_rounded,
+                              size: 56,
+                              color: roleColor,
+                            ),
                           ),
                           Positioned(
                             bottom: 0,
@@ -269,10 +275,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 color: roleColor,
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                    color: Colors.white, width: 2),
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
                               ),
-                              child: const Icon(Icons.camera_alt_rounded,
-                                  size: 16, color: Colors.white),
+                              child: const Icon(
+                                Icons.camera_alt_rounded,
+                                size: 16,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],
@@ -281,7 +292,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     const SizedBox(height: 28),
 
                     // ── Section: Personal ────────────────────────
-                    _SectionLabel(label: 'Personal Information', color: roleColor),
+                    _SectionLabel(
+                      label: 'Personal Information',
+                      color: roleColor,
+                    ),
                     const SizedBox(height: 14),
 
                     CustomTextField(
@@ -322,12 +336,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     if (role == 'student') ...[
                       const SizedBox(height: 28),
                       _SectionLabel(
-                          label: 'Academic Information', color: roleColor),
+                        label: 'Academic Information',
+                        color: roleColor,
+                      ),
                       const SizedBox(height: 6),
                       Text(
                         'Managed by your school administrator',
-                        style: AppTextStyles.labelTiny
-                            .copyWith(color: AppColors.textHint),
+                        style: AppTextStyles.labelTiny.copyWith(
+                          color: AppColors.textHint,
+                        ),
                       ),
                       const SizedBox(height: 14),
                       Row(
@@ -346,11 +363,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             child: _ReadOnlyInfoChip(
                               icon: Icons.class_rounded,
                               label: 'Class',
-                              value: [
-                                _className,
-                                _section,
-                              ].where((s) => s.isNotEmpty).join(' – ').let(
-                                  (s) => s.isEmpty ? 'Not assigned' : s),
+                              value: [_className, _section]
+                                  .where((s) => s.isNotEmpty)
+                                  .join(' – ')
+                                  .let((s) => s.isEmpty ? 'Not assigned' : s),
                               color: roleColor,
                             ),
                           ),
@@ -361,12 +377,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     if (role == 'teacher') ...[
                       const SizedBox(height: 28),
                       _SectionLabel(
-                          label: 'Professional Information', color: roleColor),
+                        label: 'Professional Information',
+                        color: roleColor,
+                      ),
                       const SizedBox(height: 6),
                       Text(
                         'Subject is assigned by your school administrator',
-                        style: AppTextStyles.labelTiny
-                            .copyWith(color: AppColors.textHint),
+                        style: AppTextStyles.labelTiny.copyWith(
+                          color: AppColors.textHint,
+                        ),
                       ),
                       const SizedBox(height: 14),
 
@@ -400,8 +419,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       gradient: role == 'admin'
                           ? AppColors.adminGradient
                           : role == 'teacher'
-                              ? AppColors.teacherGradient
-                              : AppColors.studentGradient,
+                          ? AppColors.teacherGradient
+                          : AppColors.studentGradient,
                     ),
 
                     const SizedBox(height: 16),
@@ -410,11 +429,17 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     Center(
                       child: TextButton.icon(
                         onPressed: () => _showChangePasswordDialog(context),
-                        icon: const Icon(Icons.lock_outline_rounded,
-                            size: 18, color: AppColors.textSecondary),
-                        label: Text('Change Password',
-                            style: AppTextStyles.labelMedium
-                                .copyWith(color: AppColors.textSecondary)),
+                        icon: const Icon(
+                          Icons.lock_outline_rounded,
+                          size: 18,
+                          color: AppColors.textSecondary,
+                        ),
+                        label: Text(
+                          'Change Password',
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -436,8 +461,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       context: context,
       builder: (dialogCtx) => StatefulBuilder(
         builder: (dialogCtx, setDialog) => AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           title: Text('Change Password', style: AppTextStyles.headingMedium),
           content: Form(
             key: formKey,
@@ -449,8 +475,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   controller: currentCtrl,
                   isPassword: true,
                   prefixIcon: Icons.lock_outline_rounded,
-                  validator: (v) =>
-                      v == null || v.isEmpty ? 'Required' : null,
+                  validator: (v) => v == null || v.isEmpty ? 'Required' : null,
                 ),
                 const SizedBox(height: 14),
                 CustomTextField(
@@ -502,12 +527,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           Navigator.pop(dialogCtx);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content:
-                                  const Text('Password changed successfully'),
+                              content: const Text(
+                                'Password changed successfully',
+                              ),
                               backgroundColor: AppColors.success,
                               behavior: SnackBarBehavior.floating,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                           );
                         }
@@ -519,19 +546,24 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             backgroundColor: AppColors.danger,
                             behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         );
                       }
                     },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary),
+                backgroundColor: AppColors.primary,
+              ),
               child: loading
                   ? const SizedBox(
                       width: 16,
                       height: 16,
                       child: CircularProgressIndicator(
-                          strokeWidth: 2, color: Colors.white))
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
                   : const Text('Update'),
             ),
           ],
@@ -606,7 +638,7 @@ class _ReadOnlyInfoChip extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, size: 15, color: color.withOpacity(0.8)),
+              Icon(icon, size: 15, color: color.withValues(alpha: 0.8)),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
@@ -617,8 +649,11 @@ class _ReadOnlyInfoChip extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(Icons.lock_outline_rounded,
-                  size: 13, color: AppColors.textHint),
+              Icon(
+                Icons.lock_outline_rounded,
+                size: 13,
+                color: AppColors.textHint,
+              ),
             ],
           ),
           const SizedBox(height: 6),
@@ -672,8 +707,10 @@ class _QualificationDropdown extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.background,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: const BorderSide(color: AppColors.divider),
@@ -695,16 +732,21 @@ class _QualificationDropdown extends StatelessWidget {
               color: AppColors.textHint,
             ),
           ),
-          icon: const Icon(Icons.keyboard_arrow_down_rounded,
-              color: AppColors.textSecondary),
+          icon: const Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: AppColors.textSecondary,
+          ),
           borderRadius: BorderRadius.circular(14),
           items: AppQualifications.all
-              .map((q) => DropdownMenuItem(
-                    value: q,
-                    child: Text(q,
-                        style: const TextStyle(
-                            fontFamily: 'Poppins', fontSize: 14)),
-                  ))
+              .map(
+                (q) => DropdownMenuItem(
+                  value: q,
+                  child: Text(
+                    q,
+                    style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
+                  ),
+                ),
+              )
               .toList(),
           onChanged: onChanged,
         ),
@@ -712,5 +754,3 @@ class _QualificationDropdown extends StatelessWidget {
     );
   }
 }
-
-

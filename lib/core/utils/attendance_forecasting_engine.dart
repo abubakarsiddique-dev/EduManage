@@ -104,7 +104,8 @@ class AttendanceForecastingEngine {
     // => remaining - absences >= (threshold / 100) * totalTermClasses - attended
     // => absences <= attended + remaining - (threshold / 100) * totalTermClasses
     final minAttendedRequired = (mandatoryThreshold / 100.0) * totalTermClasses;
-    final maxMissableRaw = (clampedAttended + remainingClasses) - minAttendedRequired;
+    final maxMissableRaw =
+        (clampedAttended + remainingClasses) - minAttendedRequired;
     final maxAllowableAbsences = maxMissableRaw < 0
         ? 0
         : math.min(remainingClasses, maxMissableRaw.floor());
@@ -167,9 +168,11 @@ class AttendanceForecastingEngine {
 
     // If excused and the institutional policy excludes excused absences from total denominator:
     // Or standard policy where attended does not increase while total increases:
-    final totalConductedWithLeave = summary.totalClassesConducted + requestedLeaveDays;
+    final totalConductedWithLeave =
+        summary.totalClassesConducted + requestedLeaveDays;
     final attendedWithLeave = isExcused
-        ? summary.classesAttended // excused absence does not award attendance
+        ? summary
+              .classesAttended // excused absence does not award attendance
         : summary.classesAttended;
 
     final projectedPct = totalConductedWithLeave > 0
@@ -209,10 +212,8 @@ class AttendanceForecastingEngine {
     final firstHalf = recentHistory.sublist(0, midpoint);
     final secondHalf = recentHistory.sublist(midpoint);
 
-    final firstRate =
-        firstHalf.where((p) => p).length / firstHalf.length;
-    final secondRate =
-        secondHalf.where((p) => p).length / secondHalf.length;
+    final firstRate = firstHalf.where((p) => p).length / firstHalf.length;
+    final secondRate = secondHalf.where((p) => p).length / secondHalf.length;
 
     if (secondRate > firstRate + 0.1) return 1;
     if (secondRate < firstRate - 0.1) return -1;

@@ -270,13 +270,19 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         height: iconBoxSize,
                         decoration: BoxDecoration(
                           color: AppColors.onPrimary.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(AppDimensions.radiusLarge + 16),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusLarge + 16,
+                          ),
                           border: Border.all(
                             color: AppColors.onPrimary.withValues(alpha: 0.35),
                             width: 2,
                           ),
                         ),
-                        child: Icon(page.icon, size: iconSize, color: AppColors.onPrimary),
+                        child: Icon(
+                          page.icon,
+                          size: iconSize,
+                          color: AppColors.onPrimary,
+                        ),
                       ),
                     ],
                   ),

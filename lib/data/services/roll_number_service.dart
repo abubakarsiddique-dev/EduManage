@@ -53,9 +53,7 @@ class RollNumberService {
       throw ArgumentError('className must not be empty');
     }
 
-    final docRef = _db
-        .collection(_collection)
-        .doc(_keyFor(className));
+    final docRef = _db.collection(_collection).doc(_keyFor(className));
 
     int reserved = 0;
 

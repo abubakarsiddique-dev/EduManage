@@ -46,7 +46,6 @@ final attendanceRepositoryProvider = Provider<AttendanceRepository>((ref) {
   return AttendanceRepository.instance;
 });
 
-
 final assignmentRepositoryProvider = Provider<AssignmentRepository>((ref) {
   return AssignmentRepository.instance;
 });
@@ -91,12 +90,14 @@ final studentsStreamProvider = StreamProvider<List<StudentModel>>((ref) {
 /// Streams students belonging to a specific class
 final studentsByClassProvider =
     StreamProvider.family<List<StudentModel>, String>((ref, className) {
-  return ref.watch(studentRepositoryProvider).watchByClass(className);
-});
+      return ref.watch(studentRepositoryProvider).watchByClass(className);
+    });
 
 /// Streams student count by class
-final studentCountByClassProvider =
-    StreamProvider.family<int, String>((ref, className) {
+final studentCountByClassProvider = StreamProvider.family<int, String>((
+  ref,
+  className,
+) {
   return ref.watch(studentRepositoryProvider).watchCountByClass(className);
 });
 
@@ -112,9 +113,10 @@ final teachersStreamProvider = StreamProvider<List<TeacherModel>>((ref) {
 
 /// Streams only approved teachers
 final approvedTeachersProvider = StreamProvider<List<TeacherModel>>((ref) {
-  return ref.watch(teacherRepositoryProvider).watchAll().map(
-        (list) => list.where((t) => t.approved).toList(),
-      );
+  return ref
+      .watch(teacherRepositoryProvider)
+      .watchAll()
+      .map((list) => list.where((t) => t.approved).toList());
 });
 
 /// Streams total teachers count
@@ -129,7 +131,10 @@ final noticesStreamProvider = StreamProvider<List<NoticeModel>>((ref) {
 
 /// Streams total notices count
 final noticesTotalCountProvider = StreamProvider<int>((ref) {
-  return ref.watch(noticeRepositoryProvider).watchAll().map((list) => list.length);
+  return ref
+      .watch(noticeRepositoryProvider)
+      .watchAll()
+      .map((list) => list.length);
 });
 
 // ── Admin Activity Event ──────────────────────────────────────
@@ -152,8 +157,9 @@ class AdminActivityEvent {
 }
 
 /// Provides activity stream from notices for admin feeds
-final adminRecentActivityProvider =
-    StreamProvider<List<AdminActivityEvent>>((ref) {
+final adminRecentActivityProvider = StreamProvider<List<AdminActivityEvent>>((
+  ref,
+) {
   return ref.watch(noticeRepositoryProvider).watchAll().map((notices) {
     return notices.map((n) {
       return AdminActivityEvent(
@@ -167,6 +173,3 @@ final adminRecentActivityProvider =
     }).toList();
   });
 });
-
-
-

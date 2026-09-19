@@ -44,18 +44,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     _headerFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _headerController, curve: Curves.easeOut),
     );
-    _headerSlide =
-        Tween<Offset>(begin: const Offset(0, -0.3), end: Offset.zero).animate(
-      CurvedAnimation(parent: _headerController, curve: Curves.easeOutCubic),
-    );
+    _headerSlide = Tween<Offset>(begin: const Offset(0, -0.3), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _headerController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
 
-    _formFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _formController, curve: Curves.easeOut),
-    );
-    _formSlide =
-        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
-      CurvedAnimation(parent: _formController, curve: Curves.easeOutCubic),
-    );
+    _formFade = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _formController, curve: Curves.easeOut));
+    _formSlide = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _formController, curve: Curves.easeOutCubic),
+        );
 
     Future.delayed(const Duration(milliseconds: 100), () {
       if (!mounted) return;
@@ -129,8 +133,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                   decoration: const BoxDecoration(
                     gradient: AppColors.primaryGradient,
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(AppDimensions.space32 + AppDimensions.space8),
-                      bottomRight: Radius.circular(AppDimensions.space32 + AppDimensions.space8),
+                      bottomLeft: Radius.circular(
+                        AppDimensions.space32 + AppDimensions.space8,
+                      ),
+                      bottomRight: Radius.circular(
+                        AppDimensions.space32 + AppDimensions.space8,
+                      ),
                     ),
                   ),
                   child: SafeArea(
@@ -143,22 +151,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                           height: logoSize,
                           decoration: BoxDecoration(
                             color: AppColors.onPrimary.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusLarge + 6),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusLarge + 6,
+                            ),
                             border: Border.all(
                               color: AppColors.onPrimary.withValues(alpha: 0.4),
                               width: 1.5,
                             ),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(AppDimensions.radiusLarge + 4),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusLarge + 4,
+                            ),
                             child: Image.asset(
                               'assets/logo/logo.png',
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => Icon(
-                                Icons.school_rounded,
-                                color: AppColors.onPrimary,
-                                size: logoIconSize,
-                              ),
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                    Icons.school_rounded,
+                                    color: AppColors.onPrimary,
+                                    size: logoIconSize,
+                                  ),
                             ),
                           ),
                         ),

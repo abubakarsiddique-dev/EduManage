@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:school_management_system/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-
 /// Shared data-transformation helpers.
 ///
 /// Scope: every function here was copy-pasted verbatim (or near-verbatim)
@@ -63,8 +62,18 @@ class DataHelpers {
   static String shortDateLabel(DateTime? dt) {
     if (dt == null) return '';
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[dt.month - 1]} ${dt.day}';
   }

@@ -33,17 +33,20 @@ class _AssignmentsScreenState extends ConsumerState<AssignmentsScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Assignments',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Assignments',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddSheet(context, uid),
         backgroundColor: AppColors.teacherColor,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add_rounded),
-        label: Text('New Assignment',
-            style:
-                AppTextStyles.bodyMediumBold.copyWith(color: Colors.white)),
+        label: Text(
+          'New Assignment',
+          style: AppTextStyles.bodyMediumBold.copyWith(color: Colors.white),
+        ),
       ),
       body: uid == null
           ? const Center(child: CircularProgressIndicator())
@@ -59,14 +62,18 @@ class _AssignmentsScreenState extends ConsumerState<AssignmentsScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.assignment_outlined,
-                            size: 64, color: AppColors.textHint),
+                        const Icon(
+                          Icons.assignment_outlined,
+                          size: 64,
+                          color: AppColors.textHint,
+                        ),
                         const SizedBox(height: 16),
                         Text(
                           'No assignments yet.\nTap "New Assignment" to create one.',
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.bodyMedium
-                              .copyWith(color: AppColors.textSecondary),
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ],
                     ),
@@ -76,7 +83,7 @@ class _AssignmentsScreenState extends ConsumerState<AssignmentsScreen> {
                 return ListView.separated(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
                   itemCount: assignments.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
                   itemBuilder: (context, i) {
                     final assignment = assignments[i];
                     final dueDate = assignment.dueDate;
@@ -89,7 +96,8 @@ class _AssignmentsScreenState extends ConsumerState<AssignmentsScreen> {
                         boxShadow: AppColors.cardShadow,
                         border: overdue
                             ? Border.all(
-                                color: AppColors.danger.withValues(alpha: 0.4))
+                                color: AppColors.danger.withValues(alpha: 0.4),
+                              )
                             : null,
                       ),
                       child: Row(
@@ -97,20 +105,25 @@ class _AssignmentsScreenState extends ConsumerState<AssignmentsScreen> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color:
-                                  AppColors.teacherColor.withValues(alpha: 0.1),
+                              color: AppColors.teacherColor.withValues(
+                                alpha: 0.1,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Icon(Icons.assignment_rounded,
-                                color: AppColors.teacherColor),
+                            child: const Icon(
+                              Icons.assignment_rounded,
+                              color: AppColors.teacherColor,
+                            ),
                           ),
                           const SizedBox(width: 14),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(assignment.title,
-                                    style: AppTextStyles.bodyMediumBold),
+                                Text(
+                                  assignment.title,
+                                  style: AppTextStyles.bodyMediumBold,
+                                ),
                                 const SizedBox(height: 3),
                                 Text(
                                   '${assignment.className} · ${assignment.subject}',
@@ -132,10 +145,12 @@ class _AssignmentsScreenState extends ConsumerState<AssignmentsScreen> {
                             ),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.delete_outline_rounded,
-                                color: AppColors.danger),
-                            onPressed: () =>
-                                AssignmentRepository.instance.delete(assignment.id),
+                            icon: const Icon(
+                              Icons.delete_outline_rounded,
+                              color: AppColors.danger,
+                            ),
+                            onPressed: () => AssignmentRepository.instance
+                                .delete(assignment.id),
                           ),
                         ],
                       ),
@@ -154,9 +169,9 @@ class _AssignmentsScreenState extends ConsumerState<AssignmentsScreen> {
       isScrollControlled: true,
       backgroundColor: AppColors.cardBg,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-      builder: (sheetContext) =>
-          _AddAssignmentSheet(teacherId: teacherId),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => _AddAssignmentSheet(teacherId: teacherId),
     );
   }
 }
@@ -209,7 +224,8 @@ class _AddAssignmentSheetState extends State<_AddAssignmentSheet> {
 
       final data = doc.data()!;
 
-      List<String> classes = (data['classes'] as List<dynamic>?)
+      List<String> classes =
+          (data['classes'] as List<dynamic>?)
               ?.map((e) => e.toString().trim())
               .where((s) => s.isNotEmpty)
               .toList() ??
@@ -223,15 +239,15 @@ class _AddAssignmentSheetState extends State<_AddAssignmentSheet> {
               .where('classTeacher', isEqualTo: name)
               .get();
           classes = classSnap.docs
-              .map((d) =>
-                  (d.data()['name'] as String? ?? '').trim())
+              .map((d) => (d.data()['name'] as String? ?? '').trim())
               .where((s) => s.isNotEmpty)
               .toList();
         }
       }
       classes.sort();
 
-      List<String> subjects = (data['subjects'] as List<dynamic>?)
+      List<String> subjects =
+          (data['subjects'] as List<dynamic>?)
               ?.map((e) => e.toString().trim())
               .where((s) => s.isNotEmpty)
               .toList() ??
@@ -306,58 +322,66 @@ class _AddAssignmentSheetState extends State<_AddAssignmentSheet> {
               _loadingTeacherData
                   ? _LoadingField(label: 'Class')
                   : _assignedClasses.isEmpty
-                      ? _WarningField(
-                          label: 'Class',
-                          message:
-                              'No classes assigned yet. Ask admin to assign you to a class.',
-                        )
-                      : _DropdownField<String>(
-                          label: 'Class',
-                          hint: 'Select class',
-                          value: _selectedClass,
-                          items: _assignedClasses
-                              .map((c) => DropdownMenuItem(
-                                    value: c,
-                                    child: Text(c,
-                                        style: const TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 14)),
-                                  ))
-                              .toList(),
-                          validator: (v) =>
-                              v == null ? 'Please select a class' : null,
-                          onChanged: (v) =>
-                              setState(() => _selectedClass = v),
-                        ),
+                  ? _WarningField(
+                      label: 'Class',
+                      message:
+                          'No classes assigned yet. Ask admin to assign you to a class.',
+                    )
+                  : _DropdownField<String>(
+                      label: 'Class',
+                      hint: 'Select class',
+                      value: _selectedClass,
+                      items: _assignedClasses
+                          .map(
+                            (c) => DropdownMenuItem(
+                              value: c,
+                              child: Text(
+                                c,
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      validator: (v) =>
+                          v == null ? 'Please select a class' : null,
+                      onChanged: (v) => setState(() => _selectedClass = v),
+                    ),
               const SizedBox(height: 14),
 
               // Subject dropdown
               _loadingTeacherData
                   ? _LoadingField(label: 'Subject')
                   : _teacherSubjects.isEmpty
-                      ? _WarningField(
-                          label: 'Subject',
-                          message:
-                              'No subjects on your profile. Ask admin to update your profile.',
-                        )
-                      : _DropdownField<String>(
-                          label: 'Subject',
-                          hint: 'Select subject',
-                          value: _selectedSubject,
-                          items: _teacherSubjects
-                              .map((s) => DropdownMenuItem(
-                                    value: s,
-                                    child: Text(s,
-                                        style: const TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 14)),
-                                  ))
-                              .toList(),
-                          validator: (v) =>
-                              v == null ? 'Please select a subject' : null,
-                          onChanged: (v) =>
-                              setState(() => _selectedSubject = v),
-                        ),
+                  ? _WarningField(
+                      label: 'Subject',
+                      message:
+                          'No subjects on your profile. Ask admin to update your profile.',
+                    )
+                  : _DropdownField<String>(
+                      label: 'Subject',
+                      hint: 'Select subject',
+                      value: _selectedSubject,
+                      items: _teacherSubjects
+                          .map(
+                            (s) => DropdownMenuItem(
+                              value: s,
+                              child: Text(
+                                s,
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      validator: (v) =>
+                          v == null ? 'Please select a subject' : null,
+                      onChanged: (v) => setState(() => _selectedSubject = v),
+                    ),
               const SizedBox(height: 14),
 
               // Due date picker
@@ -365,17 +389,17 @@ class _AddAssignmentSheetState extends State<_AddAssignmentSheet> {
                 onTap: () async {
                   final picked = await showDatePicker(
                     context: context,
-                    initialDate:
-                        DateTime.now().add(const Duration(days: 7)),
+                    initialDate: DateTime.now().add(const Duration(days: 7)),
                     firstDate: DateTime.now(),
-                    lastDate: DateTime.now()
-                        .add(const Duration(days: 365)),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
                   );
                   if (picked != null) setState(() => _dueDate = picked);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 16),
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.background,
                     borderRadius: BorderRadius.circular(14),
@@ -383,8 +407,11 @@ class _AddAssignmentSheetState extends State<_AddAssignmentSheet> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.calendar_today_rounded,
-                          color: AppColors.textHint, size: 18),
+                      const Icon(
+                        Icons.calendar_today_rounded,
+                        color: AppColors.textHint,
+                        size: 18,
+                      ),
                       const SizedBox(width: 10),
                       Text(
                         _dueDate != null
@@ -418,9 +445,9 @@ class _AddAssignmentSheetState extends State<_AddAssignmentSheet> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (_dueDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a due date')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a due date')));
       return;
     }
     setState(() => _loading = true);
@@ -490,21 +517,25 @@ class _DropdownField<T> extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
-            )),
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
+          ),
+        ),
         const SizedBox(height: 8),
         DropdownButtonFormField<T>(
-          value: value,
+          initialValue: value,
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.background,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: const BorderSide(color: AppColors.divider),
@@ -515,21 +546,28 @@ class _DropdownField<T> extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide:
-                  const BorderSide(color: AppColors.teacherColor, width: 2),
+              borderSide: const BorderSide(
+                color: AppColors.teacherColor,
+                width: 2,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: const BorderSide(color: AppColors.danger),
             ),
           ),
-          hint: Text(hint,
-              style: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  color: AppColors.textHint)),
-          icon: const Icon(Icons.keyboard_arrow_down_rounded,
-              color: AppColors.textSecondary),
+          hint: Text(
+            hint,
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14,
+              color: AppColors.textHint,
+            ),
+          ),
+          icon: const Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: AppColors.textSecondary,
+          ),
           borderRadius: BorderRadius.circular(14),
           items: items,
           onChanged: onChanged,
@@ -549,13 +587,15 @@ class _LoadingField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
-            )),
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
+          ),
+        ),
         const SizedBox(height: 8),
         Container(
           height: 54,
@@ -586,13 +626,15 @@ class _WarningField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
-            )),
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
+          ),
+        ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.all(14),
@@ -603,15 +645,21 @@ class _WarningField extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(Icons.warning_amber_rounded,
-                  color: AppColors.warning, size: 18),
+              const Icon(
+                Icons.warning_amber_rounded,
+                color: AppColors.warning,
+                size: 18,
+              ),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(message,
-                    style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        color: AppColors.textSecondary)),
+                child: Text(
+                  message,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ),
             ],
           ),

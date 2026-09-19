@@ -2,12 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 /// Connection status states.
-enum NetworkStatus {
-  connected,
-  disconnected,
-  slowConnection,
-  unknown,
-}
+enum NetworkStatus { connected, disconnected, slowConnection, unknown }
 
 /// Immutable snapshot of current network reachability and performance.
 class NetworkState {
@@ -21,7 +16,9 @@ class NetworkState {
     required this.lastChecked,
   });
 
-  bool get isOnline => status == NetworkStatus.connected || status == NetworkStatus.slowConnection;
+  bool get isOnline =>
+      status == NetworkStatus.connected ||
+      status == NetworkStatus.slowConnection;
   bool get isOffline => status == NetworkStatus.disconnected;
 
   NetworkState copyWith({
@@ -37,7 +34,8 @@ class NetworkState {
   }
 
   @override
-  String toString() => 'NetworkState(status: $status, latency: ${latencyMs}ms, checked: $lastChecked)';
+  String toString() =>
+      'NetworkState(status: $status, latency: ${latencyMs}ms, checked: $lastChecked)';
 }
 
 /// Core service monitoring internet reachability and round-trip latency.
@@ -71,7 +69,9 @@ class NetworkService with ChangeNotifier {
   }
 
   /// Manually triggers a reachability test.
-  Future<NetworkState> verifyConnectivity({Duration timeout = const Duration(seconds: 4)}) async {
+  Future<NetworkState> verifyConnectivity({
+    Duration timeout = const Duration(seconds: 4),
+  }) async {
     try {
       int? latency;
       if (customPingHandler != null) {
@@ -81,7 +81,9 @@ class NetworkService with ChangeNotifier {
         latency = 120;
       }
 
-      final status = latency == null ? NetworkStatus.disconnected : categorizeLatency(latency);
+      final status = latency == null
+          ? NetworkStatus.disconnected
+          : categorizeLatency(latency);
 
       _state = NetworkState(
         status: status,

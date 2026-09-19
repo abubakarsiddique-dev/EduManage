@@ -78,7 +78,9 @@ final _profileProvider = FutureProvider.autoDispose<_ProfileData>((ref) async {
     final t = tDoc.data() ?? {};
     subject = t['subject'] as String?;
     qualification = t['qualification'] as String?;
-    classes = (t['classes'] as List<dynamic>?)?.map((e) => e.toString()).toList();
+    classes = (t['classes'] as List<dynamic>?)
+        ?.map((e) => e.toString())
+        .toList();
   }
 
   return _ProfileData(
@@ -122,8 +124,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     )..forward();
-    _fadeAnim =
-        CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeOut);
+    _fadeAnim = CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeOut);
   }
 
   @override
@@ -151,10 +152,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   String _roleLabel(String role) => switch (role) {
-        'admin' => 'Administrator',
-        'teacher' => 'Teacher',
-        _ => 'Student',
-      };
+    'admin' => 'Administrator',
+    'teacher' => 'Teacher',
+    _ => 'Student',
+  };
 
   // ── Photo upload ────────────────────────────────────────────────────────────
 
@@ -175,7 +176,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       final uid = ref.read(authProvider).user?.uid;
       if (uid == null) {
         if (mounted) {
-          _showSnack('Please sign in before updating your photo.', AppColors.danger);
+          _showSnack(
+            'Please sign in before updating your photo.',
+            AppColors.danger,
+          );
         }
         return;
       }
@@ -223,10 +227,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       context: context,
       builder: (_) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Log out?',
-            style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w700)),
-        content: const Text('You will be returned to the login screen.',
-            style: TextStyle(fontFamily: 'Poppins')),
+        title: const Text(
+          'Log out?',
+          style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w700),
+        ),
+        content: const Text(
+          'You will be returned to the login screen.',
+          style: TextStyle(fontFamily: 'Poppins'),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -234,8 +242,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Log out',
-                style: TextStyle(color: Colors.redAccent)),
+            child: const Text(
+              'Log out',
+              style: TextStyle(color: Colors.redAccent),
+            ),
           ),
         ],
       ),
@@ -256,9 +266,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       body: profileAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-          child: Text('Failed to load profile',
-              style: AppTextStyles.bodyMedium
-                  .copyWith(color: AppColors.textSecondary)),
+          child: Text(
+            'Failed to load profile',
+            style: AppTextStyles.bodyMedium.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
         ),
         data: (profile) => FadeTransition(
           opacity: _fadeAnim,
@@ -291,9 +304,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           onPressed: () => context.push('/profile/edit'),
         ),
       ],
-      flexibleSpace: FlexibleSpaceBar(
-        background: _buildHero(profile),
-      ),
+      flexibleSpace: FlexibleSpaceBar(background: _buildHero(profile)),
       title: Text(
         profile.name,
         style: const TextStyle(
@@ -325,8 +336,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   height: 108,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border:
-                        Border.all(color: Colors.white.withOpacity(0.35), width: 3),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.35),
+                      width: 3,
+                    ),
                   ),
                 ),
                 // Avatar
@@ -339,17 +352,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             color: Colors.white24,
                             child: const Center(
                               child: CircularProgressIndicator(
-                                  color: Colors.white, strokeWidth: 2.5),
+                                color: Colors.white,
+                                strokeWidth: 2.5,
+                              ),
                             ),
                           )
                         : profile.photoUrl.isNotEmpty
-                            ? Image.network(
-                                profile.photoUrl,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) =>
-                                    _avatarFallback(profile.name),
-                              )
-                            : _avatarFallback(profile.name),
+                        ? Image.network(
+                            profile.photoUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, _, _) =>
+                                _avatarFallback(profile.name),
+                          )
+                        : _avatarFallback(profile.name),
                   ),
                 ),
                 // Upload button
@@ -366,7 +381,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.18),
+                            color: Colors.black.withValues(alpha: 0.18),
                             blurRadius: 8,
                           ),
                         ],
@@ -399,10 +414,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
             // Role badge
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -423,8 +437,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.email_rounded,
-                    size: 14, color: Colors.white60),
+                const Icon(
+                  Icons.email_rounded,
+                  size: 14,
+                  color: Colors.white60,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   profile.email,
@@ -470,10 +487,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ── Stats row (for student/teacher) ─────────────────
-          if (profile.role == 'student')
-            _buildStudentStats(profile),
-          if (profile.role == 'teacher')
-            _buildTeacherStats(profile),
+          if (profile.role == 'student') _buildStudentStats(profile),
+          if (profile.role == 'teacher') _buildTeacherStats(profile),
 
           const SizedBox(height: 24),
 
@@ -488,8 +503,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
                   child: Text(
                     profile.bio,
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(color: AppColors.textSecondary, height: 1.6),
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondary,
+                      height: 1.6,
+                    ),
                   ),
                 ),
               ],
@@ -521,10 +538,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           const SizedBox(height: 16),
 
           // ── Academic / Professional ────────────────────────────
-          if (profile.role == 'student')
-            _buildStudentAcademic(profile),
-          if (profile.role == 'teacher')
-            _buildTeacherProfessional(profile),
+          if (profile.role == 'student') _buildStudentAcademic(profile),
+          if (profile.role == 'teacher') _buildTeacherProfessional(profile),
 
           if (profile.role != 'admin') const SizedBox(height: 16),
 
@@ -569,7 +584,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: _confirmLogout,
-              icon: const Icon(Icons.logout_rounded, color: Colors.redAccent, size: 20),
+              icon: const Icon(
+                Icons.logout_rounded,
+                color: Colors.redAccent,
+                size: 20,
+              ),
               label: const Text(
                 'Log Out',
                 style: TextStyle(
@@ -583,7 +602,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 side: const BorderSide(color: Colors.redAccent, width: 1.5),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14)),
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
             ),
           ),
@@ -624,11 +644,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             for (final d in resDocs) {
               totalPct +=
                   ((d.data() as Map<String, dynamic>)['percentage'] as num?)
-                          ?.toDouble() ??
-                      0;
+                      ?.toDouble() ??
+                  0;
             }
-            final avg =
-                resDocs.isEmpty ? 0.0 : totalPct / resDocs.length;
+            final avg = resDocs.isEmpty ? 0.0 : totalPct / resDocs.length;
 
             return Row(
               children: [
@@ -636,9 +655,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   value: '$attPct%',
                   label: 'Attendance',
                   icon: Icons.how_to_reg_rounded,
-                  color: attPct >= 75
-                      ? AppColors.success
-                      : AppColors.danger,
+                  color: attPct >= 75 ? AppColors.success : AppColors.danger,
                 ),
                 const SizedBox(width: 12),
                 _StatTile(
@@ -744,7 +761,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         _InfoRow(
           icon: Icons.subject_rounded,
           label: 'Subject',
-          value: profile.subject?.isEmpty != false ? 'Not set' : profile.subject!,
+          value: profile.subject?.isEmpty != false
+              ? 'Not set'
+              : profile.subject!,
           isEmpty: profile.subject == null || profile.subject!.isEmpty,
         ),
         _InfoRow(
@@ -764,13 +783,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               children: [
                 Row(
                   children: [
-                    Icon(Icons.class_rounded,
-                        size: 18, color: _roleColor),
+                    Icon(Icons.class_rounded, size: 18, color: _roleColor),
                     const SizedBox(width: 10),
-                    Text('Classes',
-                        style: AppTextStyles.labelSmall.copyWith(
-                            color: AppColors.textSecondary,
-                            fontWeight: FontWeight.w500)),
+                    Text(
+                      'Classes',
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: AppColors.textSecondary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -830,7 +851,7 @@ class _StatTile extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 20),
@@ -890,7 +911,7 @@ class _SectionCard extends StatelessWidget {
                   width: 30,
                   height: 30,
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.12),
+                    color: color.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(icon, color: color, size: 16),
@@ -937,7 +958,8 @@ class _InfoRow extends StatelessWidget {
           Text(
             '$label:',
             style: AppTextStyles.labelSmall.copyWith(
-                fontWeight: FontWeight.w500),
+              fontWeight: FontWeight.w500,
+            ),
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -991,17 +1013,18 @@ class _SettingRow extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(icon, color: color, size: 16),
             ),
             const SizedBox(width: 14),
-            Expanded(
-              child: Text(label, style: AppTextStyles.bodyMedium),
+            Expanded(child: Text(label, style: AppTextStyles.bodyMedium)),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.textHint,
+              size: 20,
             ),
-            const Icon(Icons.chevron_right_rounded,
-                color: AppColors.textHint, size: 20),
           ],
         ),
       ),
@@ -1020,9 +1043,9 @@ class _ClassChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.25)),
+        border: Border.all(color: color.withValues(alpha: 0.25)),
       ),
       child: Text(
         label,
@@ -1035,7 +1058,7 @@ class _ClassChip extends StatelessWidget {
   }
 }
 
- //STEP 7 ─ Display the Cloudinary URL anywhere an image is shown
+//STEP 7 ─ Display the Cloudinary URL anywhere an image is shown
 // ──────────────────────────────────────────────────────────────
 // The URL returned is a standard HTTPS link — just pass it to Image.network:
 //

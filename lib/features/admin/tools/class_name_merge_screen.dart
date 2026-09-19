@@ -52,26 +52,35 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
       _error = null;
     });
     try {
-      final studentSnap = await FirebaseFirestore.instance.collection('students').get();
+      final studentSnap = await FirebaseFirestore.instance
+          .collection('students')
+          .get();
       final studentGroups = <String, List<_Ref>>{};
       for (final doc in studentSnap.docs) {
         final data = doc.data();
         final raw = (data['class'] as String? ?? '').trim();
         final key = raw.isEmpty ? '(no class set)' : raw;
-        studentGroups.putIfAbsent(key, () => []).add(_Ref(doc.reference, doc.id));
+        studentGroups
+            .putIfAbsent(key, () => [])
+            .add(_Ref(doc.reference, doc.id));
       }
 
-      final teacherSnap = await FirebaseFirestore.instance.collection('teachers').get();
+      final teacherSnap = await FirebaseFirestore.instance
+          .collection('teachers')
+          .get();
       final teacherGroups = <String, List<_Ref>>{};
       for (final doc in teacherSnap.docs) {
         final data = doc.data();
-        final list = (data['classes'] as List<dynamic>?)
+        final list =
+            (data['classes'] as List<dynamic>?)
                 ?.map((e) => e.toString().trim())
                 .where((s) => s.isNotEmpty)
                 .toList() ??
             <String>[];
         for (final raw in list) {
-          teacherGroups.putIfAbsent(raw, () => []).add(_Ref(doc.reference, doc.id));
+          teacherGroups
+              .putIfAbsent(raw, () => [])
+              .add(_Ref(doc.reference, doc.id));
         }
       }
 
@@ -92,7 +101,8 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
     }
   }
 
-  String _normalize(String s) => s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
+  String _normalize(String s) =>
+      s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
 
   Map<String, List<String>> _clustersFor(Map<String, List<_Ref>> groups) {
     final byNormalized = <String, List<String>>{};
@@ -149,11 +159,14 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
       final batch = FirebaseFirestore.instance.batch();
       int teacherCount = 0;
       for (final docId in affectedDocIds) {
-        final docRef = FirebaseFirestore.instance.collection('teachers').doc(docId);
+        final docRef = FirebaseFirestore.instance
+            .collection('teachers')
+            .doc(docId);
         final snap = await docRef.get();
         final data = snap.data();
         if (data == null) continue;
-        final current = (data['classes'] as List<dynamic>?)
+        final current =
+            (data['classes'] as List<dynamic>?)
                 ?.map((e) => e.toString().trim())
                 .where((s) => s.isNotEmpty)
                 .toList() ??
@@ -175,7 +188,9 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
         teacherCount++;
       }
       await batch.commit();
-      _showResult('Updated $teacherCount teacher record(s) to use "$canonical"');
+      _showResult(
+        'Updated $teacherCount teacher record(s) to use "$canonical"',
+      );
       await _scan();
     } catch (e) {
       _showResult('Merge failed: $e', isError: true);
@@ -205,7 +220,9 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
       context: context,
       builder: (dialogCtx) => StatefulBuilder(
         builder: (dialogCtx, setDialog) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           title: const Text('Merge class names'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -213,7 +230,9 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
             children: [
               Text(
                 'These look like the same class. Choose the spelling to keep:',
-                style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
               const SizedBox(height: 14),
               ...rawValues.map((v) {
@@ -224,7 +243,10 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
                   groupValue: canonical,
                   contentPadding: EdgeInsets.zero,
                   title: Text(v, style: AppTextStyles.bodyMediumBold),
-                  subtitle: Text('$refCount $noun(s)', style: AppTextStyles.labelTiny),
+                  subtitle: Text(
+                    '$refCount $noun(s)',
+                    style: AppTextStyles.labelTiny,
+                  ),
                   onChanged: (v2) => setDialog(() => canonical = v2!),
                 );
               }),
@@ -236,7 +258,9 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+              ),
               onPressed: () {
                 Navigator.pop(dialogCtx);
                 if (source == _Source.student) {
@@ -268,8 +292,10 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Fix Class Name Mismatches',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Fix Class Name Mismatches',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded, color: Colors.white),
@@ -280,101 +306,140 @@ class _ClassNameMergeScreenState extends State<ClassNameMergeScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
-              ? Center(
-                  child: Text(_error!,
-                      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.danger)),
-                )
-              : ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+          ? Center(
+              child: Text(
+                _error!,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.danger,
+                ),
+              ),
+            )
+          : ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: AppColors.primary.withValues(alpha: 0.2),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.info_outline_rounded,
+                        color: AppColors.primary,
+                        size: 20,
                       ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.info_outline_rounded, color: AppColors.primary, size: 20),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              'Scans every student\'s class value and every teacher\'s assigned '
-                              'classes, groups similar-looking spellings (like "9A" and "Grade 9A"), '
-                              'and lets you merge them into one. Run this once, then use the Class '
-                              'dropdown/picker everywhere going forward so this never happens again.',
-                              style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary),
-                            ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'Scans every student\'s class value and every teacher\'s assigned '
+                          'classes, groups similar-looking spellings (like "9A" and "Grade 9A"), '
+                          'and lets you merge them into one. Run this once, then use the Class '
+                          'dropdown/picker everywhere going forward so this never happens again.',
+                          style: AppTextStyles.labelSmall.copyWith(
+                            color: AppColors.textSecondary,
                           ),
-                        ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                if (totalClusters == 0) ...[
+                  const SizedBox(height: 40),
+                  const Icon(
+                    Icons.check_circle_outline_rounded,
+                    size: 64,
+                    color: AppColors.success,
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: Text(
+                      'No mismatched class names detected.',
+                      style: AppTextStyles.bodyMediumBold,
+                    ),
+                  ),
+                ] else ...[
+                  if (studentClusters.isNotEmpty) ...[
+                    Text(
+                      'Student class mismatches (${studentClusters.length})',
+                      style: AppTextStyles.sectionTitle,
+                    ),
+                    const SizedBox(height: 14),
+                    ...studentClusters.entries.map(
+                      (e) => _ClusterCard(
+                        rawValues: e.value,
+                        countFor: (v) => _studentGroups[v]?.length ?? 0,
+                        countLabel: 'student record(s)',
+                        merging: _merging,
+                        onMerge: () =>
+                            _showMergeDialog(e.value, _Source.student),
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    if (totalClusters == 0) ...[
-                      const SizedBox(height: 40),
-                      const Icon(Icons.check_circle_outline_rounded,
-                          size: 64, color: AppColors.success),
-                      const SizedBox(height: 16),
-                      Center(
-                        child: Text(
-                          'No mismatched class names detected.',
-                          style: AppTextStyles.bodyMediumBold,
-                        ),
-                      ),
-                    ] else ...[
-                      if (studentClusters.isNotEmpty) ...[
-                        Text('Student class mismatches (${studentClusters.length})',
-                            style: AppTextStyles.sectionTitle),
-                        const SizedBox(height: 14),
-                        ...studentClusters.entries.map((e) => _ClusterCard(
-                              rawValues: e.value,
-                              countFor: (v) => _studentGroups[v]?.length ?? 0,
-                              countLabel: 'student record(s)',
-                              merging: _merging,
-                              onMerge: () => _showMergeDialog(e.value, _Source.student),
-                            )),
-                        const SizedBox(height: 24),
-                      ],
-                      if (teacherClusters.isNotEmpty) ...[
-                        Text('Teacher class mismatches (${teacherClusters.length})',
-                            style: AppTextStyles.sectionTitle),
-                        const SizedBox(height: 14),
-                        ...teacherClusters.entries.map((e) => _ClusterCard(
-                              rawValues: e.value,
-                              countFor: (v) => _teacherGroups[v]?.length ?? 0,
-                              countLabel: 'teacher record(s)',
-                              merging: _merging,
-                              onMerge: () => _showMergeDialog(e.value, _Source.teacher),
-                            )),
-                        const SizedBox(height: 24),
-                      ],
-                    ],
-
-                    const SizedBox(height: 8),
-                    Text('All student class values currently in use', style: AppTextStyles.sectionTitle),
-                    const SizedBox(height: 12),
-                    ..._studentGroups.entries.map((entry) => _ValueRow(
-                          label: entry.key,
-                          count: entry.value.length,
-                          countLabel: 'students',
-                        )),
-
-                    const SizedBox(height: 24),
-                    Text('All teacher-assigned class values currently in use', style: AppTextStyles.sectionTitle),
-                    const SizedBox(height: 12),
-                    if (_teacherGroups.isEmpty)
-                      Text('No teachers have any classes assigned yet.',
-                          style: AppTextStyles.labelSmall.copyWith(color: AppColors.textHint)),
-                    ..._teacherGroups.entries.map((entry) => _ValueRow(
-                          label: entry.key,
-                          count: entry.value.length,
-                          countLabel: 'teachers',
-                        )),
-                    const SizedBox(height: 32),
                   ],
+                  if (teacherClusters.isNotEmpty) ...[
+                    Text(
+                      'Teacher class mismatches (${teacherClusters.length})',
+                      style: AppTextStyles.sectionTitle,
+                    ),
+                    const SizedBox(height: 14),
+                    ...teacherClusters.entries.map(
+                      (e) => _ClusterCard(
+                        rawValues: e.value,
+                        countFor: (v) => _teacherGroups[v]?.length ?? 0,
+                        countLabel: 'teacher record(s)',
+                        merging: _merging,
+                        onMerge: () =>
+                            _showMergeDialog(e.value, _Source.teacher),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ],
+
+                const SizedBox(height: 8),
+                Text(
+                  'All student class values currently in use',
+                  style: AppTextStyles.sectionTitle,
                 ),
+                const SizedBox(height: 12),
+                ..._studentGroups.entries.map(
+                  (entry) => _ValueRow(
+                    label: entry.key,
+                    count: entry.value.length,
+                    countLabel: 'students',
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+                Text(
+                  'All teacher-assigned class values currently in use',
+                  style: AppTextStyles.sectionTitle,
+                ),
+                const SizedBox(height: 12),
+                if (_teacherGroups.isEmpty)
+                  Text(
+                    'No teachers have any classes assigned yet.',
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: AppColors.textHint,
+                    ),
+                  ),
+                ..._teacherGroups.entries.map(
+                  (entry) => _ValueRow(
+                    label: entry.key,
+                    count: entry.value.length,
+                    countLabel: 'teachers',
+                  ),
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
     );
   }
 }
@@ -420,21 +485,32 @@ class _ClusterCard extends StatelessWidget {
             children: rawValues.map((v) {
               final c = countFor(v);
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: AppColors.warning.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
                 ),
-                child: Text('"$v" ($c)',
-                    style: AppTextStyles.labelSmall
-                        .copyWith(color: AppColors.warning, fontWeight: FontWeight.w600)),
+                decoration: BoxDecoration(
+                  color: AppColors.warning.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
+                ),
+                child: Text(
+                  '"$v" ($c)',
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: AppColors.warning,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               );
             }).toList(),
           ),
           const SizedBox(height: 12),
-          Text('$total $countLabel total',
-              style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary)),
+          Text(
+            '$total $countLabel total',
+            style: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
           const SizedBox(height: 12),
           SizedBox(
             width: double.infinity,
@@ -443,7 +519,9 @@ class _ClusterCard extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               child: const Text('Merge these'),
             ),
@@ -458,7 +536,11 @@ class _ValueRow extends StatelessWidget {
   final String label;
   final int count;
   final String countLabel;
-  const _ValueRow({required this.label, required this.count, required this.countLabel});
+  const _ValueRow({
+    required this.label,
+    required this.count,
+    required this.countLabel,
+  });
 
   @override
   Widget build(BuildContext context) {

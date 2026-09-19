@@ -28,8 +28,8 @@ class NotificationsScreen extends ConsumerWidget {
     final roleColor = role == 'admin'
         ? AppColors.adminColor
         : role == 'teacher'
-            ? AppColors.teacherColor
-            : AppColors.studentColor;
+        ? AppColors.teacherColor
+        : AppColors.studentColor;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -40,16 +40,17 @@ class NotificationsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Notifications',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Notifications',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
         actions: [
           TextButton(
-            onPressed: uid == null
-                ? null
-                : () => _markAllRead(uid),
-            child: Text('Mark all read',
-                style: AppTextStyles.labelSmall
-                    .copyWith(color: Colors.white70)),
+            onPressed: uid == null ? null : () => _markAllRead(uid),
+            child: Text(
+              'Mark all read',
+              style: AppTextStyles.labelSmall.copyWith(color: Colors.white70),
+            ),
           ),
         ],
       ),
@@ -73,16 +74,25 @@ class NotificationsScreen extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.notifications_none_rounded,
-                            size: 72, color: AppColors.textHint),
+                        const Icon(
+                          Icons.notifications_none_rounded,
+                          size: 72,
+                          color: AppColors.textHint,
+                        ),
                         const SizedBox(height: 20),
-                        Text('No notifications yet',
-                            style: AppTextStyles.bodyMediumBold
-                                .copyWith(color: AppColors.textSecondary)),
+                        Text(
+                          'No notifications yet',
+                          style: AppTextStyles.bodyMediumBold.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
                         const SizedBox(height: 8),
-                        Text('You\'re all caught up!',
-                            style: AppTextStyles.labelSmall
-                                .copyWith(color: AppColors.textHint)),
+                        Text(
+                          'You\'re all caught up!',
+                          style: AppTextStyles.labelSmall.copyWith(
+                            color: AppColors.textHint,
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -99,26 +109,28 @@ class NotificationsScreen extends ConsumerWidget {
 
                 return ListView(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 12, horizontal: 0),
+                    vertical: 12,
+                    horizontal: 0,
+                  ),
                   children: [
-                    ...grouped.entries.expand((entry) => [
-                          _DateHeader(label: entry.key),
-                          ...entry.value.map((doc) {
-                            final data =
-                                doc.data() as Map<String, dynamic>;
-                            return _NotifTile(
-                              docId: doc.id,
-                              title: data['title'] as String? ?? '',
-                              body: data['body'] as String? ?? '',
-                              type: data['type'] as String? ?? 'general',
-                              isRead: data['isRead'] as bool? ?? false,
-                              createdAt:
-                                  (data['createdAt'] as Timestamp?)
-                                      ?.toDate(),
-                              roleColor: roleColor,
-                            );
-                          }),
-                        ]),
+                    ...grouped.entries.expand(
+                      (entry) => [
+                        _DateHeader(label: entry.key),
+                        ...entry.value.map((doc) {
+                          final data = doc.data() as Map<String, dynamic>;
+                          return _NotifTile(
+                            docId: doc.id,
+                            title: data['title'] as String? ?? '',
+                            body: data['body'] as String? ?? '',
+                            type: data['type'] as String? ?? 'general',
+                            isRead: data['isRead'] as bool? ?? false,
+                            createdAt: (data['createdAt'] as Timestamp?)
+                                ?.toDate(),
+                            roleColor: roleColor,
+                          );
+                        }),
+                      ],
+                    ),
                     const SizedBox(height: 32),
                   ],
                 );
@@ -134,12 +146,12 @@ class NotificationsScreen extends ConsumerWidget {
         .where('isRead', isEqualTo: false)
         .get()
         .then((snap) {
-      final batch = FirebaseFirestore.instance.batch();
-      for (final doc in snap.docs) {
-        batch.update(doc.reference, {'isRead': true});
-      }
-      batch.commit();
-    });
+          final batch = FirebaseFirestore.instance.batch();
+          for (final doc in snap.docs) {
+            batch.update(doc.reference, {'isRead': true});
+          }
+          batch.commit();
+        });
   }
 
   String _dateLabel(DateTime dt) {
@@ -162,9 +174,13 @@ class _DateHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: Text(label,
-          style: AppTextStyles.labelMedium
-              .copyWith(fontWeight: FontWeight.w700, color: AppColors.textSecondary)),
+      child: Text(
+        label,
+        style: AppTextStyles.labelMedium.copyWith(
+          fontWeight: FontWeight.w700,
+          color: AppColors.textSecondary,
+        ),
+      ),
     );
   }
 }
@@ -239,12 +255,12 @@ class _NotifTile extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: isRead ? AppColors.cardBg : _typeColor.withOpacity(0.05),
+          color: isRead ? AppColors.cardBg : _typeColor.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(14),
           boxShadow: AppColors.cardShadow,
           border: isRead
               ? Border.all(color: AppColors.divider, width: 1)
-              : Border.all(color: _typeColor.withOpacity(0.3), width: 1),
+              : Border.all(color: _typeColor.withValues(alpha: 0.3), width: 1),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,7 +270,7 @@ class _NotifTile extends StatelessWidget {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                color: _typeColor.withOpacity(0.12),
+                color: _typeColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(_icon, color: _typeColor, size: 20),
@@ -300,8 +316,9 @@ class _NotifTile extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       DateFormat('h:mm a').format(createdAt!),
-                      style: AppTextStyles.labelTiny
-                          .copyWith(color: AppColors.textHint),
+                      style: AppTextStyles.labelTiny.copyWith(
+                        color: AppColors.textHint,
+                      ),
                     ),
                   ],
                 ],

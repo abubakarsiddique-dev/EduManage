@@ -15,17 +15,21 @@ class CsvExporter {
     String str = value.toString();
 
     // Prevent CSV formula injection
-    if (str.isNotEmpty && (str.startsWith('=') ||
-        str.startsWith('+') ||
-        str.startsWith('-') ||
-        str.startsWith('@') ||
-        str.startsWith('\t') ||
-        str.startsWith('\r'))) {
+    if (str.isNotEmpty &&
+        (str.startsWith('=') ||
+            str.startsWith('+') ||
+            str.startsWith('-') ||
+            str.startsWith('@') ||
+            str.startsWith('\t') ||
+            str.startsWith('\r'))) {
       str = "'$str";
     }
 
     // Always quote cells that contain commas, double quotes, or newlines
-    if (str.contains(',') || str.contains('"') || str.contains('\n') || str.contains('\r')) {
+    if (str.contains(',') ||
+        str.contains('"') ||
+        str.contains('\n') ||
+        str.contains('\r')) {
       return '"${str.replaceAll('"', '""')}"';
     }
 
@@ -59,14 +63,7 @@ class CsvExporter {
     ];
 
     final rows = students.map((s) {
-      return [
-        s.rollNo,
-        s.name,
-        s.className,
-        s.section,
-        s.email,
-        s.contact,
-      ];
+      return [s.rollNo, s.name, s.className, s.section, s.email, s.contact];
     }).toList();
 
     return toCsv(headers, rows);
@@ -90,7 +87,9 @@ class CsvExporter {
         f.studentName,
         f.className,
         f.amount.toStringAsFixed(2),
-        f.dueDate != null ? f.dueDate!.toIso8601String().split('T').first : 'N/A',
+        f.dueDate != null
+            ? f.dueDate!.toIso8601String().split('T').first
+            : 'N/A',
         f.status.name.toUpperCase(),
         f.paidAt != null ? f.paidAt!.toIso8601String().split('T').first : 'N/A',
       ];

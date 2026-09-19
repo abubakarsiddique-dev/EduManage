@@ -59,10 +59,7 @@ class ApiQueryBuilder<T> extends StatelessWidget {
 
         final content = builder(context, data);
         if (onRefresh != null) {
-          return RefreshIndicator(
-            onRefresh: onRefresh!,
-            child: content,
-          );
+          return RefreshIndicator(onRefresh: onRefresh!, child: content);
         }
         return content;
       },

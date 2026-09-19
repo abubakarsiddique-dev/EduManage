@@ -115,20 +115,27 @@ class _StudentTimetableScreenState extends State<StudentTimetableScreen> {
               width: double.infinity,
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 14),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.class_rounded,
-                        color: Colors.white, size: 18),
+                    const Icon(
+                      Icons.class_rounded,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                     const SizedBox(width: 10),
                     Text(
                       widget.fixedClassName!,
-                      style: AppTextStyles.bodyMediumBold
-                          .copyWith(color: Colors.white),
+                      style: AppTextStyles.bodyMediumBold.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -166,8 +173,7 @@ class _StudentTimetableScreenState extends State<StudentTimetableScreen> {
                       d,
                       style: AppTextStyles.labelSmall.copyWith(
                         color: isSel ? Colors.white : AppColors.textSecondary,
-                        fontWeight:
-                            isSel ? FontWeight.w700 : FontWeight.w400,
+                        fontWeight: isSel ? FontWeight.w700 : FontWeight.w400,
                       ),
                     ),
                   ),
@@ -189,12 +195,13 @@ class _StudentTimetableScreenState extends State<StudentTimetableScreen> {
                     ),
                   )
                 : StreamBuilder<List<TimetableModel>>(
-                    stream: TimetableRepository.instance
-                        .watchByClassAndDay(_selectedClass, _selectedDay),
+                    stream: TimetableRepository.instance.watchByClassAndDay(
+                      _selectedClass,
+                      _selectedDay,
+                    ),
                     builder: (context, snap) {
                       if (snap.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                            child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
                       final slots = snap.data ?? [];
                       if (slots.isEmpty) {
@@ -224,14 +231,12 @@ class _StudentTimetableScreenState extends State<StudentTimetableScreen> {
                       return ListView.separated(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 40),
                         itemCount: slots.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 10),
+                        separatorBuilder: (_, _) => const SizedBox(height: 10),
                         itemBuilder: (context, i) {
                           final slot = slots[i];
                           final start = slot.startTime;
                           final end = slot.endTime;
-                          final isNow =
-                              _isCurrentPeriod('$start–$end', now);
+                          final isNow = _isCurrentPeriod('$start–$end', now);
 
                           return _ReadOnlySlotCard(
                             subject: slot.subject,
@@ -348,9 +353,7 @@ class _ReadOnlySlotCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  [teacher, room]
-                      .where((s) => s.isNotEmpty)
-                      .join(' · '),
+                  [teacher, room].where((s) => s.isNotEmpty).join(' · '),
                   style: AppTextStyles.labelSmall.copyWith(
                     color: isNow ? Colors.white70 : AppColors.textSecondary,
                   ),
@@ -368,8 +371,7 @@ class _ReadOnlySlotCard extends StatelessWidget {
               ),
               child: Text(
                 'Now',
-                style: AppTextStyles.labelTiny
-                    .copyWith(color: Colors.white),
+                style: AppTextStyles.labelTiny.copyWith(color: Colors.white),
               ),
             ),
         ],

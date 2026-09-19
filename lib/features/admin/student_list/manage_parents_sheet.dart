@@ -16,7 +16,11 @@ class ManageParentsSheet extends StatelessWidget {
     required this.studentName,
   });
 
-  static Future<void> show(BuildContext context, {required String studentId, required String studentName}) {
+  static Future<void> show(
+    BuildContext context, {
+    required String studentId,
+    required String studentName,
+  }) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -24,7 +28,8 @@ class ManageParentsSheet extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (_) => ManageParentsSheet(studentId: studentId, studentName: studentName),
+      builder: (_) =>
+          ManageParentsSheet(studentId: studentId, studentName: studentName),
     );
   }
 
@@ -33,7 +38,12 @@ class ManageParentsSheet extends StatelessWidget {
     final repo = AuthRepository.instance;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, MediaQuery.of(context).viewInsets.bottom + 24),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        20,
+        20,
+        MediaQuery.of(context).viewInsets.bottom + 24,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,13 +52,21 @@ class ManageParentsSheet extends StatelessWidget {
             child: Container(
               width: 40,
               height: 4,
-              decoration: BoxDecoration(color: AppColors.divider, borderRadius: BorderRadius.circular(2)),
+              decoration: BoxDecoration(
+                color: AppColors.divider,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
           const SizedBox(height: 20),
           Text('Linked Parents', style: AppTextStyles.headingMedium),
           const SizedBox(height: 4),
-          Text(studentName, style: AppTextStyles.labelMedium.copyWith(color: AppColors.textSecondary)),
+          Text(
+            studentName,
+            style: AppTextStyles.labelMedium.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
           const SizedBox(height: 20),
 
           // ── Currently linked ───────────────────────────────
@@ -56,17 +74,24 @@ class ManageParentsSheet extends StatelessWidget {
             stream: repo.watchParentsForStudent(studentId),
             builder: (context, snap) {
               final parents = snap.data ?? [];
-              if (snap.connectionState == ConnectionState.waiting && !snap.hasData) {
+              if (snap.connectionState == ConnectionState.waiting &&
+                  !snap.hasData) {
                 return const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                  child: Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
                 );
               }
               if (parents.isEmpty) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text('No parents linked yet.',
-                      style: AppTextStyles.labelSmall.copyWith(color: AppColors.textHint)),
+                  child: Text(
+                    'No parents linked yet.',
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: AppColors.textHint,
+                    ),
+                  ),
                 );
               }
               return Column(
@@ -83,21 +108,35 @@ class ManageParentsSheet extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 18,
-                          backgroundColor: AppColors.accent.withOpacity(0.12),
-                          child: const Icon(Icons.family_restroom_rounded, color: AppColors.accent, size: 18),
+                          backgroundColor: AppColors.accent.withValues(alpha: 0.12),
+                          child: const Icon(
+                            Icons.family_restroom_rounded,
+                            color: AppColors.accent,
+                            size: 18,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(p['name'] as String, style: AppTextStyles.bodyMediumBold),
-                              Text(p['email'] as String, style: AppTextStyles.labelTiny),
+                              Text(
+                                p['name'] as String,
+                                style: AppTextStyles.bodyMediumBold,
+                              ),
+                              Text(
+                                p['email'] as String,
+                                style: AppTextStyles.labelTiny,
+                              ),
                             ],
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.link_off_rounded, color: AppColors.danger, size: 20),
+                          icon: const Icon(
+                            Icons.link_off_rounded,
+                            color: AppColors.danger,
+                            size: 20,
+                          ),
                           tooltip: 'Unlink',
                           onPressed: () => repo.unlinkParentFromStudent(
                             parentId: p['parentId'] as String,
@@ -115,7 +154,12 @@ class ManageParentsSheet extends StatelessWidget {
           const SizedBox(height: 8),
           Divider(color: AppColors.divider),
           const SizedBox(height: 12),
-          Text('Add a parent', style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary)),
+          Text(
+            'Add a parent',
+            style: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
           const SizedBox(height: 8),
 
           // ── Available parents to link ───────────────────────
@@ -124,8 +168,12 @@ class ManageParentsSheet extends StatelessWidget {
             builder: (context, snap) {
               final available = snap.data ?? [];
               if (available.isEmpty) {
-                return Text('No unlinked approved parents available.',
-                    style: AppTextStyles.labelSmall.copyWith(color: AppColors.textHint));
+                return Text(
+                  'No unlinked approved parents available.',
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: AppColors.textHint,
+                  ),
+                );
               }
               return Column(
                 children: available.map((p) {
@@ -134,10 +182,20 @@ class ManageParentsSheet extends StatelessWidget {
                     leading: CircleAvatar(
                       radius: 18,
                       backgroundColor: AppColors.divider,
-                      child: const Icon(Icons.person_outline_rounded, color: AppColors.textSecondary, size: 18),
+                      child: const Icon(
+                        Icons.person_outline_rounded,
+                        color: AppColors.textSecondary,
+                        size: 18,
+                      ),
                     ),
-                    title: Text(p['name'] as String, style: AppTextStyles.bodyMediumBold),
-                    subtitle: Text(p['email'] as String, style: AppTextStyles.labelTiny),
+                    title: Text(
+                      p['name'] as String,
+                      style: AppTextStyles.bodyMediumBold,
+                    ),
+                    subtitle: Text(
+                      p['email'] as String,
+                      style: AppTextStyles.labelTiny,
+                    ),
                     trailing: TextButton(
                       onPressed: () => repo.linkParentToStudent(
                         parentId: p['parentId'] as String,

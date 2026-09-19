@@ -26,8 +26,10 @@ class TeacherClassesScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('My Classes',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'My Classes',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: uid == null
           ? const Center(child: CircularProgressIndicator())
@@ -58,14 +60,18 @@ class TeacherClassesScreen extends ConsumerWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.class_outlined,
-                                    size: 64, color: AppColors.textHint),
+                                const Icon(
+                                  Icons.class_outlined,
+                                  size: 64,
+                                  color: AppColors.textHint,
+                                ),
                                 const SizedBox(height: 16),
                                 Text(
                                   'No classes assigned yet.\nAsk admin to assign you to a class.',
                                   textAlign: TextAlign.center,
-                                  style: AppTextStyles.bodyMedium
-                                      .copyWith(color: AppColors.textSecondary),
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    color: AppColors.textSecondary,
+                                  ),
                                 ),
                               ],
                             ),
@@ -81,19 +87,19 @@ class TeacherClassesScreen extends ConsumerWidget {
                     ref.invalidate(apiClassesProvider);
                   },
                   child: ListView.separated(
-                  padding: const EdgeInsets.all(20),
-                  itemCount: assignedClasses.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    return _ClassTile(
-                      className: assignedClasses[index],
-                      teacherName: teacherName,
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+                    padding: const EdgeInsets.all(20),
+                    itemCount: assignedClasses.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      return _ClassTile(
+                        className: assignedClasses[index],
+                        teacherName: teacherName,
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
     );
   }
 }
@@ -148,17 +154,24 @@ class _ClassTile extends StatelessWidget {
                           color: AppColors.teacherColor.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.class_rounded,
-                            color: AppColors.teacherColor, size: 22),
+                        child: const Icon(
+                          Icons.class_rounded,
+                          color: AppColors.teacherColor,
+                          size: 22,
+                        ),
                       ),
                       const SizedBox(width: 14),
                       Expanded(
-                        child: Text(className,
-                            style: AppTextStyles.bodyMediumBold),
+                        child: Text(
+                          className,
+                          style: AppTextStyles.bodyMediumBold,
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.teacherColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(20),
@@ -190,7 +203,9 @@ class _ClassTile extends StatelessWidget {
                   _InfoRow(
                     icon: Icons.person_rounded,
                     label: 'Class Teacher',
-                    value: classTeacher.isNotEmpty ? classTeacher : 'Unassigned',
+                    value: classTeacher.isNotEmpty
+                        ? classTeacher
+                        : 'Unassigned',
                   ),
                 ],
               ),
@@ -221,15 +236,21 @@ class _InfoRow extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: AppColors.textSecondary),
           const SizedBox(width: 8),
-          Text('$label: ',
-              style: AppTextStyles.labelSmall
-                  .copyWith(color: AppColors.textSecondary)),
+          Text(
+            '$label: ',
+            style: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
           Expanded(
-            child: Text(value,
-                style: AppTextStyles.labelSmall
-                    .copyWith(fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary),
-                overflow: TextOverflow.ellipsis),
+            child: Text(
+              value,
+              style: AppTextStyles.labelSmall.copyWith(
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),

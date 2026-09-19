@@ -29,8 +29,10 @@ class ParentAssignmentsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text("Children's Assignments",
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          "Children's Assignments",
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: uid == null
           ? const Center(child: CircularProgressIndicator())
@@ -112,16 +114,25 @@ class _MultiChildAssignmentsBodyState
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.family_restroom_rounded,
-                size: 64, color: AppColors.textHint),
+            const Icon(
+              Icons.family_restroom_rounded,
+              size: 64,
+              color: AppColors.textHint,
+            ),
             const SizedBox(height: 16),
-            Text('No children linked to your account.',
-                style: AppTextStyles.bodyMedium
-                    .copyWith(color: AppColors.textSecondary)),
+            Text(
+              'No children linked to your account.',
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text('Contact the school admin to link your child.',
-                style: AppTextStyles.labelSmall
-                    .copyWith(color: AppColors.textHint)),
+            Text(
+              'Contact the school admin to link your child.',
+              style: AppTextStyles.labelSmall.copyWith(
+                color: AppColors.textHint,
+              ),
+            ),
           ],
         ),
       );
@@ -140,8 +151,10 @@ class _MultiChildAssignmentsBodyState
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        Text('Select a child to view assignments',
-            style: AppTextStyles.sectionTitle),
+        Text(
+          'Select a child to view assignments',
+          style: AppTextStyles.sectionTitle,
+        ),
         const SizedBox(height: 12),
 
         // ── Child selector cards ──────────────────────────────
@@ -151,8 +164,7 @@ class _MultiChildAssignmentsBodyState
           final isSelected = _selectedIndex == i;
 
           return GestureDetector(
-            onTap: () => setState(
-                () => _selectedIndex = isSelected ? -1 : i),
+            onTap: () => setState(() => _selectedIndex = isSelected ? -1 : i),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               margin: const EdgeInsets.only(bottom: 12),
@@ -178,7 +190,7 @@ class _MultiChildAssignmentsBodyState
                     radius: 24,
                     backgroundColor: isSelected
                         ? Colors.white24
-                        : AppColors.accent.withOpacity(0.12),
+                        : AppColors.accent.withValues(alpha: 0.12),
                     child: Text(
                       (child['name'] as String).isNotEmpty
                           ? (child['name'] as String)[0].toUpperCase()
@@ -187,9 +199,7 @@ class _MultiChildAssignmentsBodyState
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w700,
                         fontSize: 18,
-                        color: isSelected
-                            ? Colors.white
-                            : AppColors.accent,
+                        color: isSelected ? Colors.white : AppColors.accent,
                       ),
                     ),
                   ),
@@ -222,9 +232,7 @@ class _MultiChildAssignmentsBodyState
                     isSelected
                         ? Icons.keyboard_arrow_up_rounded
                         : Icons.keyboard_arrow_down_rounded,
-                    color: isSelected
-                        ? Colors.white
-                        : AppColors.textSecondary,
+                    color: isSelected ? Colors.white : AppColors.textSecondary,
                   ),
                 ],
               ),
@@ -233,16 +241,12 @@ class _MultiChildAssignmentsBodyState
         }),
 
         // ── Assignments for selected child ────────────────────
-        if (_selectedIndex >= 0 &&
-            _selectedIndex < _children.length) ...[
+        if (_selectedIndex >= 0 && _selectedIndex < _children.length) ...[
           const SizedBox(height: 8),
           _AssignmentsForChild(
-            studentId:
-                _children[_selectedIndex]['studentId'] as String,
-            studentName:
-                _children[_selectedIndex]['name'] as String,
-            className:
-                _children[_selectedIndex]['class'] as String,
+            studentId: _children[_selectedIndex]['studentId'] as String,
+            studentName: _children[_selectedIndex]['name'] as String,
+            className: _children[_selectedIndex]['class'] as String,
           ),
         ],
       ],
@@ -274,13 +278,19 @@ class _AssignmentsForChild extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Icon(Icons.class_outlined,
-                size: 48, color: AppColors.textHint),
+            const Icon(
+              Icons.class_outlined,
+              size: 48,
+              color: AppColors.textHint,
+            ),
             const SizedBox(height: 12),
-            Text('$studentName has no class assigned yet.',
-                textAlign: TextAlign.center,
-                style: AppTextStyles.bodyMedium
-                    .copyWith(color: AppColors.textSecondary)),
+            Text(
+              '$studentName has no class assigned yet.',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
           ],
         ),
       );
@@ -294,8 +304,7 @@ class _AssignmentsForChild extends StatelessWidget {
           .where('className', isEqualTo: className.trim())
           .snapshots(),
       builder: (context, snap) {
-        if (snap.connectionState == ConnectionState.waiting &&
-            !snap.hasData) {
+        if (snap.connectionState == ConnectionState.waiting && !snap.hasData) {
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 32),
             child: Center(child: CircularProgressIndicator()),
@@ -309,9 +318,12 @@ class _AssignmentsForChild extends StatelessWidget {
               color: AppColors.cardBg,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Text('Could not load assignments.',
-                style: AppTextStyles.bodyMedium
-                    .copyWith(color: AppColors.textSecondary)),
+            child: Text(
+              'Could not load assignments.',
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
           );
         }
 
@@ -327,13 +339,19 @@ class _AssignmentsForChild extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const Icon(Icons.assignment_turned_in_outlined,
-                    size: 48, color: AppColors.textHint),
+                const Icon(
+                  Icons.assignment_turned_in_outlined,
+                  size: 48,
+                  color: AppColors.textHint,
+                ),
                 const SizedBox(height: 12),
-                Text('No assignments posted for $studentName yet.',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(color: AppColors.textSecondary)),
+                Text(
+                  'No assignments posted for $studentName yet.',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
           );
@@ -343,11 +361,9 @@ class _AssignmentsForChild extends StatelessWidget {
         final sorted = List.of(docs)
           ..sort((a, b) {
             final aTs =
-                (a.data() as Map<String, dynamic>)['dueDate']
-                    as Timestamp?;
+                (a.data() as Map<String, dynamic>)['dueDate'] as Timestamp?;
             final bTs =
-                (b.data() as Map<String, dynamic>)['dueDate']
-                    as Timestamp?;
+                (b.data() as Map<String, dynamic>)['dueDate'] as Timestamp?;
             if (aTs == null && bTs == null) return 0;
             if (aTs == null) return 1;
             if (bTs == null) return -1;
@@ -357,15 +373,15 @@ class _AssignmentsForChild extends StatelessWidget {
         // Split into upcoming and overdue
         final now = DateTime.now();
         final overdue = sorted.where((doc) {
-          final dueDate = ((doc.data() as Map<String, dynamic>)['dueDate']
-                  as Timestamp?)
-              ?.toDate();
+          final dueDate =
+              ((doc.data() as Map<String, dynamic>)['dueDate'] as Timestamp?)
+                  ?.toDate();
           return dueDate != null && dueDate.isBefore(now);
         }).toList();
         final upcoming = sorted.where((doc) {
-          final dueDate = ((doc.data() as Map<String, dynamic>)['dueDate']
-                  as Timestamp?)
-              ?.toDate();
+          final dueDate =
+              ((doc.data() as Map<String, dynamic>)['dueDate'] as Timestamp?)
+                  ?.toDate();
           return dueDate == null || !dueDate.isBefore(now);
         }).toList();
 
@@ -374,32 +390,36 @@ class _AssignmentsForChild extends StatelessWidget {
           children: [
             // Summary chip
             Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 14, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color: AppColors.accent.withOpacity(0.08),
+                color: AppColors.accent.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                    color: AppColors.accent.withOpacity(0.25)),
+                border: Border.all(color: AppColors.accent.withValues(alpha: 0.25)),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.assignment_rounded,
-                      color: AppColors.accent, size: 18),
+                  const Icon(
+                    Icons.assignment_rounded,
+                    color: AppColors.accent,
+                    size: 18,
+                  ),
                   const SizedBox(width: 10),
                   Text(
                     '${sorted.length} assignment${sorted.length == 1 ? '' : 's'}'
                     ' for $studentName',
-                    style: AppTextStyles.labelSmall
-                        .copyWith(color: AppColors.accent),
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: AppColors.accent,
+                    ),
                   ),
                   if (overdue.isNotEmpty) ...[
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
-                        color: AppColors.danger.withOpacity(0.15),
+                        color: AppColors.danger.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -418,26 +438,27 @@ class _AssignmentsForChild extends StatelessWidget {
 
             // Overdue section
             if (overdue.isNotEmpty) ...[
-              _SectionHeader(
-                  label: 'Overdue', color: AppColors.danger),
+              _SectionHeader(label: 'Overdue', color: AppColors.danger),
               const SizedBox(height: 8),
-              ...overdue.map((doc) => _AssignmentCard(
-                    data: doc.data() as Map<String, dynamic>,
-                    isOverdue: true,
-                  )),
+              ...overdue.map(
+                (doc) => _AssignmentCard(
+                  data: doc.data() as Map<String, dynamic>,
+                  isOverdue: true,
+                ),
+              ),
               const SizedBox(height: 16),
             ],
 
             // Upcoming section
             if (upcoming.isNotEmpty) ...[
-              _SectionHeader(
-                  label: 'Upcoming',
-                  color: AppColors.accent),
+              _SectionHeader(label: 'Upcoming', color: AppColors.accent),
               const SizedBox(height: 8),
-              ...upcoming.map((doc) => _AssignmentCard(
-                    data: doc.data() as Map<String, dynamic>,
-                    isOverdue: false,
-                  )),
+              ...upcoming.map(
+                (doc) => _AssignmentCard(
+                  data: doc.data() as Map<String, dynamic>,
+                  isOverdue: false,
+                ),
+              ),
             ],
             const SizedBox(height: 20),
           ],
@@ -461,11 +482,12 @@ class _SectionHeader extends StatelessWidget {
           width: 4,
           height: 16,
           decoration: BoxDecoration(
-              color: color, borderRadius: BorderRadius.circular(2)),
+            color: color,
+            borderRadius: BorderRadius.circular(2),
+          ),
         ),
         const SizedBox(width: 10),
-        Text(label,
-            style: AppTextStyles.sectionTitle.copyWith(color: color)),
+        Text(label, style: AppTextStyles.sectionTitle.copyWith(color: color)),
       ],
     );
   }
@@ -485,8 +507,7 @@ class _AssignmentCard extends StatelessWidget {
     final description = data['description'] as String? ?? '';
     final dueDate = (data['dueDate'] as Timestamp?)?.toDate();
 
-    final Color accentColor =
-        isOverdue ? AppColors.danger : AppColors.accent;
+    final Color accentColor = isOverdue ? AppColors.danger : AppColors.accent;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -496,7 +517,7 @@ class _AssignmentCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: AppColors.cardShadow,
         border: isOverdue
-            ? Border.all(color: AppColors.danger.withOpacity(0.4))
+            ? Border.all(color: AppColors.danger.withValues(alpha: 0.4))
             : null,
       ),
       child: Column(
@@ -507,9 +528,11 @@ class _AssignmentCard extends StatelessWidget {
               // Subject badge
               Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 10, vertical: 4),
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
-                  color: accentColor.withOpacity(0.1),
+                  color: accentColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -549,9 +572,12 @@ class _AssignmentCard extends StatelessWidget {
                   ],
                 )
               else
-                Text('No due date',
-                    style: AppTextStyles.labelTiny
-                        .copyWith(color: AppColors.textHint)),
+                Text(
+                  'No due date',
+                  style: AppTextStyles.labelTiny.copyWith(
+                    color: AppColors.textHint,
+                  ),
+                ),
             ],
           ),
           const SizedBox(height: 10),
@@ -608,13 +634,13 @@ class _DueBadge extends StatelessWidget {
     final color = isOverdue
         ? AppColors.danger
         : diff.inDays <= 2
-            ? AppColors.warning
-            : AppColors.success;
+        ? AppColors.warning
+        : AppColors.success;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -623,14 +649,15 @@ class _DueBadge extends StatelessWidget {
           Container(
             width: 6,
             height: 6,
-            decoration:
-                BoxDecoration(color: color, shape: BoxShape.circle),
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           ),
           const SizedBox(width: 6),
           Text(
             label,
-            style: AppTextStyles.labelTiny
-                .copyWith(color: color, fontWeight: FontWeight.w600),
+            style: AppTextStyles.labelTiny.copyWith(
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

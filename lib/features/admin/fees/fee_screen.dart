@@ -28,16 +28,20 @@ class _FeeScreenState extends State<FeeScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Fee Management',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Fee Management',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddFeeSheet(context),
         backgroundColor: AppColors.warning,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add_rounded),
-        label: const Text('Add Record',
-            style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w600)),
+        label: const Text(
+          'Add Record',
+          style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w600),
+        ),
       ),
       body: Column(
         children: [
@@ -57,16 +61,20 @@ class _FeeScreenState extends State<FeeScreen> {
                       duration: const Duration(milliseconds: 200),
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: isSel ? Colors.white : Colors.white24,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(s,
-                          style: AppTextStyles.labelSmall.copyWith(
-                            color: isSel ? AppColors.warning : Colors.white,
-                            fontWeight: isSel ? FontWeight.w700 : FontWeight.w400,
-                          )),
+                      child: Text(
+                        s,
+                        style: AppTextStyles.labelSmall.copyWith(
+                          color: isSel ? AppColors.warning : Colors.white,
+                          fontWeight: isSel ? FontWeight.w700 : FontWeight.w400,
+                        ),
+                      ),
                     ),
                   );
                 }).toList(),
@@ -94,26 +102,33 @@ class _FeeScreenState extends State<FeeScreen> {
 
                 if (docs.isEmpty) {
                   return Center(
-                    child: Text('No fee records.',
-                        style: AppTextStyles.bodyMedium
-                            .copyWith(color: AppColors.textSecondary)),
+                    child: Text(
+                      'No fee records.',
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                   );
                 }
 
                 return ListView.separated(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
                   itemCount: docs.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 10),
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
                   itemBuilder: (context, i) {
                     final data = docs[i].data() as Map<String, dynamic>;
                     final status = data['status'] as String? ?? 'Pending';
-                    final dueDate =
-                        (data['dueDate'] as Timestamp?)?.toDate();
+                    final dueDate = (data['dueDate'] as Timestamp?)?.toDate();
                     Color color;
                     switch (status) {
-                      case 'Paid':    color = AppColors.success; break;
-                      case 'Overdue': color = AppColors.danger;  break;
-                      default:        color = AppColors.warning;
+                      case 'Paid':
+                        color = AppColors.success;
+                        break;
+                      case 'Overdue':
+                        color = AppColors.danger;
+                        break;
+                      default:
+                        color = AppColors.warning;
                     }
 
                     return Container(
@@ -126,21 +141,26 @@ class _FeeScreenState extends State<FeeScreen> {
                       child: Row(
                         children: [
                           Container(
-                            width: 44, height: 44,
+                            width: 44,
+                            height: 44,
                             decoration: BoxDecoration(
-                              color: color.withOpacity(0.1),
+                              color: color.withValues(alpha: 0.1),
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(Icons.attach_money_rounded,
-                                color: color),
+                            child: Icon(
+                              Icons.attach_money_rounded,
+                              color: color,
+                            ),
                           ),
                           const SizedBox(width: 14),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(data['studentName'] ?? '',
-                                    style: AppTextStyles.bodyMediumBold),
+                                Text(
+                                  data['studentName'] ?? '',
+                                  style: AppTextStyles.bodyMediumBold,
+                                ),
                                 Text(
                                   '${data['feeType'] ?? ''} · Rs ${data['amount'] ?? ''}',
                                   style: AppTextStyles.labelSmall,
@@ -149,7 +169,8 @@ class _FeeScreenState extends State<FeeScreen> {
                                   Text(
                                     'Due ${DateFormat('MMM d, yyyy').format(dueDate)}',
                                     style: AppTextStyles.labelTiny.copyWith(
-                                        color: AppColors.textSecondary),
+                                      color: AppColors.textSecondary,
+                                    ),
                                   ),
                               ],
                             ),
@@ -159,29 +180,37 @@ class _FeeScreenState extends State<FeeScreen> {
                             children: [
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 3),
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: color.withOpacity(0.1),
+                                  color: color.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Text(status,
-                                    style: AppTextStyles.labelTiny.copyWith(
-                                        color: color,
-                                        fontWeight: FontWeight.w700)),
+                                child: Text(
+                                  status,
+                                  style: AppTextStyles.labelTiny.copyWith(
+                                    color: color,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ),
                               if (status == 'Pending')
                                 TextButton(
                                   style: TextButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      minimumSize: const Size(0, 28)),
-                                  onPressed: () =>
-                                      FirebaseFirestore.instance
-                                          .collection('fees')
-                                          .doc(docs[i].id)
-                                          .update({'status': 'Paid'}),
-                                  child: Text('Mark paid',
-                                      style: AppTextStyles.labelTiny
-                                          .copyWith(color: AppColors.success)),
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: const Size(0, 28),
+                                  ),
+                                  onPressed: () => FirebaseFirestore.instance
+                                      .collection('fees')
+                                      .doc(docs[i].id)
+                                      .update({'status': 'Paid'}),
+                                  child: Text(
+                                    'Mark paid',
+                                    style: AppTextStyles.labelTiny.copyWith(
+                                      color: AppColors.success,
+                                    ),
+                                  ),
                                 ),
                             ],
                           ),
@@ -211,11 +240,14 @@ class _FeeScreenState extends State<FeeScreen> {
       isScrollControlled: true,
       backgroundColor: AppColors.cardBg,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (sheetCtx) => StatefulBuilder(
         builder: (sheetCtx, setSS) => Padding(
           padding: EdgeInsets.only(
-            left: 20, right: 20, top: 20,
+            left: 20,
+            right: 20,
+            top: 20,
             bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
           ),
           child: Form(
@@ -224,33 +256,48 @@ class _FeeScreenState extends State<FeeScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Container(
-                  width: 40, height: 4,
-                  decoration: BoxDecoration(
-                    color: AppColors.divider,
-                    borderRadius: BorderRadius.circular(2),
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: AppColors.divider,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
                   ),
-                )),
+                ),
                 const SizedBox(height: 20),
                 Text('Add Fee Record', style: AppTextStyles.headingMedium),
                 const SizedBox(height: 16),
-                CustomTextField(label: 'Student Name', controller: nameCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null),
+                CustomTextField(
+                  label: 'Student Name',
+                  controller: nameCtrl,
+                  validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                ),
                 const SizedBox(height: 12),
-                Row(children: [
-                  Expanded(child: CustomTextField(
-                    label: 'Fee Type', hint: 'Tuition / Transport',
-                    controller: typeCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
-                  )),
-                  const SizedBox(width: 14),
-                  Expanded(child: CustomTextField(
-                    label: 'Amount (Rs)',
-                    controller: amountCtrl,
-                    keyboardType: TextInputType.number,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
-                  )),
-                ]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Fee Type',
+                        hint: 'Tuition / Transport',
+                        controller: typeCtrl,
+                        validator: (v) =>
+                            v == null || v.isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Amount (Rs)',
+                        controller: amountCtrl,
+                        keyboardType: TextInputType.number,
+                        validator: (v) =>
+                            v == null || v.isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
                 InkWell(
                   onTap: () async {
@@ -264,27 +311,34 @@ class _FeeScreenState extends State<FeeScreen> {
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
+                      horizontal: 16,
+                      vertical: 16,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.background,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: AppColors.divider),
                     ),
-                    child: Row(children: [
-                      const Icon(Icons.calendar_today_rounded,
-                          color: AppColors.textHint, size: 18),
-                      const SizedBox(width: 10),
-                      Text(
-                        dueDate != null
-                            ? DateFormat('MMM d, yyyy').format(dueDate!)
-                            : 'Select due date',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: dueDate != null
-                              ? AppColors.textPrimary
-                              : AppColors.textHint,
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_today_rounded,
+                          color: AppColors.textHint,
+                          size: 18,
                         ),
-                      ),
-                    ]),
+                        const SizedBox(width: 10),
+                        Text(
+                          dueDate != null
+                              ? DateFormat('MMM d, yyyy').format(dueDate!)
+                              : 'Select due date',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: dueDate != null
+                                ? AppColors.textPrimary
+                                : AppColors.textHint,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

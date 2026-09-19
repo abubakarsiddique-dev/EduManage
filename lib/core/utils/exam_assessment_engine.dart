@@ -1,13 +1,7 @@
 import 'dart:math' as math;
 
 /// Types of mathematical curving strategies applicable to cohort scores.
-enum CurvingStrategy {
-  none,
-  anchorToMax,
-  linearBoost,
-  squareRoot,
-  bellCurve,
-}
+enum CurvingStrategy { none, anchorToMax, linearBoost, squareRoot, bellCurve }
 
 /// Evaluation honors and academic status classifications.
 enum AcademicStanding {
@@ -47,9 +41,8 @@ class AssessmentScore {
   double get percentage => maxScore > 0 ? (rawScore / maxScore) * 100.0 : 0.0;
 
   /// Effective percentage using curved score if available, otherwise raw percentage.
-  double get effectivePercentage => maxScore > 0
-      ? ((curvedScore ?? rawScore) / maxScore) * 100.0
-      : 0.0;
+  double get effectivePercentage =>
+      maxScore > 0 ? ((curvedScore ?? rawScore) / maxScore) * 100.0 : 0.0;
 
   AssessmentScore copyWith({
     double? curvedScore,
@@ -202,8 +195,9 @@ class ExamAssessmentEngine {
     final iqr = q3 - q1;
 
     // Passing Metrics
-    final passingCount =
-        sorted.where((score) => score >= passingScoreThreshold).length;
+    final passingCount = sorted
+        .where((score) => score >= passingScoreThreshold)
+        .length;
     final passingRate = (passingCount / count) * 100.0;
 
     return CohortStatistics(
@@ -268,7 +262,11 @@ class ExamAssessmentEngine {
     switch (strategy) {
       case CurvingStrategy.none:
         return entries.map((entry) {
-          final z = calculateZScore(entry.percentage, stats.mean, stats.standardDeviation);
+          final z = calculateZScore(
+            entry.percentage,
+            stats.mean,
+            stats.standardDeviation,
+          );
           final t = calculateTScore(z);
           final pct = calculatePercentileRank(entry.percentage, rawScores);
           final grade = percentageToLetterGrade(entry.percentage);
@@ -283,12 +281,21 @@ class ExamAssessmentEngine {
 
       case CurvingStrategy.anchorToMax:
         final topPercentage = stats.max > 0 ? stats.max : 100.0;
-        final multiplier = topPercentage > 0 ? (targetMax / topPercentage) : 1.0;
+        final multiplier = topPercentage > 0
+            ? (targetMax / topPercentage)
+            : 1.0;
 
         return entries.map((entry) {
-          final curvedPct = (entry.percentage * multiplier).clamp(0.0, targetMax);
+          final curvedPct = (entry.percentage * multiplier).clamp(
+            0.0,
+            targetMax,
+          );
           final curvedRaw = (curvedPct / 100.0) * entry.maxScore;
-          final z = calculateZScore(curvedPct, stats.mean * multiplier, stats.standardDeviation * multiplier);
+          final z = calculateZScore(
+            curvedPct,
+            stats.mean * multiplier,
+            stats.standardDeviation * multiplier,
+          );
           final t = calculateTScore(z);
           final pct = calculatePercentileRank(entry.percentage, rawScores);
           return entry.copyWith(
@@ -302,9 +309,16 @@ class ExamAssessmentEngine {
 
       case CurvingStrategy.linearBoost:
         return entries.map((entry) {
-          final boostedPct = (entry.percentage + linearBoostAmount).clamp(0.0, 100.0);
+          final boostedPct = (entry.percentage + linearBoostAmount).clamp(
+            0.0,
+            100.0,
+          );
           final curvedRaw = (boostedPct / 100.0) * entry.maxScore;
-          final z = calculateZScore(entry.percentage, stats.mean, stats.standardDeviation);
+          final z = calculateZScore(
+            entry.percentage,
+            stats.mean,
+            stats.standardDeviation,
+          );
           final t = calculateTScore(z);
           final pct = calculatePercentileRank(entry.percentage, rawScores);
           return entry.copyWith(
@@ -319,9 +333,17 @@ class ExamAssessmentEngine {
       case CurvingStrategy.squareRoot:
         // Square Root curve formula: 10 * sqrt(rawPercentage)
         return entries.map((entry) {
-          final curvedPct = (10.0 * math.sqrt(entry.percentage.clamp(0.0, 100.0))).clamp(0.0, 100.0);
+          final curvedPct =
+              (10.0 * math.sqrt(entry.percentage.clamp(0.0, 100.0))).clamp(
+                0.0,
+                100.0,
+              );
           final curvedRaw = (curvedPct / 100.0) * entry.maxScore;
-          final z = calculateZScore(entry.percentage, stats.mean, stats.standardDeviation);
+          final z = calculateZScore(
+            entry.percentage,
+            stats.mean,
+            stats.standardDeviation,
+          );
           final t = calculateTScore(z);
           final pct = calculatePercentileRank(entry.percentage, rawScores);
           return entry.copyWith(
@@ -336,7 +358,11 @@ class ExamAssessmentEngine {
       case CurvingStrategy.bellCurve:
         // Gaussian distribution grading
         return entries.map((entry) {
-          final z = calculateZScore(entry.percentage, stats.mean, stats.standardDeviation);
+          final z = calculateZScore(
+            entry.percentage,
+            stats.mean,
+            stats.standardDeviation,
+          );
           final t = calculateTScore(z);
           final pct = calculatePercentileRank(entry.percentage, rawScores);
           String bellGrade;

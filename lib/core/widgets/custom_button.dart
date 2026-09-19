@@ -52,7 +52,7 @@ class CustomButton extends StatelessWidget {
                     color: AppColors.primary.withValues(alpha: 0.28),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
-                  )
+                  ),
                 ]
               : [],
         ),
@@ -70,7 +70,11 @@ class CustomButton extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (icon != null) ...[
-                      Icon(icon, color: textColor ?? AppColors.onPrimary, size: iconSize),
+                      Icon(
+                        icon,
+                        color: textColor ?? AppColors.onPrimary,
+                        size: iconSize,
+                      ),
                       SizedBox(width: 2.w.clamp(6.0, 10.0)),
                     ],
                     Text(
@@ -128,7 +132,11 @@ class CustomOutlineButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null) ...[
-                Icon(icon, color: textColor ?? AppColors.primary, size: iconSize),
+                Icon(
+                  icon,
+                  color: textColor ?? AppColors.primary,
+                  size: iconSize,
+                ),
                 SizedBox(width: 2.w.clamp(6.0, 10.0)),
               ],
               Text(

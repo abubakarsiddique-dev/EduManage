@@ -18,8 +18,7 @@ class ClassAttendanceScreen extends ConsumerStatefulWidget {
       _ClassAttendanceScreenState();
 }
 
-class _ClassAttendanceScreenState
-    extends ConsumerState<ClassAttendanceScreen> {
+class _ClassAttendanceScreenState extends ConsumerState<ClassAttendanceScreen> {
   bool _submitting = false;
   bool _submitted = false;
 
@@ -62,8 +61,9 @@ class _ClassAttendanceScreenState
         return;
       }
 
-      final notifier =
-          ref.read(attendanceStatusesProvider(widget.className).notifier);
+      final notifier = ref.read(
+        attendanceStatusesProvider(widget.className).notifier,
+      );
       DateTime? latest;
       for (final doc in snap.docs) {
         final data = doc.data();
@@ -76,7 +76,8 @@ class _ClassAttendanceScreenState
         );
         notifier.setStatus(studentId, status);
 
-        final ts = (data['createdAt'] as Timestamp?)?.toDate() ??
+        final ts =
+            (data['createdAt'] as Timestamp?)?.toDate() ??
             (data['timestamp'] as Timestamp?)?.toDate();
         if (ts != null && (latest == null || ts.isAfter(latest))) {
           latest = ts;
@@ -112,8 +113,9 @@ class _ClassAttendanceScreenState
 
       for (final student in students) {
         final status = statuses[student.id] ?? AttendanceStatus.absent;
-        final docRef =
-            db.collection('attendance').doc('${student.id}_$dateKey');
+        final docRef = db
+            .collection('attendance')
+            .doc('${student.id}_$dateKey');
         batch.set(docRef, {
           'studentId': student.id,
           'studentName': student.name,
@@ -157,11 +159,13 @@ class _ClassAttendanceScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-              'Attendance for ${widget.className} on $_todayDisplay saved successfully!'),
+            'Attendance for ${widget.className} on $_todayDisplay saved successfully!',
+          ),
           backgroundColor: AppColors.teacherColor,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     } catch (e) {
@@ -178,41 +182,41 @@ class _ClassAttendanceScreenState
 
   @override
   Widget build(BuildContext context) {
-    final studentsAsync =
-        ref.watch(studentAttendanceStreamProvider(widget.className));
-    final attendanceStatuses =
-        ref.watch(attendanceStatusesProvider(widget.className));
-    final notifier =
-        ref.read(attendanceStatusesProvider(widget.className).notifier);
+    final studentsAsync = ref.watch(
+      studentAttendanceStreamProvider(widget.className),
+    );
+    final attendanceStatuses = ref.watch(
+      attendanceStatusesProvider(widget.className),
+    );
+    final notifier = ref.read(
+      attendanceStatusesProvider(widget.className).notifier,
+    );
 
     final totalCount = studentsAsync.when(
       data: (s) => s.length,
       loading: () => 0,
-      error: (_, __) => 0,
+      error: (_, _) => 0,
     );
     final presentCount = studentsAsync.when(
       data: (s) => s
-          .where((st) =>
-              attendanceStatuses[st.id] == AttendanceStatus.present)
+          .where((st) => attendanceStatuses[st.id] == AttendanceStatus.present)
           .length,
       loading: () => 0,
-      error: (_, __) => 0,
+      error: (_, _) => 0,
     );
     final absentCount = studentsAsync.when(
       data: (s) => s
-          .where(
-              (st) => attendanceStatuses[st.id] == AttendanceStatus.absent)
+          .where((st) => attendanceStatuses[st.id] == AttendanceStatus.absent)
           .length,
       loading: () => 0,
-      error: (_, __) => 0,
+      error: (_, _) => 0,
     );
     final lateCount = studentsAsync.when(
       data: (s) => s
-          .where(
-              (st) => attendanceStatuses[st.id] == AttendanceStatus.late)
+          .where((st) => attendanceStatuses[st.id] == AttendanceStatus.late)
           .length,
       loading: () => 0,
-      error: (_, __) => 0,
+      error: (_, _) => 0,
     );
 
     return Scaffold(
@@ -224,8 +228,10 @@ class _ClassAttendanceScreenState
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text(widget.className,
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          widget.className,
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: Column(
         children: [
@@ -235,22 +241,25 @@ class _ClassAttendanceScreenState
             color: AppColors.teacherColor,
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 14),
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.15),
+                color: Colors.white.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.calendar_today_rounded,
-                      color: Colors.white, size: 18),
+                  const Icon(
+                    Icons.calendar_today_rounded,
+                    color: Colors.white,
+                    size: 18,
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       'Marking attendance for: $_todayDisplay',
-                      style: AppTextStyles.bodyMediumBold
-                          .copyWith(color: Colors.white),
+                      style: AppTextStyles.bodyMediumBold.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -265,26 +274,29 @@ class _ClassAttendanceScreenState
               margin: const EdgeInsets.fromLTRB(20, 14, 20, 0),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.warning.withOpacity(0.1),
+                color: AppColors.warning.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
-                border:
-                    Border.all(color: AppColors.warning.withOpacity(0.4)),
+                border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.info_outline_rounded,
-                      color: AppColors.warning, size: 18),
+                  const Icon(
+                    Icons.info_outline_rounded,
+                    color: AppColors.warning,
+                    size: 18,
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       _lastMarkedAt != null
                           ? 'Already marked today at ${DateFormat('h:mm a').format(_lastMarkedAt!)}. '
-                              'Existing marks are pre-filled below — change anything and tap '
-                              '"Update Attendance" to correct it.'
+                                'Existing marks are pre-filled below — change anything and tap '
+                                '"Update Attendance" to correct it.'
                           : 'Already marked today. Existing marks are pre-filled below — '
-                              'change anything and tap "Update Attendance" to correct it.',
-                      style: AppTextStyles.labelSmall
-                          .copyWith(color: AppColors.warning),
+                                'change anything and tap "Update Attendance" to correct it.',
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: AppColors.warning,
+                      ),
                     ),
                   ),
                 ],
@@ -298,32 +310,35 @@ class _ClassAttendanceScreenState
             child: Row(
               children: [
                 _SummaryChip(
-                    label: 'Present',
-                    count: presentCount,
-                    color: Colors.greenAccent),
+                  label: 'Present',
+                  count: presentCount,
+                  color: Colors.greenAccent,
+                ),
                 const SizedBox(width: 8),
                 _SummaryChip(
-                    label: 'Absent',
-                    count: absentCount,
-                    color: Colors.redAccent),
+                  label: 'Absent',
+                  count: absentCount,
+                  color: Colors.redAccent,
+                ),
                 const SizedBox(width: 8),
                 _SummaryChip(
-                    label: 'Late',
-                    count: lateCount,
-                    color: Colors.orangeAccent),
+                  label: 'Late',
+                  count: lateCount,
+                  color: Colors.orangeAccent,
+                ),
                 const SizedBox(width: 8),
                 _SummaryChip(
-                    label: 'Total',
-                    count: totalCount,
-                    color: Colors.white),
+                  label: 'Total',
+                  count: totalCount,
+                  color: Colors.white,
+                ),
               ],
             ),
           ),
 
           // Mark All row
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             child: Row(
               children: [
                 Text('Mark All:', style: AppTextStyles.bodyMediumBold),
@@ -333,8 +348,9 @@ class _ClassAttendanceScreenState
                   color: Colors.green,
                   onTap: () => studentsAsync.whenData((students) {
                     notifier.markAll(
-                        students.map((s) => s.id).toList(),
-                        AttendanceStatus.present);
+                      students.map((s) => s.id).toList(),
+                      AttendanceStatus.present,
+                    );
                   }),
                 ),
                 const SizedBox(width: 8),
@@ -343,8 +359,9 @@ class _ClassAttendanceScreenState
                   color: Colors.red,
                   onTap: () => studentsAsync.whenData((students) {
                     notifier.markAll(
-                        students.map((s) => s.id).toList(),
-                        AttendanceStatus.absent);
+                      students.map((s) => s.id).toList(),
+                      AttendanceStatus.absent,
+                    );
                   }),
                 ),
               ],
@@ -364,15 +381,19 @@ class _ClassAttendanceScreenState
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.people_outline_rounded,
-                                    size: 64, color: AppColors.textHint),
+                                const Icon(
+                                  Icons.people_outline_rounded,
+                                  size: 64,
+                                  color: AppColors.textHint,
+                                ),
                                 const SizedBox(height: 16),
                                 Text(
                                   'No students enrolled in ${widget.className}.\n'
                                   'Add students with this class assigned to see them here.',
                                   textAlign: TextAlign.center,
                                   style: AppTextStyles.bodyMedium.copyWith(
-                                      color: AppColors.textSecondary),
+                                    color: AppColors.textSecondary,
+                                  ),
                                 ),
                               ],
                             ),
@@ -380,15 +401,12 @@ class _ClassAttendanceScreenState
                         );
                       }
                       return ListView.separated(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         itemCount: students.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 10),
+                        separatorBuilder: (_, _) => const SizedBox(height: 10),
                         itemBuilder: (_, index) {
                           final student = students[index];
-                          final currentStatus =
-                              attendanceStatuses[student.id];
+                          final currentStatus = attendanceStatuses[student.id];
                           return _StudentAttRow(
                             student: student,
                             currentStatus: currentStatus,
@@ -400,10 +418,13 @@ class _ClassAttendanceScreenState
                     },
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
-                    error: (_, __) => Center(
-                      child: Text('Unable to load students',
-                          style: AppTextStyles.bodyMedium
-                              .copyWith(color: AppColors.textSecondary)),
+                    error: (_, _) => Center(
+                      child: Text(
+                        'Unable to load students',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
                     ),
                   ),
           ),
@@ -414,15 +435,13 @@ class _ClassAttendanceScreenState
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: _submitting ||
-                        totalCount == 0 ||
-                        _loadingExisting
+                onPressed: _submitting || totalCount == 0 || _loadingExisting
                     ? null
                     : () async {
                         final statuses = ref.read(
-                            attendanceStatusesProvider(widget.className));
-                        final students =
-                            studentsAsync.asData?.value ?? [];
+                          attendanceStatusesProvider(widget.className),
+                        );
+                        final students = studentsAsync.asData?.value ?? [];
                         await _submitAttendance(students, statuses);
                       },
                 icon: _submitting
@@ -430,23 +449,32 @@ class _ClassAttendanceScreenState
                         width: 18,
                         height: 18,
                         child: CircularProgressIndicator(
-                            strokeWidth: 2, color: Colors.white))
-                    : Icon(_submitted || _alreadyMarkedToday
-                        ? Icons.check_circle_rounded
-                        : Icons.save_rounded),
-                label: Text(_submitting
-                    ? 'Submitting...'
-                    : _submitted
-                        ? 'Updated ✓'
-                        : _alreadyMarkedToday
-                            ? 'Update Attendance'
-                            : 'Submit Attendance'),
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Icon(
+                        _submitted || _alreadyMarkedToday
+                            ? Icons.check_circle_rounded
+                            : Icons.save_rounded,
+                      ),
+                label: Text(
+                  _submitting
+                      ? 'Submitting...'
+                      : _submitted
+                      ? 'Updated ✓'
+                      : _alreadyMarkedToday
+                      ? 'Update Attendance'
+                      : 'Submit Attendance',
+                ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      _submitted ? AppColors.success : AppColors.teacherColor,
+                  backgroundColor: _submitted
+                      ? AppColors.success
+                      : AppColors.teacherColor,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                   textStyle: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
@@ -467,8 +495,11 @@ class _SummaryChip extends StatelessWidget {
   final String label;
   final int count;
   final Color color;
-  const _SummaryChip(
-      {required this.label, required this.count, required this.color});
+  const _SummaryChip({
+    required this.label,
+    required this.count,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -476,25 +507,29 @@ class _SummaryChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           children: [
-            Text('$count',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: color,
-                )),
-            Text(label,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: color,
-                )),
+            Text(
+              '$count',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: color,
+              ),
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+                color: color,
+              ),
+            ),
           ],
         ),
       ),
@@ -507,26 +542,30 @@ class _MarkAllBtn extends StatelessWidget {
   final String label;
   final Color color;
   final VoidCallback onTap;
-  const _MarkAllBtn(
-      {required this.label, required this.color, required this.onTap});
+  const _MarkAllBtn({
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withOpacity(0.4)),
+          border: Border.all(color: color.withValues(alpha: 0.4)),
         ),
-        child: Text(label,
-            style: AppTextStyles.labelSmall.copyWith(
-              color: color,
-              fontWeight: FontWeight.w600,
-            )),
+        child: Text(
+          label,
+          style: AppTextStyles.labelSmall.copyWith(
+            color: color,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
@@ -537,10 +576,11 @@ class _StudentAttRow extends StatelessWidget {
   final StudentAttendance student;
   final AttendanceStatus? currentStatus;
   final ValueChanged<AttendanceStatus> onStatus;
-  const _StudentAttRow(
-      {required this.student,
-      required this.currentStatus,
-      required this.onStatus});
+  const _StudentAttRow({
+    required this.student,
+    required this.currentStatus,
+    required this.onStatus,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -555,7 +595,7 @@ class _StudentAttRow extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundColor: AppColors.teacherColor.withOpacity(0.12),
+            backgroundColor: AppColors.teacherColor.withValues(alpha: 0.12),
             child: Text(
               student.rollNo,
               style: AppTextStyles.labelSmall.copyWith(
@@ -622,10 +662,9 @@ class _StatusBtn extends StatelessWidget {
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          color: isSelected ? color : color.withOpacity(0.08),
+          color: isSelected ? color : color.withValues(alpha: 0.08),
           shape: BoxShape.circle,
-          border: Border.all(
-              color: color.withOpacity(isSelected ? 1 : 0.3)),
+          border: Border.all(color: color.withValues(alpha: isSelected ? 1 : 0.3)),
         ),
         alignment: Alignment.center,
         child: Text(

@@ -8,9 +8,10 @@ class TeacherRepository {
   final _fs = FirebaseService.instance;
 
   Stream<List<TeacherModel>> watchAll() {
-    return _fs.teachers.orderBy('name').snapshots().map(
-          (snap) => snap.docs.map(TeacherModel.fromDoc).toList(),
-        );
+    return _fs.teachers
+        .orderBy('name')
+        .snapshots()
+        .map((snap) => snap.docs.map(TeacherModel.fromDoc).toList());
   }
 
   Stream<int> watchTotalCount() {
@@ -43,7 +44,8 @@ class TeacherRepository {
   }) {
     return _fs.teachers.doc(uid).snapshots().asyncMap((snapshot) async {
       final data = snapshot.data();
-      final fromTeacher = (data?['classes'] as List<dynamic>?)
+      final fromTeacher =
+          (data?['classes'] as List<dynamic>?)
               ?.map((e) => e.toString().trim())
               .where((v) => v.isNotEmpty)
               .toSet()
@@ -59,12 +61,13 @@ class TeacherRepository {
       final classSnap = await _fs.classes
           .where('classTeacher', isEqualTo: teacherName)
           .get();
-      final fromClasses = classSnap.docs
-          .map((d) => (d.data()['name'] as String? ?? '').trim())
-          .where((v) => v.isNotEmpty)
-          .toSet()
-          .toList()
-        ..sort();
+      final fromClasses =
+          classSnap.docs
+              .map((d) => (d.data()['name'] as String? ?? '').trim())
+              .where((v) => v.isNotEmpty)
+              .toSet()
+              .toList()
+            ..sort();
       return fromClasses;
     });
   }

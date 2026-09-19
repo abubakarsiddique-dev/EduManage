@@ -30,16 +30,10 @@ class TeachersApiService {
           return TeacherModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<TeacherModel>>(
-          success: true,
-          data: teachers,
-        );
+        return ApiResponse<List<TeacherModel>>(success: true, data: teachers);
       }
 
-      return ApiResponse<List<TeacherModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<TeacherModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<TeacherModel>>.error(
         e.message,
@@ -62,7 +56,10 @@ class TeachersApiService {
           data: TeacherModel.fromMap(teacherId, response),
         );
       }
-      return ApiResponse<TeacherModel>.error('Teacher not found', statusCode: 404);
+      return ApiResponse<TeacherModel>.error(
+        'Teacher not found',
+        statusCode: 404,
+      );
     } on ApiException catch (e) {
       return ApiResponse<TeacherModel>.error(
         e.message,
@@ -91,7 +88,9 @@ class TeachersApiService {
         );
       }
 
-      return ApiResponse<TeacherModel>.error('Failed to update teacher approval status');
+      return ApiResponse<TeacherModel>.error(
+        'Failed to update teacher approval status',
+      );
     } on ApiException catch (e) {
       return ApiResponse<TeacherModel>.error(
         e.message,

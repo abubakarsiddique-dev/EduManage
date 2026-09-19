@@ -81,12 +81,14 @@ class NotificationService {
       // ── Store FCM token ───────────────────────────────────────────────────
       final token = await _messaging.getToken();
       if (token != null) await _saveTokenForCurrentUser(token);
-      FirebaseMessaging.instance.onTokenRefresh.listen(_saveTokenForCurrentUser);
+      FirebaseMessaging.instance.onTokenRefresh.listen(
+        _saveTokenForCurrentUser,
+      );
 
       // ── Foreground messages ───────────────────────────────────────────────
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         final title = message.notification?.title ?? 'Notification';
-        final body  = message.notification?.body  ?? '';
+        final body = message.notification?.body ?? '';
         onForegroundMessage?.call(title, body);
       });
 
@@ -115,15 +117,14 @@ class NotificationService {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
     try {
-      await _db.collection('users').doc(uid).set(
-        {
-          'fcmToken': token,
-          'fcmTokenUpdatedAt': FieldValue.serverTimestamp(),
-        },
-        SetOptions(merge: true),
-      );
+      await _db.collection('users').doc(uid).set({
+        'fcmToken': token,
+        'fcmTokenUpdatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
     } catch (e) {
-      if (kDebugMode) debugPrint('NotificationService: failed to save token: $e');
+      if (kDebugMode) {
+        debugPrint('NotificationService: failed to save token: $e');
+      }
     }
   }
 
@@ -133,7 +134,7 @@ class NotificationService {
     if (uid == null) return;
     try {
       await _db.collection('users').doc(uid).update({
-        'fcmToken':          FieldValue.delete(),
+        'fcmToken': FieldValue.delete(),
         'fcmTokenUpdatedAt': FieldValue.delete(),
       });
     } catch (_) {

@@ -22,7 +22,8 @@ class CourseGrade {
   });
 
   double get gradePoint => GpaCalculator.percentageToGradePoint(percentage);
-  String get letterGrade => overrideGrade ?? GpaCalculator.percentageToLetterGrade(percentage);
+  String get letterGrade =>
+      overrideGrade ?? GpaCalculator.percentageToLetterGrade(percentage);
   double get qualityPoints => gradePoint * creditHours;
 }
 
@@ -31,13 +32,11 @@ class SemesterSummary {
   final String semesterId;
   final List<CourseGrade> courses;
 
-  const SemesterSummary({
-    required this.semesterId,
-    required this.courses,
-  });
+  const SemesterSummary({required this.semesterId, required this.courses});
 
   double get totalCredits => courses.fold(0.0, (acc, c) => acc + c.creditHours);
-  double get totalQualityPoints => courses.fold(0.0, (acc, c) => acc + c.qualityPoints);
+  double get totalQualityPoints =>
+      courses.fold(0.0, (acc, c) => acc + c.qualityPoints);
   double get gpa => totalCredits <= 0 ? 0.0 : totalQualityPoints / totalCredits;
 }
 
@@ -106,7 +105,10 @@ class GpaCalculator {
     final totalCredits = courses.fold(0.0, (acc, c) => acc + c.creditHours);
     if (totalCredits <= 0) return 0.0;
 
-    final totalQualityPoints = courses.fold(0.0, (acc, c) => acc + c.qualityPoints);
+    final totalQualityPoints = courses.fold(
+      0.0,
+      (acc, c) => acc + c.qualityPoints,
+    );
     return double.parse((totalQualityPoints / totalCredits).toStringAsFixed(2));
   }
 
@@ -116,7 +118,10 @@ class GpaCalculator {
     final totalCredits = semesters.fold(0.0, (acc, s) => acc + s.totalCredits);
     if (totalCredits <= 0) return 0.0;
 
-    final totalQualityPoints = semesters.fold(0.0, (acc, s) => acc + s.totalQualityPoints);
+    final totalQualityPoints = semesters.fold(
+      0.0,
+      (acc, s) => acc + s.totalQualityPoints,
+    );
     return double.parse((totalQualityPoints / totalCredits).toStringAsFixed(2));
   }
 

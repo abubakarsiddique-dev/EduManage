@@ -183,7 +183,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       return ListView.separated(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
                         itemCount: snap.data!.docs.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 10),
+                        separatorBuilder: (_, _) => const SizedBox(height: 10),
                         itemBuilder: (context, i) {
                           final data =
                               snap.data!.docs[i].data() as Map<String, dynamic>;
@@ -493,7 +493,7 @@ class _StyledDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 14,
@@ -585,9 +585,9 @@ class _NoTeachersHint extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(12),
     decoration: BoxDecoration(
-      color: AppColors.warning.withOpacity(0.08),
+      color: AppColors.warning.withValues(alpha: 0.08),
       borderRadius: BorderRadius.circular(14),
-      border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+      border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
     ),
     child: Row(
       children: [
@@ -641,7 +641,7 @@ class _SlotCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(

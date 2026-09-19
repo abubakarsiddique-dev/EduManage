@@ -1,20 +1,10 @@
 import 'dart:math';
 
 /// Academic progression trend indication.
-enum ProgressionTrend {
-  improving,
-  declining,
-  stable,
-  insufficientData,
-}
+enum ProgressionTrend { improving, declining, stable, insufficientData }
 
 /// Academic risk severity level.
-enum AcademicRiskLevel {
-  low,
-  moderate,
-  high,
-  critical,
-}
+enum AcademicRiskLevel { low, moderate, high, critical }
 
 /// Evaluates attendance streak and overall consistency metrics.
 class AttendanceStreak {
@@ -161,7 +151,8 @@ class AcademicAnalytics {
     }
 
     // Standard deviation
-    final variance = scores.map((x) => pow(x - avg, 2)).reduce((a, b) => a + b) / n;
+    final variance =
+        scores.map((x) => pow(x - avg, 2)).reduce((a, b) => a + b) / n;
     final stdDev = sqrt(variance);
 
     // Linear regression slope (x = 0, 1, ..., n-1)
@@ -180,12 +171,15 @@ class AcademicAnalytics {
     }
 
     final denominator = (n * sumX2 - sumX * sumX);
-    final slope = denominator == 0 ? 0.0 : (n * sumXY - sumX * sumY) / denominator;
+    final slope = denominator == 0
+        ? 0.0
+        : (n * sumXY - sumX * sumY) / denominator;
 
     // Delta between latest half and earliest half
     final half = n ~/ 2;
     final firstHalfAvg = scores.sublist(0, half).reduce((a, b) => a + b) / half;
-    final secondHalfAvg = scores.sublist(n - half).reduce((a, b) => a + b) / half;
+    final secondHalfAvg =
+        scores.sublist(n - half).reduce((a, b) => a + b) / half;
     final changeDelta = secondHalfAvg - firstHalfAvg;
 
     ProgressionTrend trend;
@@ -218,11 +212,15 @@ class AcademicAnalytics {
     int score = 0;
 
     if (attendancePercentage < 70.0) {
-      factors.add('Severe attendance deficit (${attendancePercentage.toStringAsFixed(1)}%)');
+      factors.add(
+        'Severe attendance deficit (${attendancePercentage.toStringAsFixed(1)}%)',
+      );
       actions.add('Schedule mandatory parent-teacher attendance consultation');
       score += 3;
     } else if (attendancePercentage < 80.0) {
-      factors.add('Attendance warning (${attendancePercentage.toStringAsFixed(1)}%)');
+      factors.add(
+        'Attendance warning (${attendancePercentage.toStringAsFixed(1)}%)',
+      );
       actions.add('Send official attendance advisory notification');
       score += 1;
     }
@@ -238,7 +236,9 @@ class AcademicAnalytics {
     }
 
     if (unsubmittedAssignments >= 3) {
-      factors.add('Multiple missing assignments ($unsubmittedAssignments pending)');
+      factors.add(
+        'Multiple missing assignments ($unsubmittedAssignments pending)',
+      );
       actions.add('Issue deadline extension advisory and homework support');
       score += 2;
     }
@@ -261,7 +261,9 @@ class AcademicAnalytics {
     }
 
     if (actions.isEmpty) {
-      actions.add('Student in good academic standing; continue routine monitoring');
+      actions.add(
+        'Student in good academic standing; continue routine monitoring',
+      );
     }
 
     return AcademicRiskReport(
@@ -286,7 +288,8 @@ class AcademicAnalytics {
       }
     }
 
-    final percentile = ((belowCount + (0.5 * equalCount)) / classScores.length) * 100.0;
+    final percentile =
+        ((belowCount + (0.5 * equalCount)) / classScores.length) * 100.0;
     return double.parse(percentile.toStringAsFixed(1));
   }
 

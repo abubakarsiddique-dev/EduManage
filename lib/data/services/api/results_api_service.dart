@@ -17,7 +17,9 @@ class ResultsApiService {
     try {
       final query = <String, dynamic>{};
       if (className != null && className.isNotEmpty) query['class'] = className;
-      if (studentId != null && studentId.isNotEmpty) query['studentId'] = studentId;
+      if (studentId != null && studentId.isNotEmpty) {
+        query['studentId'] = studentId;
+      }
       if (subject != null && subject.isNotEmpty) query['subject'] = subject;
 
       final response = await _client.get(
@@ -32,16 +34,10 @@ class ResultsApiService {
           return ResultModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<ResultModel>>(
-          success: true,
-          data: list,
-        );
+        return ApiResponse<List<ResultModel>>(success: true, data: list);
       }
 
-      return ApiResponse<List<ResultModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<ResultModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<ResultModel>>.error(
         e.message,
@@ -71,10 +67,7 @@ class ResultsApiService {
         'totalMarks': result.totalMarks,
       };
 
-      final response = await _client.post(
-        ApiEndpoints.results,
-        body: payload,
-      );
+      final response = await _client.post(ApiEndpoints.results, body: payload);
 
       if (response is Map<String, dynamic>) {
         final id = (response['id'] ?? response['_id'] ?? result.id).toString();

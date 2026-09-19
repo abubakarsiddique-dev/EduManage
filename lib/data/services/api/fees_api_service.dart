@@ -16,7 +16,9 @@ class FeesApiService {
   }) async {
     try {
       final query = <String, dynamic>{};
-      if (studentId != null && studentId.isNotEmpty) query['studentId'] = studentId;
+      if (studentId != null && studentId.isNotEmpty) {
+        query['studentId'] = studentId;
+      }
       if (className != null && className.isNotEmpty) query['class'] = className;
       if (status != null && status.isNotEmpty) query['status'] = status;
 
@@ -32,16 +34,10 @@ class FeesApiService {
           return FeeModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<FeeModel>>(
-          success: true,
-          data: list,
-        );
+        return ApiResponse<List<FeeModel>>(success: true, data: list);
       }
 
-      return ApiResponse<List<FeeModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<FeeModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<FeeModel>>.error(
         e.message,
@@ -58,12 +54,11 @@ class FeesApiService {
     try {
       final response = await _client.get(ApiEndpoints.feeStatistics);
       if (response is Map<String, dynamic>) {
-        return ApiResponse<Map<String, dynamic>>(
-          success: true,
-          data: response,
-        );
+        return ApiResponse<Map<String, dynamic>>(success: true, data: response);
       }
-      return ApiResponse<Map<String, dynamic>>.error('Invalid statistics format');
+      return ApiResponse<Map<String, dynamic>>.error(
+        'Invalid statistics format',
+      );
     } on ApiException catch (e) {
       return ApiResponse<Map<String, dynamic>>.error(
         e.message,
@@ -89,10 +84,7 @@ class FeesApiService {
         if (fee.year != null) 'year': fee.year,
       };
 
-      final response = await _client.post(
-        ApiEndpoints.fees,
-        body: payload,
-      );
+      final response = await _client.post(ApiEndpoints.fees, body: payload);
 
       if (response is Map<String, dynamic>) {
         final id = (response['id'] ?? response['_id'] ?? fee.id).toString();
@@ -163,9 +155,7 @@ class FeesApiService {
     String? remarks,
   }) async {
     try {
-      final body = <String, dynamic>{
-        'status': approved ? 'paid' : 'rejected',
-      };
+      final body = <String, dynamic>{'status': approved ? 'paid' : 'rejected'};
       if (remarks != null) body['remarks'] = remarks;
 
       final response = await _client.put(

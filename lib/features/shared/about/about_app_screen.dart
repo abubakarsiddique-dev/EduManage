@@ -6,7 +6,6 @@ import 'package:school_management_system/core/theme/app_colors.dart';
 import 'package:school_management_system/core/theme/app_text_style.dart';
 import 'package:school_management_system/features/auth/providers/auth_provider.dart';
 
-
 class AboutAppScreen extends ConsumerWidget {
   const AboutAppScreen({super.key});
 
@@ -14,18 +13,36 @@ class AboutAppScreen extends ConsumerWidget {
   static const _buildNumber = '1';
 
   static const _features = [
-    ('Multi-Role Access', Icons.groups_rounded,
-        'Dedicated experiences for admins, teachers, students and parents.'),
-    ('Attendance Tracking', Icons.how_to_reg_rounded,
-        'Mark and review attendance with daily, monthly and overall views.'),
-    ('Grades & Results', Icons.bar_chart_rounded,
-        'Record exam results and track performance over time.'),
-    ('Timetable Management', Icons.schedule_rounded,
-        'Class-wise schedules visible to teachers, students and parents.'),
-    ('Fee Management', Icons.account_balance_wallet_rounded,
-        'Track payments, dues and collection summaries.'),
-    ('Notices & Announcements', Icons.campaign_rounded,
-        'School-wide updates delivered straight to every account.'),
+    (
+      'Multi-Role Access',
+      Icons.groups_rounded,
+      'Dedicated experiences for admins, teachers, students and parents.',
+    ),
+    (
+      'Attendance Tracking',
+      Icons.how_to_reg_rounded,
+      'Mark and review attendance with daily, monthly and overall views.',
+    ),
+    (
+      'Grades & Results',
+      Icons.bar_chart_rounded,
+      'Record exam results and track performance over time.',
+    ),
+    (
+      'Timetable Management',
+      Icons.schedule_rounded,
+      'Class-wise schedules visible to teachers, students and parents.',
+    ),
+    (
+      'Fee Management',
+      Icons.account_balance_wallet_rounded,
+      'Track payments, dues and collection summaries.',
+    ),
+    (
+      'Notices & Announcements',
+      Icons.campaign_rounded,
+      'School-wide updates delivered straight to every account.',
+    ),
   ];
 
   Color _roleColor(WidgetRef ref) {
@@ -51,7 +68,10 @@ class AboutAppScreen extends ConsumerWidget {
             elevation: 0,
             backgroundColor: roleColor,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
+              icon: const Icon(
+                Icons.arrow_back_ios_rounded,
+                color: Colors.white,
+              ),
               onPressed: () => context.pop(),
             ),
             flexibleSpace: FlexibleSpaceBar(
@@ -75,11 +95,15 @@ class AboutAppScreen extends ConsumerWidget {
                             color: Colors.white.withValues(alpha: 0.18),
                             borderRadius: BorderRadius.circular(22),
                             border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.35),
-                                width: 1.5),
+                              color: Colors.white.withValues(alpha: 0.35),
+                              width: 1.5,
+                            ),
                           ),
-                          child: const Icon(Icons.school_rounded,
-                              color: Colors.white, size: 40),
+                          child: const Icon(
+                            Icons.school_rounded,
+                            color: Colors.white,
+                            size: 40,
+                          ),
                         ),
                         const SizedBox(height: 14),
                         Text(
@@ -126,7 +150,10 @@ class AboutAppScreen extends ConsumerWidget {
                       ),
                       Container(width: 1, height: 32, color: AppColors.divider),
                       Expanded(
-                        child: _VersionStat(label: 'Build', value: _buildNumber),
+                        child: _VersionStat(
+                          label: 'Build',
+                          value: _buildNumber,
+                        ),
                       ),
                     ],
                   ),
@@ -136,12 +163,14 @@ class AboutAppScreen extends ConsumerWidget {
                 Text('What you can do', style: AppTextStyles.sectionTitle),
                 const SizedBox(height: 12),
 
-                ..._features.map((f) => _FeatureRow(
-                      title: f.$1,
-                      icon: f.$2,
-                      description: f.$3,
-                      color: roleColor,
-                    )),
+                ..._features.map(
+                  (f) => _FeatureRow(
+                    title: f.$1,
+                    icon: f.$2,
+                    description: f.$3,
+                    color: roleColor,
+                  ),
+                ),
 
                 const SizedBox(height: 24),
                 Text('Legal', style: AppTextStyles.sectionTitle),
@@ -174,21 +203,26 @@ class AboutAppScreen extends ConsumerWidget {
                 Center(
                   child: Column(
                     children: [
-                      Icon(Icons.favorite_rounded,
-                          color: roleColor.withValues(alpha: 0.6), size: 20),
+                      Icon(
+                        Icons.favorite_rounded,
+                        color: roleColor.withValues(alpha: 0.6),
+                        size: 20,
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         'Built for schools, by educators and engineers.',
                         textAlign: TextAlign.center,
-                        style: AppTextStyles.labelSmall
-                            .copyWith(color: AppColors.textHint),
+                        style: AppTextStyles.labelSmall.copyWith(
+                          color: AppColors.textHint,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '© ${DateTime.now().year} ${AppStrings.appName}. All rights reserved.',
                         textAlign: TextAlign.center,
-                        style: AppTextStyles.labelTiny
-                            .copyWith(color: AppColors.textHint),
+                        style: AppTextStyles.labelTiny.copyWith(
+                          color: AppColors.textHint,
+                        ),
                       ),
                     ],
                   ),
@@ -201,7 +235,6 @@ class AboutAppScreen extends ConsumerWidget {
       ),
     );
   }
-
 }
 
 // ── Version stat ──────────────────────────────────────────────────────────────
@@ -252,8 +285,10 @@ class _FeatureRow extends StatelessWidget {
           Container(
             width: 38,
             height: 38,
-            decoration:
-                BoxDecoration(color: color.withValues(alpha: 0.12), shape: BoxShape.circle),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
             child: Icon(icon, color: color, size: 18),
           ),
           const SizedBox(width: 14),
@@ -263,9 +298,13 @@ class _FeatureRow extends StatelessWidget {
               children: [
                 Text(title, style: AppTextStyles.bodyMediumBold),
                 const SizedBox(height: 3),
-                Text(description,
-                    style: AppTextStyles.labelSmall
-                        .copyWith(color: AppColors.textSecondary, height: 1.4)),
+                Text(
+                  description,
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: AppColors.textSecondary,
+                    height: 1.4,
+                  ),
+                ),
               ],
             ),
           ),
@@ -300,8 +339,11 @@ class _LinkRow extends StatelessWidget {
             Icon(icon, size: 20, color: AppColors.textSecondary),
             const SizedBox(width: 14),
             Expanded(child: Text(label, style: AppTextStyles.bodyMedium)),
-            const Icon(Icons.chevron_right_rounded,
-                color: AppColors.textHint, size: 20),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.textHint,
+              size: 20,
+            ),
           ],
         ),
       ),

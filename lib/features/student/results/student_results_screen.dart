@@ -25,8 +25,10 @@ class StudentResultsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('My Results',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'My Results',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: uid == null
           ? const Center(child: CircularProgressIndicator())
@@ -59,7 +61,9 @@ class StudentResultsScreen extends ConsumerWidget {
                 // Group by examTitle
                 final Map<String, List<ResultModel>> grouped = {};
                 for (final item in results) {
-                  final exam = item.examTitle.isEmpty ? 'General' : item.examTitle;
+                  final exam = item.examTitle.isEmpty
+                      ? 'General'
+                      : item.examTitle;
                   grouped.putIfAbsent(exam, () => []).add(item);
                 }
 
@@ -70,23 +74,25 @@ class StudentResultsScreen extends ConsumerWidget {
                     }
                   },
                   child: ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: [
-                    // ── Overall GPA card ────────────────────────
-                    _OverallCard(results: results),
-                    const SizedBox(height: 24),
+                    padding: const EdgeInsets.all(20),
+                    children: [
+                      // ── Overall GPA card ────────────────────────
+                      _OverallCard(results: results),
+                      const SizedBox(height: 24),
 
-                    // ── Per-exam sections ────────────────────────
-                    ...grouped.entries.map((entry) => _ExamSection(
+                      // ── Per-exam sections ────────────────────────
+                      ...grouped.entries.map(
+                        (entry) => _ExamSection(
                           examTitle: entry.key,
                           results: entry.value,
-                        )),
-                    const SizedBox(height: 32),
-                  ],
-                ),
-              );
-            },
-          ),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                    ],
+                  ),
+                );
+              },
+            ),
     );
   }
 }
@@ -132,13 +138,15 @@ class _OverallCard extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(grade,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        )),
+                    Text(
+                      grade,
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -149,17 +157,26 @@ class _OverallCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Overall Performance',
-                    style: AppTextStyles.bodyMediumBold
-                        .copyWith(color: Colors.white)),
+                Text(
+                  'Overall Performance',
+                  style: AppTextStyles.bodyMediumBold.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
                 const SizedBox(height: 6),
-                Text('Average: ${avg.toStringAsFixed(1)}%',
-                    style:
-                        AppTextStyles.labelMedium.copyWith(color: Colors.white70)),
+                Text(
+                  'Average: ${avg.toStringAsFixed(1)}%',
+                  style: AppTextStyles.labelMedium.copyWith(
+                    color: Colors.white70,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text('Total subjects: $count',
-                    style:
-                        AppTextStyles.labelSmall.copyWith(color: Colors.white60)),
+                Text(
+                  'Total subjects: $count',
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: Colors.white60,
+                  ),
+                ),
               ],
             ),
           ),
@@ -230,7 +247,12 @@ class _ResultRow extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: Text(result.subject, style: AppTextStyles.bodyMediumBold)),
+              Expanded(
+                child: Text(
+                  result.subject,
+                  style: AppTextStyles.bodyMediumBold,
+                ),
+              ),
               Container(
                 width: 36,
                 height: 36,
@@ -239,13 +261,15 @@ class _ResultRow extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
-                child: Text(grade,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: gradeColor,
-                    )),
+                child: Text(
+                  grade,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: gradeColor,
+                  ),
+                ),
               ),
             ],
           ),
@@ -287,16 +311,23 @@ class _EmptyResults extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.bar_chart_rounded,
-              size: 72, color: AppColors.textHint),
+          const Icon(
+            Icons.bar_chart_rounded,
+            size: 72,
+            color: AppColors.textHint,
+          ),
           const SizedBox(height: 20),
-          Text('No results available yet.',
-              style: AppTextStyles.bodyMediumBold
-                  .copyWith(color: AppColors.textSecondary)),
+          Text(
+            'No results available yet.',
+            style: AppTextStyles.bodyMediumBold.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
           const SizedBox(height: 8),
-          Text('Your teacher hasn\'t entered grades yet.',
-              style:
-                  AppTextStyles.labelSmall.copyWith(color: AppColors.textHint)),
+          Text(
+            'Your teacher hasn\'t entered grades yet.',
+            style: AppTextStyles.labelSmall.copyWith(color: AppColors.textHint),
+          ),
         ],
       ),
     );

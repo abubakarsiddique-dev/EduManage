@@ -72,8 +72,10 @@ class _NotificationSettingsScreenState
       return;
     }
     try {
-      final doc =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get();
       final data = doc.data();
       final prefs = data?['notificationPrefs'] as Map<String, dynamic>?;
       if (prefs != null) {
@@ -96,10 +98,7 @@ class _NotificationSettingsScreenState
     setState(() => _saving = true);
     try {
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'notificationPrefs': {
-          'pushEnabled': _pushEnabled,
-          ..._categories,
-        },
+        'notificationPrefs': {'pushEnabled': _pushEnabled, ..._categories},
         'updatedAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
     } catch (e) {
@@ -109,7 +108,9 @@ class _NotificationSettingsScreenState
             content: Text('Could not save preferences: $e'),
             backgroundColor: AppColors.danger,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -140,8 +141,10 @@ class _NotificationSettingsScreenState
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Notifications',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Notifications',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
         actions: [
           if (_saving)
             const Padding(
@@ -151,7 +154,9 @@ class _NotificationSettingsScreenState
                   width: 18,
                   height: 18,
                   child: CircularProgressIndicator(
-                      strokeWidth: 2, color: Colors.white),
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -176,24 +181,30 @@ class _NotificationSettingsScreenState
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: roleColor.withOpacity(0.12),
+                          color: roleColor.withValues(alpha: 0.12),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.notifications_active_rounded,
-                            color: roleColor, size: 22),
+                        child: Icon(
+                          Icons.notifications_active_rounded,
+                          color: roleColor,
+                          size: 22,
+                        ),
                       ),
                       const SizedBox(width: 14),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Push Notifications',
-                                style: AppTextStyles.bodyMediumBold),
+                            Text(
+                              'Push Notifications',
+                              style: AppTextStyles.bodyMediumBold,
+                            ),
                             const SizedBox(height: 2),
                             Text(
                               'Receive alerts on this device',
-                              style: AppTextStyles.labelSmall
-                                  .copyWith(color: AppColors.textSecondary),
+                              style: AppTextStyles.labelSmall.copyWith(
+                                color: AppColors.textSecondary,
+                              ),
                             ),
                           ],
                         ),
@@ -231,23 +242,32 @@ class _NotificationSettingsScreenState
                         final isLast = key == _categoryMeta.keys.last;
                         return Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
                           decoration: isLast
                               ? null
                               : const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
-                                        color: AppColors.divider, width: 0.5),
+                                      color: AppColors.divider,
+                                      width: 0.5,
+                                    ),
                                   ),
                                 ),
                           child: Row(
                             children: [
-                              Icon(icon,
-                                  size: 18, color: AppColors.textSecondary),
+                              Icon(
+                                icon,
+                                size: 18,
+                                color: AppColors.textSecondary,
+                              ),
                               const SizedBox(width: 14),
                               Expanded(
-                                child: Text(label,
-                                    style: AppTextStyles.bodyMedium),
+                                child: Text(
+                                  label,
+                                  style: AppTextStyles.bodyMedium,
+                                ),
                               ),
                               Switch(
                                 value: _categories[key] ?? true,
@@ -271,23 +291,27 @@ class _NotificationSettingsScreenState
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: AppColors.info.withOpacity(0.08),
+                    color: AppColors.info.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.info.withOpacity(0.25)),
+                    border: Border.all(color: AppColors.info.withValues(alpha: 0.25)),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.info_outline_rounded,
-                          color: AppColors.info, size: 18),
+                      const Icon(
+                        Icons.info_outline_rounded,
+                        color: AppColors.info,
+                        size: 18,
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           'In-app notifications are always shown in your '
                           'inbox regardless of these settings. These '
                           'toggles control device push alerts only.',
-                          style: AppTextStyles.labelSmall
-                              .copyWith(color: AppColors.textSecondary),
+                          style: AppTextStyles.labelSmall.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ),
                     ],

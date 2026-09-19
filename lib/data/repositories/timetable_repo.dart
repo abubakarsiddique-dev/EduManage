@@ -11,16 +11,18 @@ class TimetableRepository {
 
   /// Stream timetable slots for a specific class and day of week.
   Stream<List<TimetableModel>> watchByClassAndDay(
-      String className, String day) {
+    String className,
+    String day,
+  ) {
     return _fs.timetable
         .where('className', isEqualTo: className.trim())
         .where('day', isEqualTo: day.trim())
         .snapshots()
         .map((snap) {
-      final slots = snap.docs.map(TimetableModel.fromDoc).toList();
-      slots.sort((a, b) => a.startTime.compareTo(b.startTime));
-      return slots;
-    });
+          final slots = snap.docs.map(TimetableModel.fromDoc).toList();
+          slots.sort((a, b) => a.startTime.compareTo(b.startTime));
+          return slots;
+        });
   }
 
   /// Stream all timetable slots for a class across all days.
@@ -29,10 +31,10 @@ class TimetableRepository {
         .where('className', isEqualTo: className.trim())
         .snapshots()
         .map((snap) {
-      final slots = snap.docs.map(TimetableModel.fromDoc).toList();
-      slots.sort((a, b) => a.startTime.compareTo(b.startTime));
-      return slots;
-    });
+          final slots = snap.docs.map(TimetableModel.fromDoc).toList();
+          slots.sort((a, b) => a.startTime.compareTo(b.startTime));
+          return slots;
+        });
   }
 
   /// Stream all timetable slots assigned to a specific teacher name.
@@ -41,15 +43,14 @@ class TimetableRepository {
         .where('teacher', isEqualTo: teacherName.trim())
         .snapshots()
         .map((snap) {
-      final slots = snap.docs.map(TimetableModel.fromDoc).toList();
-      slots.sort((a, b) => a.startTime.compareTo(b.startTime));
-      return slots;
-    });
+          final slots = snap.docs.map(TimetableModel.fromDoc).toList();
+          slots.sort((a, b) => a.startTime.compareTo(b.startTime));
+          return slots;
+        });
   }
 
   /// Add a new period slot to timetable.
-  Future<DocumentReference<Map<String, dynamic>>> addSlot(
-      TimetableModel slot) {
+  Future<DocumentReference<Map<String, dynamic>>> addSlot(TimetableModel slot) {
     return _fs.timetable.add(slot.toMap());
   }
 

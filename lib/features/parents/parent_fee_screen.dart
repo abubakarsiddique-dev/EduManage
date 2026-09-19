@@ -49,7 +49,10 @@ class ParentFeePaymentScreen extends ConsumerWidget {
         backgroundColor: AppColors.warning,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded, color: AppColors.white),
+          icon: const Icon(
+            Icons.arrow_back_ios_rounded,
+            color: AppColors.white,
+          ),
           onPressed: () => context.pop(),
         ),
         title: Text(
@@ -131,16 +134,25 @@ class _ParentFeeBodyState extends State<_ParentFeeBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.family_restroom_rounded,
-                size: 64, color: AppColors.textHint),
+            const Icon(
+              Icons.family_restroom_rounded,
+              size: 64,
+              color: AppColors.textHint,
+            ),
             const SizedBox(height: 16),
-            Text('No children linked to your account.',
-                style: AppTextStyles.bodyMedium
-                    .copyWith(color: AppColors.textSecondary)),
+            Text(
+              'No children linked to your account.',
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text('Contact the school admin to link your child.',
-                style:
-                    AppTextStyles.labelSmall.copyWith(color: AppColors.textHint)),
+            Text(
+              'Contact the school admin to link your child.',
+              style: AppTextStyles.labelSmall.copyWith(
+                color: AppColors.textHint,
+              ),
+            ),
           ],
         ),
       );
@@ -168,8 +180,7 @@ class _ParentFeeBodyState extends State<_ParentFeeBody> {
           final child = entry.value;
           final isSelected = _selectedIndex == i;
           return GestureDetector(
-            onTap: () =>
-                setState(() => _selectedIndex = isSelected ? -1 : i),
+            onTap: () => setState(() => _selectedIndex = isSelected ? -1 : i),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               margin: const EdgeInsets.only(bottom: 12),
@@ -179,7 +190,9 @@ class _ParentFeeBodyState extends State<_ParentFeeBody> {
                 color: isSelected ? null : AppColors.cardBg,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: AppColors.cardShadow,
-                border: isSelected ? null : Border.all(color: AppColors.divider),
+                border: isSelected
+                    ? null
+                    : Border.all(color: AppColors.divider),
               ),
               child: Row(
                 children: [
@@ -205,12 +218,14 @@ class _ParentFeeBodyState extends State<_ParentFeeBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(child['name'] as String,
-                            style: AppTextStyles.bodyMediumBold.copyWith(
-                              color: isSelected
-                                  ? AppColors.white
-                                  : AppColors.textPrimary,
-                            )),
+                        Text(
+                          child['name'] as String,
+                          style: AppTextStyles.bodyMediumBold.copyWith(
+                            color: isSelected
+                                ? AppColors.white
+                                : AppColors.textPrimary,
+                          ),
+                        ),
                         const SizedBox(height: 3),
                         Text(
                           '${child['class']}  •  Roll: ${child['rollNo']}',
@@ -227,8 +242,9 @@ class _ParentFeeBodyState extends State<_ParentFeeBody> {
                     isSelected
                         ? Icons.keyboard_arrow_up_rounded
                         : Icons.keyboard_arrow_down_rounded,
-                    color:
-                        isSelected ? AppColors.white : AppColors.textSecondary,
+                    color: isSelected
+                        ? AppColors.white
+                        : AppColors.textSecondary,
                   ),
                 ],
               ),
@@ -294,7 +310,9 @@ class _FeeListForChildState extends State<_FeeListForChild> {
 
         // Summary totals
         double totalPaid = 0, totalPending = 0, totalOverdue = 0;
-        int paidCount = 0, pendingCount = 0, overdueCount = 0,
+        int paidCount = 0,
+            pendingCount = 0,
+            overdueCount = 0,
             verifyingCount = 0;
 
         for (final doc in allDocs) {
@@ -358,25 +376,30 @@ class _FeeListForChildState extends State<_FeeListForChild> {
                 padding: const EdgeInsets.all(14),
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: AppColors.danger.withOpacity(0.07),
+                  color: AppColors.danger.withValues(alpha: 0.07),
                   borderRadius: BorderRadius.circular(14),
-                  border:
-                      Border.all(color: AppColors.danger.withOpacity(0.35)),
+                  border: Border.all(color: AppColors.danger.withValues(alpha: 0.35)),
                 ),
-                child: Row(children: [
-                  const Icon(Icons.warning_amber_rounded,
-                      color: AppColors.danger, size: 20),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      '$overdueCount overdue fee${overdueCount == 1 ? '' : 's'} '
-                      'totalling Rs. ${NumberFormat('#,##0').format(totalOverdue)}. '
-                      'Please pay immediately.',
-                      style: AppTextStyles.labelSmall
-                          .copyWith(color: AppColors.danger),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.warning_amber_rounded,
+                      color: AppColors.danger,
+                      size: 20,
                     ),
-                  ),
-                ]),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        '$overdueCount overdue fee${overdueCount == 1 ? '' : 's'} '
+                        'totalling Rs. ${NumberFormat('#,##0').format(totalOverdue)}. '
+                        'Please pay immediately.',
+                        style: AppTextStyles.labelSmall.copyWith(
+                          color: AppColors.danger,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
 
@@ -394,19 +417,23 @@ class _FeeListForChildState extends State<_FeeListForChild> {
                       duration: const Duration(milliseconds: 200),
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 6),
+                        horizontal: 14,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
-                        color: isSel ? color.withValues(alpha: 0.12) : AppColors.transparent,
+                        color: isSel
+                            ? color.withValues(alpha: 0.12)
+                            : AppColors.transparent,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                            color: isSel ? color : AppColors.divider),
+                          color: isSel ? color : AppColors.divider,
+                        ),
                       ),
                       child: Text(
                         s,
                         style: AppTextStyles.labelSmall.copyWith(
                           color: isSel ? color : AppColors.textSecondary,
-                          fontWeight:
-                              isSel ? FontWeight.w700 : FontWeight.w400,
+                          fontWeight: isSel ? FontWeight.w700 : FontWeight.w400,
                         ),
                       ),
                     ),
@@ -425,18 +452,24 @@ class _FeeListForChildState extends State<_FeeListForChild> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: AppColors.cardShadow,
                 ),
-                child: Column(children: [
-                  const Icon(Icons.receipt_long_outlined,
-                      size: 48, color: AppColors.textHint),
-                  const SizedBox(height: 12),
-                  Text(
-                    _filter == 'All'
-                        ? 'No fee records yet.'
-                        : 'No $_filter fees.',
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(color: AppColors.textSecondary),
-                  ),
-                ]),
+                child: Column(
+                  children: [
+                    const Icon(
+                      Icons.receipt_long_outlined,
+                      size: 48,
+                      color: AppColors.textHint,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      _filter == 'All'
+                          ? 'No fee records yet.'
+                          : 'No $_filter fees.',
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
               )
             else
               ...filtered.map((doc) {
@@ -457,14 +490,18 @@ class _FeeListForChildState extends State<_FeeListForChild> {
               child: OutlinedButton.icon(
                 onPressed: () => _showAddFeeSheet(context),
                 icon: const Icon(Icons.add_rounded, color: AppColors.warning),
-                label: Text('Add Fee Record',
-                    style: AppTextStyles.bodyMediumBold
-                        .copyWith(color: AppColors.warning)),
+                label: Text(
+                  'Add Fee Record',
+                  style: AppTextStyles.bodyMediumBold.copyWith(
+                    color: AppColors.warning,
+                  ),
+                ),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   side: const BorderSide(color: AppColors.warning, width: 1.5),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
               ),
             ),
@@ -474,23 +511,27 @@ class _FeeListForChildState extends State<_FeeListForChild> {
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: AppColors.info.withOpacity(0.07),
+                color: AppColors.info.withValues(alpha: 0.07),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.info.withOpacity(0.25)),
+                border: Border.all(color: AppColors.info.withValues(alpha: 0.25)),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.info_outline_rounded,
-                      color: AppColors.info, size: 18),
+                  const Icon(
+                    Icons.info_outline_rounded,
+                    color: AppColors.info,
+                    size: 18,
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       'After submitting your payment proof, the admin will '
                       'verify and mark it as paid. Keep your transaction ID '
                       'safe until verification is complete.',
-                      style: AppTextStyles.labelSmall
-                          .copyWith(color: AppColors.textSecondary),
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ),
                 ],
@@ -522,7 +563,8 @@ class _FeeListForChildState extends State<_FeeListForChild> {
       isScrollControlled: true,
       backgroundColor: AppColors.cardBg,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (_) => _AddFeeSheet(
         studentId: widget.studentId,
         studentName: widget.studentName,
@@ -552,67 +594,82 @@ class _SummaryHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fmt = NumberFormat('#,##0');
-    return Column(children: [
-      // Hero paid card
-      Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: AppColors.successGradient,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: AppColors.cardShadow,
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Total Paid',
-              style:
-                  AppTextStyles.labelMedium.copyWith(color: AppColors.white.withValues(alpha: 0.7))),
-          const SizedBox(height: 8),
-          Text('Rs. ${fmt.format(totalPaid)}',
-              style: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: AppColors.white,
-              )),
-          const SizedBox(height: 4),
-          Text('$paidCount payment${paidCount == 1 ? '' : 's'} verified',
-              style:
-                  AppTextStyles.labelSmall.copyWith(color: AppColors.white.withValues(alpha: 0.7))),
-        ]),
-      ),
-      const SizedBox(height: 12),
-      Row(children: [
-        Expanded(
-          child: _MiniStat(
-            label: 'Pending',
-            amount: totalPending,
-            count: pendingCount + verifyingCount,
-            color: AppColors.warning,
+    return Column(
+      children: [
+        // Hero paid card
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: AppColors.successGradient,
+            borderRadius: BorderRadius.circular(18),
+            boxShadow: AppColors.cardShadow,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Total Paid',
+                style: AppTextStyles.labelMedium.copyWith(
+                  color: AppColors.white.withValues(alpha: 0.7),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Rs. ${fmt.format(totalPaid)}',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.white,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '$paidCount payment${paidCount == 1 ? '' : 's'} verified',
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.white.withValues(alpha: 0.7),
+                ),
+              ),
+            ],
           ),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _MiniStat(
-            label: 'Overdue',
-            amount: totalOverdue,
-            count: overdueCount,
-            color: AppColors.danger,
-          ),
-        ),
-        if (verifyingCount > 0) ...[
-          const SizedBox(width: 12),
-          Expanded(
-            child: _MiniStat(
-              label: 'Verifying',
-              amount: 0,
-              count: verifyingCount,
-              color: AppColors.info,
-              showAmount: false,
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _MiniStat(
+                label: 'Pending',
+                amount: totalPending,
+                count: pendingCount + verifyingCount,
+                color: AppColors.warning,
+              ),
             ),
-          ),
-        ],
-      ]),
-    ]);
+            const SizedBox(width: 12),
+            Expanded(
+              child: _MiniStat(
+                label: 'Overdue',
+                amount: totalOverdue,
+                count: overdueCount,
+                color: AppColors.danger,
+              ),
+            ),
+            if (verifyingCount > 0) ...[
+              const SizedBox(width: 12),
+              Expanded(
+                child: _MiniStat(
+                  label: 'Verifying',
+                  amount: 0,
+                  count: verifyingCount,
+                  color: AppColors.info,
+                  showAmount: false,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -636,21 +693,26 @@ class _MiniStat extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-          color: AppColors.cardBg,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: AppColors.cardShadow),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label,
-            style: AppTextStyles.labelSmall.copyWith(color: color)),
-        const SizedBox(height: 6),
-        if (showAmount)
+        color: AppColors.cardBg,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: AppTextStyles.labelSmall.copyWith(color: color)),
+          const SizedBox(height: 6),
+          if (showAmount)
+            Text(
+              'Rs. ${NumberFormat('#,##0').format(amount)}',
+              style: AppTextStyles.bodyMediumBold,
+            ),
           Text(
-            'Rs. ${NumberFormat('#,##0').format(amount)}',
-            style: AppTextStyles.bodyMediumBold,
+            '$count record${count == 1 ? '' : 's'}',
+            style: AppTextStyles.labelTiny,
           ),
-        Text('$count record${count == 1 ? '' : 's'}',
-            style: AppTextStyles.labelTiny),
-      ]),
+        ],
+      ),
     );
   }
 }
@@ -694,31 +756,41 @@ class _FeeCard extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // Header row
-          Row(children: [
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(feeType,
-                  style: AppTextStyles.labelTiny
-                      .copyWith(color: color, fontWeight: FontWeight.w700)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header row
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    feeType,
+                    style: AppTextStyles.labelTiny.copyWith(
+                      color: color,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                _StatusBadge(status: status),
+              ],
             ),
-            const Spacer(),
-            _StatusBadge(status: status),
-          ]),
-          const SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-          // Amount + details row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(
-                child: Column(
+            // Amount + details row
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -731,8 +803,7 @@ class _FeeCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       if (month.isNotEmpty)
-                        Text('$month $year',
-                            style: AppTextStyles.labelSmall),
+                        Text('$month $year', style: AppTextStyles.labelSmall),
                       if (dueDate != null && !isPaid) ...[
                         const SizedBox(height: 2),
                         Text(
@@ -745,89 +816,112 @@ class _FeeCard extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ]),
-              ),
-            ],
-          ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
 
-          // Payment proof summary (if submitted)
-          if (isVerifying && proof != null) ...[
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.info.withOpacity(0.07),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColors.info.withOpacity(0.3)),
-              ),
-              child: Column(
+            // Payment proof summary (if submitted)
+            if (isVerifying && proof != null) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.info.withValues(alpha: 0.07),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColors.info.withValues(alpha: 0.3)),
+                ),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(children: [
-                      const Icon(Icons.pending_rounded,
-                          size: 14, color: AppColors.info),
-                      const SizedBox(width: 6),
-                      Text('Payment submitted — awaiting admin verification',
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.pending_rounded,
+                          size: 14,
+                          color: AppColors.info,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Payment submitted — awaiting admin verification',
                           style: AppTextStyles.labelTiny.copyWith(
-                              color: AppColors.info,
-                              fontWeight: FontWeight.w600)),
-                    ]),
+                            color: AppColors.info,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 8),
                     _ProofDetail(
-                        label: 'Transaction ID',
-                        value: proof['transactionId'] as String? ?? '—'),
+                      label: 'Transaction ID',
+                      value: proof['transactionId'] as String? ?? '—',
+                    ),
                     _ProofDetail(
-                        label: 'Amount Paid',
-                        value:
-                            'Rs. ${NumberFormat('#,##0').format((proof['paidAmount'] as num?)?.toDouble() ?? 0)}'),
+                      label: 'Amount Paid',
+                      value:
+                          'Rs. ${NumberFormat('#,##0').format((proof['paidAmount'] as num?)?.toDouble() ?? 0)}',
+                    ),
                     _ProofDetail(
-                        label: 'Payment Date',
-                        value: proof['paymentDate'] as String? ?? '—'),
+                      label: 'Payment Date',
+                      value: proof['paymentDate'] as String? ?? '—',
+                    ),
                     if ((proof['notes'] as String? ?? '').isNotEmpty)
                       _ProofDetail(
-                          label: 'Notes',
-                          value: proof['notes'] as String),
-                  ]),
-            ),
-          ],
+                        label: 'Notes',
+                        value: proof['notes'] as String,
+                      ),
+                  ],
+                ),
+              ),
+            ],
 
-          if (isPaid) ...[
-            const SizedBox(height: 10),
-            Row(children: [
-              const Icon(Icons.check_circle_rounded,
-                  size: 14, color: AppColors.success),
-              const SizedBox(width: 6),
-              Text('Payment verified by admin',
-                  style: AppTextStyles.labelTiny
-                      .copyWith(color: AppColors.success)),
-            ]),
-          ],
+            if (isPaid) ...[
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.check_circle_rounded,
+                    size: 14,
+                    color: AppColors.success,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    'Payment verified by admin',
+                    style: AppTextStyles.labelTiny.copyWith(
+                      color: AppColors.success,
+                    ),
+                  ),
+                ],
+              ),
+            ],
 
-          // Pay now button
-          if (canPay) ...[
-            const SizedBox(height: 14),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => _showPaymentSheet(context),
-                icon:
-                    const Icon(Icons.payment_rounded, size: 18),
-                label: const Text('Submit Payment Proof'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: color,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  textStyle: const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+            // Pay now button
+            if (canPay) ...[
+              const SizedBox(height: 14),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => _showPaymentSheet(context),
+                  icon: const Icon(Icons.payment_rounded, size: 18),
+                  label: const Text('Submit Payment Proof'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: color,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    textStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ],
-        ]),
+        ),
       ),
     );
   }
@@ -838,7 +932,8 @@ class _FeeCard extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: AppColors.cardBg,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (_) => _PaymentProofSheet(
         docId: docId,
         feeAmount: (data['amount'] as num?)?.toDouble() ?? 0,
@@ -858,17 +953,25 @@ class _ProofDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
-      child: Row(children: [
-        Text('$label: ',
-            style: AppTextStyles.labelTiny
-                .copyWith(color: AppColors.textSecondary)),
-        Expanded(
-          child: Text(value,
+      child: Row(
+        children: [
+          Text(
+            '$label: ',
+            style: AppTextStyles.labelTiny.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
               style: AppTextStyles.labelTiny.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary)),
-        ),
-      ]),
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -889,12 +992,16 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text(label,
-          style: AppTextStyles.labelTiny
-              .copyWith(color: color, fontWeight: FontWeight.w700)),
+      child: Text(
+        label,
+        style: AppTextStyles.labelTiny.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
     );
   }
 }
@@ -962,40 +1069,42 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
           .collection('fees')
           .doc(widget.docId)
           .update({
-        'status': 'pending_verification',
-        'paymentProof': {
-          'transactionId': _txnCtrl.text.trim(),
-          'paidAmount': paidAmount,
-          'paymentDate': DateFormat('MMM d, yyyy').format(_paymentDate!),
-          'paymentDateTimestamp': Timestamp.fromDate(_paymentDate!),
-          'notes': _notesCtrl.text.trim(),
-          'submittedAt': FieldValue.serverTimestamp(),
-          'submittedBy': widget.parentUid,
-        },
-        'updatedAt': FieldValue.serverTimestamp(),
-      });
+            'status': 'pending_verification',
+            'paymentProof': {
+              'transactionId': _txnCtrl.text.trim(),
+              'paidAmount': paidAmount,
+              'paymentDate': DateFormat('MMM d, yyyy').format(_paymentDate!),
+              'paymentDateTimestamp': Timestamp.fromDate(_paymentDate!),
+              'notes': _notesCtrl.text.trim(),
+              'submittedAt': FieldValue.serverTimestamp(),
+              'submittedBy': widget.parentUid,
+            },
+            'updatedAt': FieldValue.serverTimestamp(),
+          });
 
       // ── Notify all admins ──────────────────────────────────────────────
-       try {
-    await AppNotifications.onFeePaymentSubmitted(
-      studentName: widget.studentName,
-      feeType: widget.feeType,
-      paidAmount: paidAmount,
-      transactionId: _txnCtrl.text.trim(),
-      feeDocId: widget.docId,
-    );
-  } catch (_) { }
+      try {
+        await AppNotifications.onFeePaymentSubmitted(
+          studentName: widget.studentName,
+          feeType: widget.feeType,
+          paidAmount: paidAmount,
+          transactionId: _txnCtrl.text.trim(),
+          feeDocId: widget.docId,
+        );
+      } catch (_) {}
 
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(
-                'Payment proof submitted! Admin will verify shortly.'),
+              'Payment proof submitted! Admin will verify shortly.',
+            ),
             backgroundColor: AppColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)),
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -1004,8 +1113,9 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
         setState(() => _loading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text('Error: $e'),
-              backgroundColor: AppColors.danger),
+            content: Text('Error: $e'),
+            backgroundColor: AppColors.danger,
+          ),
         );
       }
     }
@@ -1032,36 +1142,47 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                      color: AppColors.divider,
-                      borderRadius: BorderRadius.circular(2)),
+                    color: AppColors.divider,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
 
               // Header
-              Row(children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: AppColors.warning.withOpacity(0.12),
-                    shape: BoxShape.circle,
+              Row(
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: AppColors.warning.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.payment_rounded,
+                      color: AppColors.warning,
+                      size: 22,
+                    ),
                   ),
-                  child: const Icon(Icons.payment_rounded,
-                      color: AppColors.warning, size: 22),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Submit Payment Proof',
-                            style: AppTextStyles.headingMedium),
-                        Text('${widget.feeType} — ${widget.studentName}',
-                            style: AppTextStyles.labelSmall),
-                      ]),
-                ),
-              ]),
+                        Text(
+                          'Submit Payment Proof',
+                          style: AppTextStyles.headingMedium,
+                        ),
+                        Text(
+                          '${widget.feeType} — ${widget.studentName}',
+                          style: AppTextStyles.labelSmall,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
 
               // Transaction ID
@@ -1101,8 +1222,9 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
                   final picked = await showDatePicker(
                     context: context,
                     initialDate: _paymentDate ?? DateTime.now(),
-                    firstDate: DateTime.now()
-                        .subtract(const Duration(days: 90)),
+                    firstDate: DateTime.now().subtract(
+                      const Duration(days: 90),
+                    ),
                     lastDate: DateTime.now(),
                   );
                   if (picked != null) {
@@ -1111,27 +1233,34 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 16),
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.background,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(color: AppColors.divider),
                   ),
-                  child: Row(children: [
-                    const Icon(Icons.calendar_today_rounded,
-                        color: AppColors.textHint, size: 18),
-                    const SizedBox(width: 10),
-                    Text(
-                      _paymentDate != null
-                          ? DateFormat('MMM d, yyyy').format(_paymentDate!)
-                          : 'Select payment date',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: _paymentDate != null
-                            ? AppColors.textPrimary
-                            : AppColors.textHint,
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.calendar_today_rounded,
+                        color: AppColors.textHint,
+                        size: 18,
                       ),
-                    ),
-                  ]),
+                      const SizedBox(width: 10),
+                      Text(
+                        _paymentDate != null
+                            ? DateFormat('MMM d, yyyy').format(_paymentDate!)
+                            : 'Select payment date',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: _paymentDate != null
+                              ? AppColors.textPrimary
+                              : AppColors.textHint,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 14),
@@ -1142,8 +1271,7 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
               TextFormField(
                 controller: _notesCtrl,
                 maxLines: 2,
-                decoration:
-                    _inputDecor('e.g. Paid via Meezan Bank transfer'),
+                decoration: _inputDecor('e.g. Paid via Meezan Bank transfer'),
               ),
               const SizedBox(height: 20),
 
@@ -1151,24 +1279,29 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.warning.withOpacity(0.07),
+                  color: AppColors.warning.withValues(alpha: 0.07),
                   borderRadius: BorderRadius.circular(10),
-                  border:
-                      Border.all(color: AppColors.warning.withOpacity(0.3)),
+                  border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
                 ),
-                child: Row(children: [
-                  const Icon(Icons.info_outline_rounded,
-                      size: 16, color: AppColors.warning),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      'Make sure your transaction ID is correct. '
-                      'Admin will verify before marking as paid.',
-                      style: AppTextStyles.labelTiny.copyWith(
-                          color: AppColors.textSecondary),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.info_outline_rounded,
+                      size: 16,
+                      color: AppColors.warning,
                     ),
-                  ),
-                ]),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Make sure your transaction ID is correct. '
+                        'Admin will verify before marking as paid.',
+                        style: AppTextStyles.labelTiny.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
 
@@ -1181,7 +1314,8 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
                     backgroundColor: AppColors.warning,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14)),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                     textStyle: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 15,
@@ -1193,7 +1327,9 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
-                              strokeWidth: 2, color: AppColors.white),
+                            strokeWidth: 2,
+                            color: AppColors.white,
+                          ),
                         )
                       : const Text('Submit Payment Proof'),
                 ),
@@ -1206,29 +1342,28 @@ class _PaymentProofSheetState extends State<_PaymentProofSheet> {
   }
 
   InputDecoration _inputDecor(String hint) => InputDecoration(
-        hintText: hint,
-        hintStyle: AppTextStyles.labelMedium.copyWith(color: AppColors.textHint),
-        filled: true,
-        fillColor: AppColors.background,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.divider),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.divider),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.warning, width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.danger),
-        ),
-      );
+    hintText: hint,
+    hintStyle: AppTextStyles.labelMedium.copyWith(color: AppColors.textHint),
+    filled: true,
+    fillColor: AppColors.background,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: const BorderSide(color: AppColors.divider),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: const BorderSide(color: AppColors.divider),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: const BorderSide(color: AppColors.warning, width: 2),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: const BorderSide(color: AppColors.danger),
+    ),
+  );
 }
 
 class _SheetLabel extends StatelessWidget {
@@ -1237,14 +1372,14 @@ class _SheetLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-        text,
-        style: const TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-          color: AppColors.textSecondary,
-        ),
-      );
+    text,
+    style: const TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 13,
+      fontWeight: FontWeight.w500,
+      color: AppColors.textSecondary,
+    ),
+  );
 }
 
 // ── Add Fee Sheet (parent creates a fee record) ───────────────────────────────
@@ -1305,14 +1440,11 @@ class _AddFeeSheetState extends State<_AddFeeSheet> {
         'studentName': widget.studentName,
         'className': widget.className,
         'feeType': _selectedType ?? _typeCtrl.text.trim(),
-        'amount':
-            double.tryParse(_amountCtrl.text.trim()) ?? 0,
+        'amount': double.tryParse(_amountCtrl.text.trim()) ?? 0,
         'month': DateFormat('MMMM').format(now),
         'year': now.year,
         'status': 'pending',
-        'dueDate': _dueDate != null
-            ? Timestamp.fromDate(_dueDate!)
-            : null,
+        'dueDate': _dueDate != null ? Timestamp.fromDate(_dueDate!) : null,
         'notes': _notesCtrl.text.trim(),
         'createdBy': 'parent',
         'createdByUid': widget.parentUid,
@@ -1327,16 +1459,17 @@ class _AddFeeSheetState extends State<_AddFeeSheet> {
             backgroundColor: AppColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)),
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _loading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -1362,28 +1495,30 @@ class _AddFeeSheetState extends State<_AddFeeSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                      color: AppColors.divider,
-                      borderRadius: BorderRadius.circular(2)),
+                    color: AppColors.divider,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
               Text('Add Fee Record', style: AppTextStyles.headingMedium),
-              Text('For: ${widget.studentName}',
-                  style: AppTextStyles.labelSmall),
+              Text(
+                'For: ${widget.studentName}',
+                style: AppTextStyles.labelSmall,
+              ),
               const SizedBox(height: 20),
 
               // Fee type
               _SheetLabel('Fee Type *'),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: _selectedType,
+                initialValue: _selectedType,
                 decoration: _addInputDecor('Select fee type'),
                 items: _feeTypes
                     .map((t) => DropdownMenuItem(value: t, child: Text(t)))
                     .toList(),
                 onChanged: (v) => setState(() => _selectedType = v),
-                validator: (v) =>
-                    v == null ? 'Please select a fee type' : null,
+                validator: (v) => v == null ? 'Please select a fee type' : null,
               ),
               const SizedBox(height: 14),
 
@@ -1411,37 +1546,42 @@ class _AddFeeSheetState extends State<_AddFeeSheet> {
                 onTap: () async {
                   final picked = await showDatePicker(
                     context: context,
-                    initialDate: DateTime.now()
-                        .add(const Duration(days: 7)),
+                    initialDate: DateTime.now().add(const Duration(days: 7)),
                     firstDate: DateTime.now(),
-                    lastDate: DateTime.now()
-                        .add(const Duration(days: 365)),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
                   );
                   if (picked != null) setState(() => _dueDate = picked);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 16),
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.background,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(color: AppColors.divider),
                   ),
-                  child: Row(children: [
-                    const Icon(Icons.calendar_today_rounded,
-                        color: AppColors.textHint, size: 18),
-                    const SizedBox(width: 10),
-                    Text(
-                      _dueDate != null
-                          ? DateFormat('MMM d, yyyy').format(_dueDate!)
-                          : 'Select due date',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: _dueDate != null
-                            ? AppColors.textPrimary
-                            : AppColors.textHint,
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.calendar_today_rounded,
+                        color: AppColors.textHint,
+                        size: 18,
                       ),
-                    ),
-                  ]),
+                      const SizedBox(width: 10),
+                      Text(
+                        _dueDate != null
+                            ? DateFormat('MMM d, yyyy').format(_dueDate!)
+                            : 'Select due date',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: _dueDate != null
+                              ? AppColors.textPrimary
+                              : AppColors.textHint,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 14),
@@ -1464,7 +1604,8 @@ class _AddFeeSheetState extends State<_AddFeeSheet> {
                     backgroundColor: AppColors.warning,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14)),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                     textStyle: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 15,
@@ -1476,7 +1617,9 @@ class _AddFeeSheetState extends State<_AddFeeSheet> {
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
-                              strokeWidth: 2, color: AppColors.white),
+                            strokeWidth: 2,
+                            color: AppColors.white,
+                          ),
                         )
                       : const Text('Save Fee Record'),
                 ),
@@ -1489,25 +1632,24 @@ class _AddFeeSheetState extends State<_AddFeeSheet> {
   }
 
   InputDecoration _addInputDecor(String hint) => InputDecoration(
-        hintText: hint,
-        hintStyle: AppTextStyles.labelMedium.copyWith(color: AppColors.textHint),
-        filled: true,
-        fillColor: AppColors.background,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.divider),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.divider),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.warning, width: 2),
-        ),
-      );
+    hintText: hint,
+    hintStyle: AppTextStyles.labelMedium.copyWith(color: AppColors.textHint),
+    filled: true,
+    fillColor: AppColors.background,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: const BorderSide(color: AppColors.divider),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: const BorderSide(color: AppColors.divider),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: const BorderSide(color: AppColors.warning, width: 2),
+    ),
+  );
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

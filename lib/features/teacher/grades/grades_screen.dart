@@ -32,8 +32,10 @@ class _GradesScreenState extends ConsumerState<GradesScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Grades',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Grades',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: Column(
         children: [
@@ -49,13 +51,15 @@ class _GradesScreenState extends ConsumerState<GradesScreen> {
               builder: (context, snap) {
                 final classNames = snap.hasData
                     ? snap.data!.docs
-                        .map((d) =>
-                            (d.data() as Map<String, dynamic>)['name']
-                                as String? ??
-                            '')
-                        .where((n) => n.isNotEmpty)
-                        .toSet()
-                        .toList()
+                          .map(
+                            (d) =>
+                                (d.data() as Map<String, dynamic>)['name']
+                                    as String? ??
+                                '',
+                          )
+                          .where((n) => n.isNotEmpty)
+                          .toSet()
+                          .toList()
                     : <String>[];
                 if (classNames.isNotEmpty && _selectedClass == null) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -68,8 +72,9 @@ class _GradesScreenState extends ConsumerState<GradesScreen> {
                 if (classNames.isEmpty) {
                   return Text(
                     'No classes found. Ask admin to add classes first.',
-                    style: AppTextStyles.labelMedium
-                        .copyWith(color: Colors.white70),
+                    style: AppTextStyles.labelMedium.copyWith(
+                      color: Colors.white70,
+                    ),
                   );
                 }
 
@@ -85,20 +90,22 @@ class _GradesScreenState extends ConsumerState<GradesScreen> {
                           duration: const Duration(milliseconds: 200),
                           margin: const EdgeInsets.only(right: 8),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: isSel ? Colors.white : Colors.white24,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Text(c,
-                              style: AppTextStyles.labelSmall.copyWith(
-                                color: isSel
-                                    ? AppColors.accent
-                                    : Colors.white,
-                                fontWeight: isSel
-                                    ? FontWeight.w700
-                                    : FontWeight.w400,
-                              )),
+                          child: Text(
+                            c,
+                            style: AppTextStyles.labelSmall.copyWith(
+                              color: isSel ? AppColors.accent : Colors.white,
+                              fontWeight: isSel
+                                  ? FontWeight.w700
+                                  : FontWeight.w400,
+                            ),
+                          ),
                         ),
                       );
                     }).toList(),
@@ -120,15 +127,15 @@ class _GradesScreenState extends ConsumerState<GradesScreen> {
                         .snapshots(),
                     builder: (context, snap) {
                       if (snap.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                            child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
                       if (!snap.hasData || snap.data!.docs.isEmpty) {
                         return Center(
                           child: Text(
                             'No students in $_selectedClass yet.',
-                            style: AppTextStyles.bodyMedium
-                                .copyWith(color: AppColors.textSecondary),
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
                           ),
                         );
                       }
@@ -137,11 +144,9 @@ class _GradesScreenState extends ConsumerState<GradesScreen> {
                       return ListView.separated(
                         padding: const EdgeInsets.all(20),
                         itemCount: docs.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 10),
+                        separatorBuilder: (_, _) => const SizedBox(height: 10),
                         itemBuilder: (context, i) {
-                          final data =
-                              docs[i].data() as Map<String, dynamic>;
+                          final data = docs[i].data() as Map<String, dynamic>;
                           return _StudentGradeRow(
                             name: data['name'] ?? '',
                             rollNo: data['rollNo'] ?? '-',
@@ -162,14 +167,19 @@ class _GradesScreenState extends ConsumerState<GradesScreen> {
     );
   }
 
-  void _showAddGradeSheet(BuildContext context, String studentId,
-      String studentName, String? teacherId) {
+  void _showAddGradeSheet(
+    BuildContext context,
+    String studentId,
+    String studentName,
+    String? teacherId,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.cardBg,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (sheetContext) => _AddGradeSheet(
         studentId: studentId,
         studentName: studentName,
@@ -240,7 +250,8 @@ class _AddGradeSheetState extends State<_AddGradeSheet> {
       }
 
       final data = doc.data()!;
-      List<String> subjects = (data['subjects'] as List<dynamic>?)
+      List<String> subjects =
+          (data['subjects'] as List<dynamic>?)
               ?.map((e) => e.toString().trim())
               .where((s) => s.isNotEmpty)
               .toList() ??
@@ -301,25 +312,26 @@ class _AddGradeSheetState extends State<_AddGradeSheet> {
                 ),
               ),
               const SizedBox(height: 20),
-              Text('Add Grade — ${widget.studentName}',
-                  style: AppTextStyles.headingMedium),
+              Text(
+                'Add Grade — ${widget.studentName}',
+                style: AppTextStyles.headingMedium,
+              ),
               const SizedBox(height: 16),
 
               // Subject dropdown
               _loadingSubjects
                   ? _LoadingField(label: 'Subject')
                   : _teacherSubjects.isEmpty
-                      ? _WarningField(
-                          label: 'Subject',
-                          message:
-                              'No subjects on your profile. Ask admin to update your profile.',
-                        )
-                      : _SubjectDropdown(
-                          value: _selectedSubject,
-                          subjects: _teacherSubjects,
-                          onChanged: (v) =>
-                              setState(() => _selectedSubject = v),
-                        ),
+                  ? _WarningField(
+                      label: 'Subject',
+                      message:
+                          'No subjects on your profile. Ask admin to update your profile.',
+                    )
+                  : _SubjectDropdown(
+                      value: _selectedSubject,
+                      subjects: _teacherSubjects,
+                      onChanged: (v) => setState(() => _selectedSubject = v),
+                    ),
               const SizedBox(height: 14),
 
               // Exam title
@@ -446,21 +458,25 @@ class _SubjectDropdown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Subject',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
-            )),
+        const Text(
+          'Subject',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
+          ),
+        ),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
           initialValue: value,
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.background,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: const BorderSide(color: AppColors.divider),
@@ -471,29 +487,36 @@ class _SubjectDropdown extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide:
-                  const BorderSide(color: AppColors.accent, width: 2),
+              borderSide: const BorderSide(color: AppColors.accent, width: 2),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: const BorderSide(color: AppColors.danger),
             ),
           ),
-          hint: const Text('Select subject',
-              style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  color: AppColors.textHint)),
-          icon: const Icon(Icons.keyboard_arrow_down_rounded,
-              color: AppColors.textSecondary),
+          hint: const Text(
+            'Select subject',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14,
+              color: AppColors.textHint,
+            ),
+          ),
+          icon: const Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: AppColors.textSecondary,
+          ),
           borderRadius: BorderRadius.circular(14),
           items: subjects
-              .map((s) => DropdownMenuItem(
-                    value: s,
-                    child: Text(s,
-                        style: const TextStyle(
-                            fontFamily: 'Poppins', fontSize: 14)),
-                  ))
+              .map(
+                (s) => DropdownMenuItem(
+                  value: s,
+                  child: Text(
+                    s,
+                    style: const TextStyle(fontFamily: 'Poppins', fontSize: 14),
+                  ),
+                ),
+              )
               .toList(),
           onChanged: onChanged,
           validator: (v) => v == null ? 'Please select a subject' : null,
@@ -513,13 +536,15 @@ class _LoadingField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
-            )),
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
+          ),
+        ),
         const SizedBox(height: 8),
         Container(
           height: 54,
@@ -550,13 +575,15 @@ class _WarningField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary,
-            )),
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
+          ),
+        ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.all(14),
@@ -567,15 +594,21 @@ class _WarningField extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(Icons.warning_amber_rounded,
-                  color: AppColors.warning, size: 18),
+              const Icon(
+                Icons.warning_amber_rounded,
+                color: AppColors.warning,
+                size: 18,
+              ),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(message,
-                    style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        color: AppColors.textSecondary)),
+                child: Text(
+                  message,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ),
             ],
           ),
@@ -609,10 +642,13 @@ class _StudentGradeRow extends StatelessWidget {
           CircleAvatar(
             radius: 20,
             backgroundColor: AppColors.accent.withValues(alpha: 0.12),
-            child: Text(rollNo,
-                style: AppTextStyles.labelSmall.copyWith(
-                    color: AppColors.accent,
-                    fontWeight: FontWeight.w700)),
+            child: Text(
+              rollNo,
+              style: AppTextStyles.labelSmall.copyWith(
+                color: AppColors.accent,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(child: Text(name, style: AppTextStyles.bodyMediumBold)),
@@ -620,8 +656,7 @@ class _StudentGradeRow extends StatelessWidget {
             onPressed: onAddGrade,
             icon: const Icon(Icons.add_rounded, size: 18),
             label: const Text('Grade'),
-            style:
-                TextButton.styleFrom(foregroundColor: AppColors.accent),
+            style: TextButton.styleFrom(foregroundColor: AppColors.accent),
           ),
         ],
       ),

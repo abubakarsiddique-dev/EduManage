@@ -10,12 +10,7 @@ class LoadingWidget extends StatelessWidget {
   final Color? color;
   final String? message;
 
-  const LoadingWidget({
-    super.key,
-    this.size = 36,
-    this.color,
-    this.message,
-  });
+  const LoadingWidget({super.key, this.size = 36, this.color, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +28,7 @@ class LoadingWidget extends StatelessWidget {
           ),
           if (message != null) ...[
             const SizedBox(height: AppDimensions.space12),
-            Text(
-              message!,
-              style: AppTextStyles.labelMedium,
-            ),
+            Text(message!, style: AppTextStyles.labelMedium),
           ],
         ],
       ),

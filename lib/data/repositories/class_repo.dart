@@ -11,9 +11,10 @@ class ClassRepository {
 
   /// Stream all classes ordered by name.
   Stream<List<ClassModel>> watchAll() {
-    return _fs.classes.orderBy('name').snapshots().map(
-          (snap) => snap.docs.map(ClassModel.fromDoc).toList(),
-        );
+    return _fs.classes
+        .orderBy('name')
+        .snapshots()
+        .map((snap) => snap.docs.map(ClassModel.fromDoc).toList());
   }
 
   /// Stream unique class names sorted alphabetically.
@@ -51,7 +52,9 @@ class ClassRepository {
   }
 
   /// Create a new class document.
-  Future<DocumentReference<Map<String, dynamic>>> create(ClassModel classModel) {
+  Future<DocumentReference<Map<String, dynamic>>> create(
+    ClassModel classModel,
+  ) {
     return _fs.classes.add(classModel.toMap());
   }
 

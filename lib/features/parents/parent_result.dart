@@ -23,8 +23,10 @@ class ParentResultsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text("Children's Results",
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          "Children's Results",
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: uid == null
           ? const Center(child: CircularProgressIndicator())
@@ -39,8 +41,7 @@ class _MultiChildResultsBody extends StatefulWidget {
   const _MultiChildResultsBody({required this.parentUid});
 
   @override
-  State<_MultiChildResultsBody> createState() =>
-      _MultiChildResultsBodyState();
+  State<_MultiChildResultsBody> createState() => _MultiChildResultsBodyState();
 }
 
 class _MultiChildResultsBodyState extends State<_MultiChildResultsBody> {
@@ -105,16 +106,25 @@ class _MultiChildResultsBodyState extends State<_MultiChildResultsBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.family_restroom_rounded,
-                size: 64, color: AppColors.textHint),
+            const Icon(
+              Icons.family_restroom_rounded,
+              size: 64,
+              color: AppColors.textHint,
+            ),
             const SizedBox(height: 16),
-            Text('No children linked to your account.',
-                style: AppTextStyles.bodyMedium
-                    .copyWith(color: AppColors.textSecondary)),
+            Text(
+              'No children linked to your account.',
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text('Contact the school admin to link your child.',
-                style: AppTextStyles.labelSmall
-                    .copyWith(color: AppColors.textHint)),
+            Text(
+              'Contact the school admin to link your child.',
+              style: AppTextStyles.labelSmall.copyWith(
+                color: AppColors.textHint,
+              ),
+            ),
           ],
         ),
       );
@@ -135,8 +145,10 @@ class _MultiChildResultsBodyState extends State<_MultiChildResultsBody> {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        Text('Select a child to view results',
-            style: AppTextStyles.sectionTitle),
+        Text(
+          'Select a child to view results',
+          style: AppTextStyles.sectionTitle,
+        ),
         const SizedBox(height: 12),
 
         // ── Child selector cards ──────────────────────────────
@@ -146,8 +158,7 @@ class _MultiChildResultsBodyState extends State<_MultiChildResultsBody> {
           final isSelected = _selectedIndex == i;
 
           return GestureDetector(
-            onTap: () => setState(
-                () => _selectedIndex = isSelected ? -1 : i),
+            onTap: () => setState(() => _selectedIndex = isSelected ? -1 : i),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               margin: const EdgeInsets.only(bottom: 12),
@@ -167,7 +178,7 @@ class _MultiChildResultsBodyState extends State<_MultiChildResultsBody> {
                     radius: 24,
                     backgroundColor: isSelected
                         ? Colors.white24
-                        : AppColors.primary.withOpacity(0.12),
+                        : AppColors.primary.withValues(alpha: 0.12),
                     child: Text(
                       (child['name'] as String).isNotEmpty
                           ? (child['name'] as String)[0].toUpperCase()
@@ -176,9 +187,7 @@ class _MultiChildResultsBodyState extends State<_MultiChildResultsBody> {
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w700,
                         fontSize: 18,
-                        color: isSelected
-                            ? Colors.white
-                            : AppColors.primary,
+                        color: isSelected ? Colors.white : AppColors.primary,
                       ),
                     ),
                   ),
@@ -211,9 +220,7 @@ class _MultiChildResultsBodyState extends State<_MultiChildResultsBody> {
                     isSelected
                         ? Icons.keyboard_arrow_up_rounded
                         : Icons.keyboard_arrow_down_rounded,
-                    color: isSelected
-                        ? Colors.white
-                        : AppColors.textSecondary,
+                    color: isSelected ? Colors.white : AppColors.textSecondary,
                   ),
                 ],
               ),
@@ -222,14 +229,11 @@ class _MultiChildResultsBodyState extends State<_MultiChildResultsBody> {
         }),
 
         // ── Detail for selected child ─────────────────────────
-        if (_selectedIndex >= 0 &&
-            _selectedIndex < _children.length) ...[
+        if (_selectedIndex >= 0 && _selectedIndex < _children.length) ...[
           const SizedBox(height: 8),
           _ResultsDetail(
-            studentId:
-                _children[_selectedIndex]['studentId'] as String,
-            studentName:
-                _children[_selectedIndex]['name'] as String,
+            studentId: _children[_selectedIndex]['studentId'] as String,
+            studentName: _children[_selectedIndex]['name'] as String,
           ),
         ],
       ],
@@ -242,10 +246,7 @@ class _ResultsDetail extends StatelessWidget {
   final String studentId;
   final String studentName;
 
-  const _ResultsDetail({
-    required this.studentId,
-    required this.studentName,
-  });
+  const _ResultsDetail({required this.studentId, required this.studentName});
 
   @override
   Widget build(BuildContext context) {
@@ -256,8 +257,7 @@ class _ResultsDetail extends StatelessWidget {
           .orderBy('createdAt', descending: true)
           .snapshots(),
       builder: (context, snap) {
-        if (snap.connectionState == ConnectionState.waiting &&
-            !snap.hasData) {
+        if (snap.connectionState == ConnectionState.waiting && !snap.hasData) {
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 32),
             child: Center(child: CircularProgressIndicator()),
@@ -276,13 +276,19 @@ class _ResultsDetail extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const Icon(Icons.bar_chart_rounded,
-                    size: 48, color: AppColors.textHint),
+                const Icon(
+                  Icons.bar_chart_rounded,
+                  size: 48,
+                  color: AppColors.textHint,
+                ),
                 const SizedBox(height: 12),
-                Text('No results available yet for $studentName.',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(color: AppColors.textSecondary)),
+                Text(
+                  'No results available yet for $studentName.',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
           );
@@ -333,16 +339,19 @@ class _ResultsDetail extends StatelessWidget {
                           value: avg / 100,
                           strokeWidth: 7,
                           backgroundColor: Colors.white24,
-                          valueColor:
-                              const AlwaysStoppedAnimation(Colors.white),
+                          valueColor: const AlwaysStoppedAnimation(
+                            Colors.white,
+                          ),
                         ),
-                        Text(grade,
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            )),
+                        Text(
+                          grade,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -351,18 +360,26 @@ class _ResultsDetail extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Overall Performance',
-                            style: AppTextStyles.bodyMediumBold
-                                .copyWith(color: Colors.white)),
+                        Text(
+                          'Overall Performance',
+                          style: AppTextStyles.bodyMediumBold.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
                         const SizedBox(height: 6),
                         Text(
-                            'Average: ${avg.toStringAsFixed(1)}%',
-                            style: AppTextStyles.labelMedium
-                                .copyWith(color: Colors.white70)),
+                          'Average: ${avg.toStringAsFixed(1)}%',
+                          style: AppTextStyles.labelMedium.copyWith(
+                            color: Colors.white70,
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text('Total subjects: $count',
-                            style: AppTextStyles.labelSmall
-                                .copyWith(color: Colors.white60)),
+                        Text(
+                          'Total subjects: $count',
+                          style: AppTextStyles.labelSmall.copyWith(
+                            color: Colors.white60,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -372,104 +389,105 @@ class _ResultsDetail extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Per-exam sections
-            ...grouped.entries.expand((entry) => [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      children: [
-                        Container(
-                            width: 4,
-                            height: 18,
-                            decoration: BoxDecoration(
-                                color: AppColors.primary,
-                                borderRadius: BorderRadius.circular(2))),
-                        const SizedBox(width: 10),
-                        Text(entry.key,
-                            style: AppTextStyles.sectionTitle),
-                      ],
-                    ),
-                  ),
-                  ...entry.value.map((doc) {
-                    final d = doc.data() as Map<String, dynamic>;
-                    final subject =
-                        d['subject'] as String? ?? 'Subject';
-                    final marks =
-                        (d['marksObtained'] as num?)?.toDouble() ?? 0;
-                    final total =
-                        (d['totalMarks'] as num?)?.toDouble() ?? 100;
-                    final pct =
-                        (d['percentage'] as num?)?.toDouble() ?? 0;
-                    final grd = DataHelpers.letterGrade(pct);
-                    final gradeColor = DataHelpers.gradeColor(pct);
-
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.cardBg,
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: AppColors.cardShadow,
+            ...grouped.entries.expand(
+              (entry) => [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 18,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: Text(subject,
-                                      style:
-                                          AppTextStyles.bodyMediumBold)),
-                              Container(
-                                width: 36,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color:
-                                      gradeColor.withOpacity(0.12),
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(grd,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: gradeColor,
-                                    )),
+                      const SizedBox(width: 10),
+                      Text(entry.key, style: AppTextStyles.sectionTitle),
+                    ],
+                  ),
+                ),
+                ...entry.value.map((doc) {
+                  final d = doc.data() as Map<String, dynamic>;
+                  final subject = d['subject'] as String? ?? 'Subject';
+                  final marks = (d['marksObtained'] as num?)?.toDouble() ?? 0;
+                  final total = (d['totalMarks'] as num?)?.toDouble() ?? 100;
+                  final pct = (d['percentage'] as num?)?.toDouble() ?? 0;
+                  final grd = DataHelpers.letterGrade(pct);
+                  final gradeColor = DataHelpers.gradeColor(pct);
+
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppColors.cardBg,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: AppColors.cardShadow,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                subject,
+                                style: AppTextStyles.bodyMediumBold,
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(4),
-                                  child: LinearProgressIndicator(
-                                    value: pct / 100,
-                                    minHeight: 6,
-                                    backgroundColor: AppColors.divider,
-                                    valueColor:
-                                        AlwaysStoppedAnimation(
-                                            gradeColor),
+                            ),
+                            Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: gradeColor.withValues(alpha: 0.12),
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                grd,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: gradeColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: LinearProgressIndicator(
+                                  value: pct / 100,
+                                  minHeight: 6,
+                                  backgroundColor: AppColors.divider,
+                                  valueColor: AlwaysStoppedAnimation(
+                                    gradeColor,
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 12),
-                              Text(
-                                '${marks.toInt()}/${total.toInt()}',
-                                style: AppTextStyles.labelSmall
-                                    .copyWith(
-                                        fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              '${marks.toInt()}/${total.toInt()}',
+                              style: AppTextStyles.labelSmall.copyWith(
+                                fontWeight: FontWeight.w600,
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-                  const SizedBox(height: 12),
-                ]),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+                const SizedBox(height: 12),
+              ],
+            ),
           ],
         );
       },

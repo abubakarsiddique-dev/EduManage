@@ -17,11 +17,7 @@ class AttendanceApiService {
     try {
       final response = await _client.post(
         ApiEndpoints.attendance,
-        body: {
-          'className': className,
-          'date': date,
-          'records': records,
-        },
+        body: {'className': className, 'date': date, 'records': records},
       );
 
       return ApiResponse<dynamic>(
@@ -41,16 +37,15 @@ class AttendanceApiService {
   }
 
   /// Fetches attendance history and stats for a specific student.
-  Future<ApiResponse<Map<String, dynamic>>> getStudentAttendance(String studentId) async {
+  Future<ApiResponse<Map<String, dynamic>>> getStudentAttendance(
+    String studentId,
+  ) async {
     try {
       final url = ApiEndpoints.studentAttendance(studentId);
       final response = await _client.get(url);
 
       if (response is Map<String, dynamic>) {
-        return ApiResponse<Map<String, dynamic>>(
-          success: true,
-          data: response,
-        );
+        return ApiResponse<Map<String, dynamic>>(success: true, data: response);
       }
 
       return ApiResponse<Map<String, dynamic>>.error('Invalid attendance data');
@@ -73,10 +68,7 @@ class AttendanceApiService {
     try {
       final response = await _client.get(
         ApiEndpoints.attendance,
-        queryParameters: {
-          'class': className,
-          'date': date,
-        },
+        queryParameters: {'class': className, 'date': date},
       );
 
       if (response is List) {
@@ -86,16 +78,10 @@ class AttendanceApiService {
           return AttendanceModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<AttendanceModel>>(
-          success: true,
-          data: list,
-        );
+        return ApiResponse<List<AttendanceModel>>(success: true, data: list);
       }
 
-      return ApiResponse<List<AttendanceModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<AttendanceModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<AttendanceModel>>.error(
         e.message,

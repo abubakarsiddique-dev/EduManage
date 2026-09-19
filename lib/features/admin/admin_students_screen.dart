@@ -49,12 +49,13 @@ class _AdminStudentsScreenState extends State<AdminStudentsScreen> {
             padding: const EdgeInsets.all(16),
             child: TextField(
               controller: _searchCtrl,
-              onChanged: (v) =>
-                  setState(() => _searchQuery = v.toLowerCase()),
+              onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
               decoration: InputDecoration(
                 hintText: 'Search students...',
-                prefixIcon: const Icon(Icons.search_rounded,
-                    color: AppColors.textHint),
+                prefixIcon: const Icon(
+                  Icons.search_rounded,
+                  color: AppColors.textHint,
+                ),
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
@@ -67,8 +68,10 @@ class _AdminStudentsScreenState extends State<AdminStudentsScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide:
-                      const BorderSide(color: AppColors.adminColor, width: 2),
+                  borderSide: const BorderSide(
+                    color: AppColors.adminColor,
+                    width: 2,
+                  ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(vertical: 14),
               ),
@@ -91,8 +94,11 @@ class _AdminStudentsScreenState extends State<AdminStudentsScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.people_outline_rounded,
-                            size: 64, color: AppColors.textHint),
+                        Icon(
+                          Icons.people_outline_rounded,
+                          size: 64,
+                          color: AppColors.textHint,
+                        ),
                         SizedBox(height: 16),
                         Text(
                           'No students yet.\nTap + to add one.',
@@ -110,15 +116,14 @@ class _AdminStudentsScreenState extends State<AdminStudentsScreen> {
 
                 final docs = snap.data!.docs.where((doc) {
                   final data = doc.data() as Map<String, dynamic>;
-                  final name =
-                      (data['name'] as String? ?? '').toLowerCase();
+                  final name = (data['name'] as String? ?? '').toLowerCase();
                   return name.contains(_searchQuery);
                 }).toList();
 
                 return ListView.separated(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
                   itemCount: docs.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 10),
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
                   itemBuilder: (context, i) {
                     final data = docs[i].data() as Map<String, dynamic>;
                     return _StudentTile(
@@ -173,7 +178,7 @@ class _StudentTile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: AppColors.adminColor.withOpacity(0.1),
+            backgroundColor: AppColors.adminColor.withValues(alpha: 0.1),
             child: Text(
               name.isNotEmpty ? name[0].toUpperCase() : 'S',
               style: const TextStyle(
@@ -210,8 +215,7 @@ class _StudentTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    _Badge(
-                        label: 'Roll: $rollNo', color: AppColors.adminColor),
+                    _Badge(label: 'Roll: $rollNo', color: AppColors.adminColor),
                     const SizedBox(width: 6),
                     _Badge(label: className, color: AppColors.accent),
                   ],
@@ -232,8 +236,10 @@ class _StudentTile extends StatelessWidget {
               PopupMenuItem(value: 'edit', child: Text('Edit')),
               PopupMenuItem(value: 'delete', child: Text('Delete')),
             ],
-            child: const Icon(Icons.more_vert_rounded,
-                color: AppColors.textHint),
+            child: const Icon(
+              Icons.more_vert_rounded,
+              color: AppColors.textHint,
+            ),
           ),
         ],
       ),
@@ -251,7 +257,7 @@ class _Badge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
@@ -305,8 +311,7 @@ class _AddStudentSheetState extends State<_AddStudentSheet> {
     if (className == null || className.isEmpty) return;
 
     setState(() => _loadingPreview = true);
-    final preview =
-        await RollNumberService.instance.peekNextRollNo(className);
+    final preview = await RollNumberService.instance.peekNextRollNo(className);
     if (mounted) {
       setState(() {
         _rollPreview = preview;
@@ -320,17 +325,18 @@ class _AddStudentSheetState extends State<_AddStudentSheet> {
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedClass == null || _selectedClass!.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a class')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a class')));
       return;
     }
     setState(() => _loading = true);
 
     try {
       // 1. Reserve roll number atomically.
-      final rollNo = await RollNumberService.instance
-          .nextRollNo(_selectedClass!);
+      final rollNo = await RollNumberService.instance.nextRollNo(
+        _selectedClass!,
+      );
 
       // 2. Write student doc directly (this sheet doesn't use AuthNotifier
       //    because it's a lightweight inline sheet without password).
@@ -363,7 +369,11 @@ class _AddStudentSheetState extends State<_AddStudentSheet> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(
-          24, 24, 24, MediaQuery.of(context).viewInsets.bottom + 32),
+        24,
+        24,
+        24,
+        MediaQuery.of(context).viewInsets.bottom + 32,
+      ),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -404,8 +414,7 @@ class _AddStudentSheetState extends State<_AddStudentSheet> {
               label: 'Full Name',
               controller: _nameCtrl,
               prefixIcon: Icons.person_outline_rounded,
-              validator: (v) =>
-                  v == null || v.isEmpty ? 'Name required' : null,
+              validator: (v) => v == null || v.isEmpty ? 'Name required' : null,
             ),
             const SizedBox(height: 16),
             CustomTextField(
@@ -431,33 +440,40 @@ class _AddStudentSheetState extends State<_AddStudentSheet> {
               duration: const Duration(milliseconds: 200),
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 9),
+                  horizontal: 12,
+                  vertical: 9,
+                ),
                 decoration: BoxDecoration(
-                  color: AppColors.adminColor.withOpacity(0.07),
+                  color: AppColors.adminColor.withValues(alpha: 0.07),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: AppColors.adminColor.withOpacity(0.2)),
+                    color: AppColors.adminColor.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.tag_rounded,
-                        size: 14,
-                        color: AppColors.adminColor.withOpacity(0.8)),
+                    Icon(
+                      Icons.tag_rounded,
+                      size: 14,
+                      color: AppColors.adminColor.withValues(alpha: 0.8),
+                    ),
                     const SizedBox(width: 6),
                     const Text(
                       'Roll No: ',
                       style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          color: AppColors.textSecondary),
+                        fontFamily: 'Poppins',
+                        fontSize: 12,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                     if (_loadingPreview)
                       const SizedBox(
                         width: 10,
                         height: 10,
                         child: CircularProgressIndicator(
-                            strokeWidth: 1.5,
-                            color: AppColors.adminColor),
+                          strokeWidth: 1.5,
+                          color: AppColors.adminColor,
+                        ),
                       )
                     else
                       Text(
@@ -473,9 +489,10 @@ class _AddStudentSheetState extends State<_AddStudentSheet> {
                     const Text(
                       'auto-generated',
                       style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 10,
-                          color: AppColors.textHint),
+                        fontFamily: 'Poppins',
+                        fontSize: 10,
+                        color: AppColors.textHint,
+                      ),
                     ),
                   ],
                 ),

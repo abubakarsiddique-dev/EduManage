@@ -25,12 +25,16 @@ class AppEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final circleSize = isCompact ? 14.w.clamp(48.0, 58.0) : 20.w.clamp(68.0, 84.0);
+    final circleSize = isCompact
+        ? 14.w.clamp(48.0, 58.0)
+        : 20.w.clamp(68.0, 84.0);
     final iconSize = isCompact ? 7.w.clamp(24.0, 30.0) : 10.w.clamp(34.0, 42.0);
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(isCompact ? AppDimensions.space16 : AppDimensions.space32),
+        padding: EdgeInsets.all(
+          isCompact ? AppDimensions.space16 : AppDimensions.space32,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -41,13 +45,11 @@ class AppEmptyState extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.primarySubtle,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.primaryLight.withValues(alpha: 0.2)),
+                border: Border.all(
+                  color: AppColors.primaryLight.withValues(alpha: 0.2),
+                ),
               ),
-              child: Icon(
-                icon,
-                size: iconSize,
-                color: AppColors.primary,
-              ),
+              child: Icon(icon, size: iconSize, color: AppColors.primary),
             ),
             const SizedBox(height: AppDimensions.space16),
             Text(

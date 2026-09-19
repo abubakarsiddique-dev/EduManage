@@ -229,7 +229,9 @@ class _AttendanceCard extends StatelessWidget {
                     CircularProgressIndicator(
                       value: total == 0 ? 0 : pct,
                       strokeWidth: 7,
-                      backgroundColor: AppColors.studentColor.withValues(alpha: 0.15),
+                      backgroundColor: AppColors.studentColor.withValues(
+                        alpha: 0.15,
+                      ),
                       valueColor: const AlwaysStoppedAnimation(
                         AppColors.studentColor,
                       ),

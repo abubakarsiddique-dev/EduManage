@@ -27,7 +27,8 @@ class WaitingApprovalScreen extends ConsumerStatefulWidget {
   const WaitingApprovalScreen({super.key});
 
   @override
-  ConsumerState<WaitingApprovalScreen> createState() => _WaitingApprovalScreenState();
+  ConsumerState<WaitingApprovalScreen> createState() =>
+      _WaitingApprovalScreenState();
 }
 
 class _WaitingApprovalScreenState extends ConsumerState<WaitingApprovalScreen>
@@ -90,8 +91,10 @@ class _WaitingApprovalScreenState extends ConsumerState<WaitingApprovalScreen>
                   alignment: Alignment.topLeft,
                   child: IconButton(
                     onPressed: _signingOut ? null : _backToLogin,
-                    icon: const Icon(Icons.arrow_back_ios_rounded,
-                        color: AppColors.textSecondary),
+                    icon: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: AppColors.textSecondary,
+                    ),
                     tooltip: 'Back to login',
                   ),
                 ),
@@ -109,10 +112,13 @@ class _WaitingApprovalScreenState extends ConsumerState<WaitingApprovalScreen>
                     height: 120,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.warning.withOpacity(0.12),
+                      color: AppColors.warning.withValues(alpha: 0.12),
                     ),
-                    child: Icon(Icons.hourglass_top_rounded,
-                        size: 56, color: AppColors.warning),
+                    child: Icon(
+                      Icons.hourglass_top_rounded,
+                      size: 56,
+                      color: AppColors.warning,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -154,7 +160,9 @@ class _WaitingApprovalScreenState extends ConsumerState<WaitingApprovalScreen>
                     final user = authState.user;
                     if (user != null) {
                       // ignore: use_build_context_synchronously
-                      await ref.read(authProvider.notifier).refreshApprovalStatus();
+                      await ref
+                          .read(authProvider.notifier)
+                          .refreshApprovalStatus();
                     }
                   },
                 ),

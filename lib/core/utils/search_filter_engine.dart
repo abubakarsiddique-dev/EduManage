@@ -228,7 +228,12 @@ class SearchFilterEngine<T> {
 
     // 1. Text search
     if (query != null && query.trim().isNotEmpty && searchExtractors != null) {
-      result = search(result, query, searchExtractors, matchAllTokens: matchAllTokens);
+      result = search(
+        result,
+        query,
+        searchExtractors,
+        matchAllTokens: matchAllTokens,
+      );
     }
 
     // 2. Structured predicates

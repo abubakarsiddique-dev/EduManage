@@ -48,8 +48,10 @@ class PrivacyPolicyScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Privacy Policy',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Privacy Policy',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
@@ -81,36 +83,61 @@ class PrivacyPolicyScreen extends ConsumerWidget {
           ),
 
           _SectionTitle(title: '2. Information We Collect', color: roleColor),
-          const _Bullet('Account information: name, email address, phone '
-              'number, role (admin/teacher/student/parent), and a profile '
-              'photo if you choose to upload one.'),
-          const _Bullet('Academic records: class/section assignment, roll '
-              'number, attendance entries, exam results, grades, and '
-              'assignment submissions.'),
-          const _Bullet('Financial records: fee amounts, due dates, and '
-              'payment status, visible only to the relevant student\'s '
-              'family and to school Admins.'),
-          const _Bullet('Communication data: notices, announcements, and '
-              'in‑app notifications sent to your account.'),
-          const _Bullet('Device information: a push‑notification token used '
-              'to deliver alerts to your device, and basic technical data '
-              '(app version, platform) needed to keep the App working.'),
-          const _Bullet('Parent–child links: which parent account(s) are '
-              'connected to which student account(s), set up by the school '
-              'Admin during approval.'),
+          const _Bullet(
+            'Account information: name, email address, phone '
+            'number, role (admin/teacher/student/parent), and a profile '
+            'photo if you choose to upload one.',
+          ),
+          const _Bullet(
+            'Academic records: class/section assignment, roll '
+            'number, attendance entries, exam results, grades, and '
+            'assignment submissions.',
+          ),
+          const _Bullet(
+            'Financial records: fee amounts, due dates, and '
+            'payment status, visible only to the relevant student\'s '
+            'family and to school Admins.',
+          ),
+          const _Bullet(
+            'Communication data: notices, announcements, and '
+            'in‑app notifications sent to your account.',
+          ),
+          const _Bullet(
+            'Device information: a push‑notification token used '
+            'to deliver alerts to your device, and basic technical data '
+            '(app version, platform) needed to keep the App working.',
+          ),
+          const _Bullet(
+            'Parent–child links: which parent account(s) are '
+            'connected to which student account(s), set up by the school '
+            'Admin during approval.',
+          ),
 
-          _SectionTitle(title: '3. How We Use Your Information', color: roleColor),
-          const _Bullet('To operate core features: attendance tracking, '
-              'grading, timetables, fee tracking, and notices.'),
-          const _Bullet('To let parents view their own child\'s attendance, '
-              'results, and fee status — and nothing belonging to other '
-              'students.'),
-          const _Bullet('To send notices and alerts relevant to your role '
-              '(e.g. exam schedules, fee reminders, attendance warnings).'),
-          const _Bullet('To verify identity during sign‑in and to approve '
-              'new student, teacher, and parent registrations.'),
-          const _Bullet('To maintain the security and integrity of school '
-              'records (e.g. preventing duplicate attendance entries).'),
+          _SectionTitle(
+            title: '3. How We Use Your Information',
+            color: roleColor,
+          ),
+          const _Bullet(
+            'To operate core features: attendance tracking, '
+            'grading, timetables, fee tracking, and notices.',
+          ),
+          const _Bullet(
+            'To let parents view their own child\'s attendance, '
+            'results, and fee status — and nothing belonging to other '
+            'students.',
+          ),
+          const _Bullet(
+            'To send notices and alerts relevant to your role '
+            '(e.g. exam schedules, fee reminders, attendance warnings).',
+          ),
+          const _Bullet(
+            'To verify identity during sign‑in and to approve '
+            'new student, teacher, and parent registrations.',
+          ),
+          const _Bullet(
+            'To maintain the security and integrity of school '
+            'records (e.g. preventing duplicate attendance entries).',
+          ),
           const _Paragraph(
             'We do not use student, parent, or teacher data for advertising, '
             'and we do not sell personal information to third parties.',
@@ -128,18 +155,25 @@ class PrivacyPolicyScreen extends ConsumerWidget {
             'in Section 9.',
           ),
 
-          _SectionTitle(
-              title: '5. Who Can See What', color: roleColor),
-          const _Bullet('Admins can see and manage all student, teacher, '
-              'and parent records at their school.'),
-          const _Bullet('Teachers can see students, attendance, grades, and '
-              'assignments for the classes they are assigned to — not the '
-              'whole school.'),
-          const _Bullet('Students can see their own attendance, results, '
-              'assignments, timetable, and notices — not other students\' '
-              'records.'),
-          const _Bullet('Parents can see only the records of the child(ren) '
-              'linked to their account by the school Admin.'),
+          _SectionTitle(title: '5. Who Can See What', color: roleColor),
+          const _Bullet(
+            'Admins can see and manage all student, teacher, '
+            'and parent records at their school.',
+          ),
+          const _Bullet(
+            'Teachers can see students, attendance, grades, and '
+            'assignments for the classes they are assigned to — not the '
+            'whole school.',
+          ),
+          const _Bullet(
+            'Students can see their own attendance, results, '
+            'assignments, timetable, and notices — not other students\' '
+            'records.',
+          ),
+          const _Bullet(
+            'Parents can see only the records of the child(ren) '
+            'linked to their account by the school Admin.',
+          ),
 
           _SectionTitle(title: '6. Data Storage & Security', color: roleColor),
           const _Paragraph(
@@ -164,8 +198,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
             'behalf, or reach us directly using the details in Section 9.',
           ),
 
-          _SectionTitle(
-              title: '8. Changes to This Policy', color: roleColor),
+          _SectionTitle(title: '8. Changes to This Policy', color: roleColor),
           const _Paragraph(
             'We may update this Privacy Policy from time to time to reflect '
             'changes in the App or in applicable law. We will update the '
@@ -219,8 +252,10 @@ class _HeaderBlock extends StatelessWidget {
           Container(
             width: 48,
             height: 48,
-            decoration:
-                BoxDecoration(color: color.withValues(alpha: 0.12), shape: BoxShape.circle),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
             child: Icon(icon, color: color, size: 24),
           ),
           const SizedBox(width: 14),
@@ -230,9 +265,12 @@ class _HeaderBlock extends StatelessWidget {
               children: [
                 Text(title, style: AppTextStyles.bodyMediumBold),
                 const SizedBox(height: 3),
-                Text(subtitle,
-                    style: AppTextStyles.labelSmall
-                        .copyWith(color: AppColors.textSecondary)),
+                Text(
+                  subtitle,
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
           ),
@@ -256,8 +294,10 @@ class _SectionTitle extends StatelessWidget {
           Container(
             width: 4,
             height: 16,
-            decoration:
-                BoxDecoration(color: color, borderRadius: BorderRadius.circular(2)),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(2),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(child: Text(title, style: AppTextStyles.sectionTitle)),
@@ -277,8 +317,10 @@ class _Paragraph extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4),
       child: Text(
         text,
-        style: AppTextStyles.bodyMedium
-            .copyWith(color: AppColors.textSecondary, height: 1.6),
+        style: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textSecondary,
+          height: 1.6,
+        ),
       ),
     );
   }
@@ -301,15 +343,19 @@ class _Bullet extends StatelessWidget {
               width: 6,
               height: 6,
               decoration: const BoxDecoration(
-                  color: AppColors.textHint, shape: BoxShape.circle),
+                color: AppColors.textHint,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               text,
-              style: AppTextStyles.bodyMedium
-                  .copyWith(color: AppColors.textSecondary, height: 1.6),
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+                height: 1.6,
+              ),
             ),
           ),
         ],

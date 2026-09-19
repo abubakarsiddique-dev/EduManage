@@ -32,8 +32,9 @@ class ApiEndpoints {
   // Students
   static String get students => '$baseUrl/students';
   static String studentById(String id) => '$baseUrl/students/$id';
-  static String parentChildren([String? parentId]) =>
-      parentId != null ? '$baseUrl/students/parent/$parentId' : '$baseUrl/students/parent';
+  static String parentChildren([String? parentId]) => parentId != null
+      ? '$baseUrl/students/parent/$parentId'
+      : '$baseUrl/students/parent';
 
   // Teachers
   static String get teachers => '$baseUrl/teachers';
@@ -42,8 +43,9 @@ class ApiEndpoints {
   // Attendance
   static String get attendance => '$baseUrl/attendance';
   static String get attendanceByClass => '$baseUrl/attendance/class';
-  static String studentAttendance([String? studentId]) =>
-      studentId != null ? '$baseUrl/attendance/student/$studentId' : '$baseUrl/attendance/student';
+  static String studentAttendance([String? studentId]) => studentId != null
+      ? '$baseUrl/attendance/student/$studentId'
+      : '$baseUrl/attendance/student';
 
   // Assignments
   static String get assignments => '$baseUrl/assignments';
@@ -70,8 +72,10 @@ class ApiEndpoints {
 
   // Dashboard
   static String get adminDashboard => '$baseUrl/dashboard/admin';
-  static String teacherDashboard([String? teacherId]) =>
-      teacherId != null ? '$baseUrl/dashboard/teacher/$teacherId' : '$baseUrl/dashboard/teacher';
-  static String studentDashboard([String? studentId]) =>
-      studentId != null ? '$baseUrl/dashboard/student/$studentId' : '$baseUrl/dashboard/student';
+  static String teacherDashboard([String? teacherId]) => teacherId != null
+      ? '$baseUrl/dashboard/teacher/$teacherId'
+      : '$baseUrl/dashboard/teacher';
+  static String studentDashboard([String? studentId]) => studentId != null
+      ? '$baseUrl/dashboard/student/$studentId'
+      : '$baseUrl/dashboard/student';
 }

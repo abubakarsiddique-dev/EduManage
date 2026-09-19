@@ -13,12 +13,7 @@ enum NotificationCategory {
 }
 
 /// Delivery and visual urgency levels.
-enum NotificationPriority {
-  low,
-  normal,
-  high,
-  urgent,
-}
+enum NotificationPriority { low, normal, high, urgent }
 
 /// Notification entity representing incoming push or in-app alerts.
 class NotificationItem {
@@ -116,16 +111,23 @@ class NotificationHelper {
   }
 
   /// Determines priority based on category and textual cues.
-  static NotificationPriority inferPriority(String title, String body, NotificationCategory category) {
+  static NotificationPriority inferPriority(
+    String title,
+    String body,
+    NotificationCategory category,
+  ) {
     if (category == NotificationCategory.emergency) {
       return NotificationPriority.urgent;
     }
 
     final combined = '$title $body'.toLowerCase();
-    if (combined.contains('urgent') || combined.contains('immediate action') || combined.contains('last day')) {
+    if (combined.contains('urgent') ||
+        combined.contains('immediate action') ||
+        combined.contains('last day')) {
       return NotificationPriority.urgent;
     }
-    if (category == NotificationCategory.fee && (combined.contains('due') || combined.contains('overdue'))) {
+    if (category == NotificationCategory.fee &&
+        (combined.contains('due') || combined.contains('overdue'))) {
       return NotificationPriority.high;
     }
     if (category == NotificationCategory.exam) {
@@ -151,7 +153,9 @@ class NotificationHelper {
   }
 
   /// Groups items by category for filtered tab presentation.
-  static Map<NotificationCategory, List<NotificationItem>> groupByCategory(List<NotificationItem> items) {
+  static Map<NotificationCategory, List<NotificationItem>> groupByCategory(
+    List<NotificationItem> items,
+  ) {
     final map = <NotificationCategory, List<NotificationItem>>{};
     for (final item in items) {
       map.putIfAbsent(item.category, () => []).add(item);

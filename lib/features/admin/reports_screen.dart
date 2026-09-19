@@ -16,7 +16,10 @@ class ReportsScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: Text('Reports', style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Reports',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -56,7 +59,11 @@ class _ReportCard extends StatelessWidget {
   final String title;
   final Widget valueWidget;
   final Color color;
-  const _ReportCard({required this.title, required this.valueWidget, required this.color});
+  const _ReportCard({
+    required this.title,
+    required this.valueWidget,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +77,12 @@ class _ReportCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary)),
+          Text(
+            title,
+            style: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
           const SizedBox(height: 14),
           valueWidget,
         ],
@@ -80,15 +92,15 @@ class _ReportCard extends StatelessWidget {
 }
 
 Widget _loadingValue() => const SizedBox(
-      height: 28,
-      width: 28,
-      child: CircularProgressIndicator(strokeWidth: 2.5),
-    );
+  height: 28,
+  width: 28,
+  child: CircularProgressIndicator(strokeWidth: 2.5),
+);
 
 Widget _errorValue() => Text(
-      '—',
-      style: AppTextStyles.headingLarge.copyWith(color: AppColors.textHint),
-    );
+  '—',
+  style: AppTextStyles.headingLarge.copyWith(color: AppColors.textHint),
+);
 
 // ── Attendance: present / total over last 30 days ─────────────────────────────
 class _AttendanceReportCard extends StatelessWidget {
@@ -112,7 +124,12 @@ class _AttendanceReportCard extends StatelessWidget {
         } else {
           final docs = snap.data?.docs ?? [];
           if (docs.isEmpty) {
-            value = Text('No data', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textHint));
+            value = Text(
+              'No data',
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textHint,
+              ),
+            );
           } else {
             int present = 0;
             for (final doc in docs) {
@@ -120,11 +137,19 @@ class _AttendanceReportCard extends StatelessWidget {
               if ((data['status'] as String?) == 'present') present++;
             }
             final pct = (present / docs.length) * 100;
-            value = Text('${pct.toStringAsFixed(0)}%',
-                style: AppTextStyles.headingLarge.copyWith(color: AppColors.success));
+            value = Text(
+              '${pct.toStringAsFixed(0)}%',
+              style: AppTextStyles.headingLarge.copyWith(
+                color: AppColors.success,
+              ),
+            );
           }
         }
-        return _ReportCard(title: 'Attendance (30 days)', valueWidget: value, color: AppColors.success);
+        return _ReportCard(
+          title: 'Attendance (30 days)',
+          valueWidget: value,
+          color: AppColors.success,
+        );
       },
     );
   }
@@ -137,17 +162,31 @@ class _LatestExamGradeCard extends StatelessWidget {
     return StreamBuilder<List<ResultModel>>(
       stream: ResultRepository.instance.watchRecent(1),
       builder: (context, latestSnap) {
-        if (latestSnap.connectionState == ConnectionState.waiting && !latestSnap.hasData) {
-          return _ReportCard(title: 'Latest Exam Avg', valueWidget: _loadingValue(), color: AppColors.primary);
+        if (latestSnap.connectionState == ConnectionState.waiting &&
+            !latestSnap.hasData) {
+          return _ReportCard(
+            title: 'Latest Exam Avg',
+            valueWidget: _loadingValue(),
+            color: AppColors.primary,
+          );
         }
         if (latestSnap.hasError) {
-          return _ReportCard(title: 'Latest Exam Avg', valueWidget: _errorValue(), color: AppColors.primary);
+          return _ReportCard(
+            title: 'Latest Exam Avg',
+            valueWidget: _errorValue(),
+            color: AppColors.primary,
+          );
         }
         final latestResults = latestSnap.data ?? [];
         if (latestResults.isEmpty) {
           return _ReportCard(
             title: 'Latest Exam Avg',
-            valueWidget: Text('No data', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textHint)),
+            valueWidget: Text(
+              'No data',
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textHint,
+              ),
+            ),
             color: AppColors.primary,
           );
         }
@@ -162,14 +201,20 @@ class _LatestExamGradeCard extends StatelessWidget {
           builder: (context, examSnap) {
             Widget value;
             String subtitle = examTitle;
-            if (examSnap.connectionState == ConnectionState.waiting && !examSnap.hasData) {
+            if (examSnap.connectionState == ConnectionState.waiting &&
+                !examSnap.hasData) {
               value = _loadingValue();
             } else if (examSnap.hasError) {
               value = _errorValue();
             } else {
               final docs = examSnap.data?.docs ?? [];
               if (docs.isEmpty) {
-                value = Text('No data', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textHint));
+                value = Text(
+                  'No data',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.textHint,
+                  ),
+                );
               } else {
                 double total = 0;
                 int count = 0;
@@ -182,8 +227,12 @@ class _LatestExamGradeCard extends StatelessWidget {
                   }
                 }
                 final avg = count > 0 ? total / count : 0.0;
-                value = Text(DataHelpers.letterGrade(avg),
-                    style: AppTextStyles.headingLarge.copyWith(color: DataHelpers.gradeColor(avg)));
+                value = Text(
+                  DataHelpers.letterGrade(avg),
+                  style: AppTextStyles.headingLarge.copyWith(
+                    color: DataHelpers.gradeColor(avg),
+                  ),
+                );
               }
             }
             return _ReportCard(
@@ -202,7 +251,9 @@ class _LatestExamGradeCard extends StatelessWidget {
 class _NewStudentsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final since = Timestamp.fromDate(DateTime.now().subtract(const Duration(days: 30)));
+    final since = Timestamp.fromDate(
+      DateTime.now().subtract(const Duration(days: 30)),
+    );
 
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
@@ -217,9 +268,18 @@ class _NewStudentsCard extends StatelessWidget {
           value = _errorValue();
         } else {
           final count = snap.data?.docs.length ?? 0;
-          value = Text('$count', style: AppTextStyles.headingLarge.copyWith(color: AppColors.studentColor));
+          value = Text(
+            '$count',
+            style: AppTextStyles.headingLarge.copyWith(
+              color: AppColors.studentColor,
+            ),
+          );
         }
-        return _ReportCard(title: 'New Students (30 days)', valueWidget: value, color: AppColors.studentColor);
+        return _ReportCard(
+          title: 'New Students (30 days)',
+          valueWidget: value,
+          color: AppColors.studentColor,
+        );
       },
     );
   }
@@ -245,10 +305,18 @@ class _TeacherLoadCard extends StatelessWidget {
             final classes = data['classes'] as List<dynamic>?;
             totalAssignments += classes?.length ?? 0;
           }
-          value = Text('$totalAssignments classes',
-              style: AppTextStyles.headingLarge.copyWith(color: AppColors.teacherColor));
+          value = Text(
+            '$totalAssignments classes',
+            style: AppTextStyles.headingLarge.copyWith(
+              color: AppColors.teacherColor,
+            ),
+          );
         }
-        return _ReportCard(title: 'Teacher Load', valueWidget: value, color: AppColors.teacherColor);
+        return _ReportCard(
+          title: 'Teacher Load',
+          valueWidget: value,
+          color: AppColors.teacherColor,
+        );
       },
     );
   }
@@ -260,7 +328,9 @@ class _ComputedHighlights extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final since30 = Timestamp.fromDate(DateTime.now().subtract(const Duration(days: 30)));
+    final since30 = Timestamp.fromDate(
+      DateTime.now().subtract(const Duration(days: 30)),
+    );
     final sinceDate = DateTime.now().subtract(const Duration(days: 30));
     final sinceKey =
         '${sinceDate.year.toString().padLeft(4, '0')}-${sinceDate.month.toString().padLeft(2, '0')}-${sinceDate.day.toString().padLeft(2, '0')}';
@@ -286,7 +356,9 @@ class _ComputedHighlights extends StatelessWidget {
                   final data = doc.data() as Map<String, dynamic>;
                   if ((data['status'] as String?) == 'present') present++;
                 }
-                final attPct = attDocs.isNotEmpty ? (present / attDocs.length) * 100 : null;
+                final attPct = attDocs.isNotEmpty
+                    ? (present / attDocs.length) * 100
+                    : null;
 
                 final newStudentCount = newStudentSnap.data?.docs.length;
                 final classCount = classSnap.data;
@@ -294,26 +366,35 @@ class _ComputedHighlights extends StatelessWidget {
                 final items = <Widget>[];
 
                 if (attPct != null) {
-                  items.add(_ReportListItem(
-                    title: 'Attendance over the last 30 days: ${attPct.toStringAsFixed(0)}%',
-                    subtitle: 'Based on ${attDocs.length} recorded attendance entries',
-                  ));
+                  items.add(
+                    _ReportListItem(
+                      title:
+                          'Attendance over the last 30 days: ${attPct.toStringAsFixed(0)}%',
+                      subtitle:
+                          'Based on ${attDocs.length} recorded attendance entries',
+                    ),
+                  );
                 }
 
                 if (newStudentCount != null) {
-                  items.add(_ReportListItem(
-                    title: newStudentCount == 0
-                        ? 'No new students enrolled in the last 30 days'
-                        : '$newStudentCount new student${newStudentCount == 1 ? '' : 's'} enrolled in the last 30 days',
-                    subtitle: 'Counted from student creation date',
-                  ));
+                  items.add(
+                    _ReportListItem(
+                      title: newStudentCount == 0
+                          ? 'No new students enrolled in the last 30 days'
+                          : '$newStudentCount new student${newStudentCount == 1 ? '' : 's'} enrolled in the last 30 days',
+                      subtitle: 'Counted from student creation date',
+                    ),
+                  );
                 }
 
                 if (classCount != null) {
-                  items.add(_ReportListItem(
-                    title: '$classCount class${classCount == 1 ? '' : 'es'} currently set up',
-                    subtitle: 'Total entries in the classes collection',
-                  ));
+                  items.add(
+                    _ReportListItem(
+                      title:
+                          '$classCount class${classCount == 1 ? '' : 'es'} currently set up',
+                      subtitle: 'Total entries in the classes collection',
+                    ),
+                  );
                 }
 
                 if (items.isEmpty) {
@@ -324,7 +405,9 @@ class _ComputedHighlights extends StatelessWidget {
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: AppColors.cardShadow,
                     ),
-                    child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                    child: const Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
                   );
                 }
 
@@ -358,7 +441,12 @@ class _ReportListItem extends StatelessWidget {
         children: [
           Text(title, style: AppTextStyles.bodyMediumBold),
           const SizedBox(height: 6),
-          Text(subtitle, style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary)),
+          Text(
+            subtitle,
+            style: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
         ],
       ),
     );

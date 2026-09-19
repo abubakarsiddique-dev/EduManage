@@ -137,8 +137,8 @@ class AuthRepository {
           'subjects': extraData['subjects'] ?? <String>[],
           'subject':
               (extraData['subjects'] as List<dynamic>?)?.isNotEmpty == true
-                  ? (extraData['subjects'] as List<dynamic>).first
-                  : (extraData['subject'] ?? ''),
+              ? (extraData['subjects'] as List<dynamic>).first
+              : (extraData['subject'] ?? ''),
           'qualification': extraData['qualification'] ?? '',
           'classes': extraData['classes'] ?? <String>[],
           'approved': true,
@@ -236,21 +236,21 @@ class AuthRepository {
         .where('studentId', isEqualTo: studentId)
         .snapshots()
         .asyncMap((snap) async {
-      final results = <Map<String, dynamic>>[];
-      for (final doc in snap.docs) {
-        final parentId = doc.data()['parentId'] as String?;
-        if (parentId == null) continue;
-        final parentDoc = await _fs.parents.doc(parentId).get();
-        if (parentDoc.exists) {
-          results.add({
-            'parentId': parentId,
-            'name': parentDoc.data()?['name'] ?? 'Unknown',
-            'email': parentDoc.data()?['email'] ?? '',
-          });
-        }
-      }
-      return results;
-    });
+          final results = <Map<String, dynamic>>[];
+          for (final doc in snap.docs) {
+            final parentId = doc.data()['parentId'] as String?;
+            if (parentId == null) continue;
+            final parentDoc = await _fs.parents.doc(parentId).get();
+            if (parentDoc.exists) {
+              results.add({
+                'parentId': parentId,
+                'name': parentDoc.data()?['name'] ?? 'Unknown',
+                'email': parentDoc.data()?['email'] ?? '',
+              });
+            }
+          }
+          return results;
+        });
   }
 
   Stream<List<Map<String, dynamic>>> watchAvailableParents(String studentId) {
@@ -258,20 +258,23 @@ class AuthRepository {
         .where('studentId', isEqualTo: studentId)
         .snapshots()
         .asyncMap((linkedSnap) async {
-      final linkedIds = linkedSnap.docs
-          .map((d) => d.data()['parentId'] as String?)
-          .whereType<String>()
-          .toSet();
-      final allParents =
-          await _fs.parents.where('approved', isEqualTo: true).get();
-      return allParents.docs
-          .where((d) => !linkedIds.contains(d.id))
-          .map((d) => {
-                'parentId': d.id,
-                'name': d.data()['name'] ?? 'Unknown',
-                'email': d.data()['email'] ?? '',
-              })
-          .toList();
-    });
+          final linkedIds = linkedSnap.docs
+              .map((d) => d.data()['parentId'] as String?)
+              .whereType<String>()
+              .toSet();
+          final allParents = await _fs.parents
+              .where('approved', isEqualTo: true)
+              .get();
+          return allParents.docs
+              .where((d) => !linkedIds.contains(d.id))
+              .map(
+                (d) => {
+                  'parentId': d.id,
+                  'name': d.data()['name'] ?? 'Unknown',
+                  'email': d.data()['email'] ?? '',
+                },
+              )
+              .toList();
+        });
   }
 }

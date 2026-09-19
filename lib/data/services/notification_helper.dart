@@ -107,8 +107,7 @@ class AppNotifications {
     if (studentIds.isEmpty) return;
 
     for (var i = 0; i < studentIds.length; i += 10) {
-      final chunk = studentIds.sublist(
-          i, (i + 10).clamp(0, studentIds.length));
+      final chunk = studentIds.sublist(i, (i + 10).clamp(0, studentIds.length));
 
       final links = await _db
           .collection('parent_children')
@@ -153,7 +152,8 @@ class AppNotifications {
   }) async {
     await _notifyAllAdmins(
       title: '💳 Fee Payment Submitted — Action Required',
-      body: '$studentName submitted $feeType payment of '
+      body:
+          '$studentName submitted $feeType payment of '
           'Rs. ${paidAmount.toStringAsFixed(0)}. '
           'TXN: $transactionId. Tap to verify.',
       type: 'finance',
@@ -171,7 +171,8 @@ class AppNotifications {
     await _send(
       uid: parentUid,
       title: '✅ Fee Payment Verified',
-      body: '$feeType payment of Rs. ${paidAmount.toStringAsFixed(0)} '
+      body:
+          '$feeType payment of Rs. ${paidAmount.toStringAsFixed(0)} '
           'for $studentName has been verified and marked as PAID by the admin.',
       type: 'finance',
     );
@@ -189,9 +190,9 @@ class AppNotifications {
       title: '❌ Payment Proof Rejected',
       body: reason == null || reason.isEmpty
           ? 'Your payment proof for $studentName ($feeType) was rejected. '
-            'Please re-submit with correct details.'
+                'Please re-submit with correct details.'
           : 'Your payment proof for $studentName ($feeType) was rejected. '
-            'Reason: $reason. Please re-submit.',
+                'Reason: $reason. Please re-submit.',
       type: 'finance',
     );
   }
@@ -220,7 +221,8 @@ class AppNotifications {
         batch.set(ref, {
           'uid': uid,
           'title': '⚠️ Attendance: Marked Absent',
-          'body': 'You have been marked absent for $className on $dateLabel. '
+          'body':
+              'You have been marked absent for $className on $dateLabel. '
               'If this is incorrect, contact your class teacher.',
           'type': 'attendance',
           'isRead': false,
@@ -272,12 +274,17 @@ class AppNotifications {
     required double percentage,
     required String grade,
   }) async {
-    final emoji = percentage >= 80 ? '🌟' : percentage >= 60 ? '📊' : '📉';
+    final emoji = percentage >= 80
+        ? '🌟'
+        : percentage >= 60
+        ? '📊'
+        : '📉';
 
     await _send(
       uid: studentUid,
       title: '$emoji Result Posted: $subject — $examTitle',
-      body: 'Your $subject result for "$examTitle" has been recorded. '
+      body:
+          'Your $subject result for "$examTitle" has been recorded. '
           'You scored $grade (${percentage.toStringAsFixed(1)}%). '
           'Open Results to view the full breakdown.',
       type: 'result',
@@ -286,7 +293,8 @@ class AppNotifications {
     await _notifyParentsOfStudents(
       studentIds: [studentUid],
       title: '$emoji $studentName\'s $subject Result: $grade',
-      body: '$studentName scored $grade (${percentage.toStringAsFixed(1)}%) '
+      body:
+          '$studentName scored $grade (${percentage.toStringAsFixed(1)}%) '
           'in "$examTitle" ($subject). Open Results to see the full breakdown.',
       type: 'result',
     );
@@ -317,7 +325,8 @@ class AppNotifications {
       batch.set(ref, {
         'uid': student.id,
         'title': '📝 New Assignment: $subject',
-        'body': '$teacherName posted "$assignmentTitle" for $className. '
+        'body':
+            '$teacherName posted "$assignmentTitle" for $className. '
             'Due: $dueDate.',
         'type': 'assignment',
         'isRead': false,
@@ -330,7 +339,8 @@ class AppNotifications {
       await _notifyParentsOfStudents(
         studentIds: studentIds,
         title: '📝 New Assignment for Your Child: $subject',
-        body: 'A new $subject assignment "$assignmentTitle" has been posted '
+        body:
+            'A new $subject assignment "$assignmentTitle" has been posted '
             'for $className by $teacherName. Due: $dueDate.',
         type: 'assignment',
       );
@@ -372,7 +382,8 @@ class AppNotifications {
     await _send(
       uid: userUid,
       title: 'Account Approved ✅',
-      body: 'Good news, $userName! Your ${_roleLabel(role)} account has been '
+      body:
+          'Good news, $userName! Your ${_roleLabel(role)} account has been '
           'approved by the school administrator.',
       type: 'approval',
     );
@@ -385,7 +396,8 @@ class AppNotifications {
   }) async {
     await _notifyAllAdmins(
       title: 'New Registration Pending Approval 🔔',
-      body: '$userName has registered as a ${_roleLabel(role)} ($email) and '
+      body:
+          '$userName has registered as a ${_roleLabel(role)} ($email) and '
           'is waiting for your approval.',
       type: 'registration',
     );
@@ -398,7 +410,8 @@ class AppNotifications {
     await _send(
       uid: teacherUid,
       title: 'Welcome to EduManage! 🎉',
-      body: 'Hi $teacherName, your teacher account has been created. '
+      body:
+          'Hi $teacherName, your teacher account has been created. '
           'You can now log in and manage your classes.',
       type: 'general',
     );
@@ -413,7 +426,8 @@ class AppNotifications {
     await _send(
       uid: studentUid,
       title: 'Welcome to EduManage! 🎉',
-      body: 'Hi $studentName, your student account is ready. '
+      body:
+          'Hi $studentName, your student account is ready. '
           'You are enrolled in $className with Roll No $rollNo.',
       type: 'general',
     );
@@ -422,16 +436,17 @@ class AppNotifications {
   // ── Private helpers ───────────────────────────────────────────────────────
 
   static String _roleLabel(String role) => switch (role) {
-        'teacher' => 'teacher',
-        'parent'  => 'parent',
-        'admin'   => 'administrator',
-        _         => 'student',
-      };
+    'teacher' => 'teacher',
+    'parent' => 'parent',
+    'admin' => 'administrator',
+    _ => 'student',
+  };
 
-  static String _noticeType(String category) => switch (category.toLowerCase()) {
-        'exam'    => 'exam',
+  static String _noticeType(String category) =>
+      switch (category.toLowerCase()) {
+        'exam' => 'exam',
         'finance' => 'finance',
         'holiday' => 'holiday',
-        _         => 'general',
+        _ => 'general',
       };
 }

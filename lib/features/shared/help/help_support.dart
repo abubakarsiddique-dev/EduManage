@@ -26,40 +26,40 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
       'How do I reset my password?',
       'Go to Profile → Change Password, enter your current password '
           'and choose a new one. If you\'ve forgotten your current '
-          'password, contact your school administrator to have it reset.'
+          'password, contact your school administrator to have it reset.',
     ),
     (
       'Why can\'t I see my class schedule?',
       'Your timetable only appears once the admin has assigned you to a '
           'class and a teacher has added time slots for that class. If '
           'it\'s still empty after a day or two, ask your admin to check '
-          'your class assignment.'
+          'your class assignment.',
     ),
     (
       'My attendance percentage looks wrong.',
       'Attendance is calculated only from days your teacher has actually '
           'marked. If a day is missing, it usually means the teacher '
           'hasn\'t submitted attendance for that day yet — it is not '
-          'counted as absent until it\'s recorded.'
+          'counted as absent until it\'s recorded.',
     ),
     (
       'How do parents link to a student account?',
       'A parent registers normally and selects "Parent" as their role. '
           'An admin then approves the account and links it to the '
           'correct student from the Pending Approvals screen. Until '
-          'that link is made, no child data will be visible.'
+          'that link is made, no child data will be visible.',
     ),
     (
       'I\'m a teacher — why don\'t I see any classes?',
       'Classes are assigned by the admin. Until at least one class is '
           'assigned to your account, screens like Attendance, Grades and '
           'Assignments will show an empty state. Ask your admin to '
-          'assign you to a class.'
+          'assign you to a class.',
     ),
     (
       'How do I update my profile photo?',
       'Open Profile, tap the small camera icon on your avatar, and '
-          'choose a photo from your gallery. It uploads automatically.'
+          'choose a photo from your gallery. It uploads automatically.',
     ),
   ];
 
@@ -85,8 +85,10 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Help & Support',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Help & Support',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
@@ -163,8 +165,8 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
               answer: answer,
               isExpanded: isExpanded,
               color: roleColor,
-              onTap: () => setState(
-                  () => _expandedIndex = isExpanded ? null : i),
+              onTap: () =>
+                  setState(() => _expandedIndex = isExpanded ? null : i),
             );
           }),
 
@@ -181,17 +183,25 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.feedback_rounded, color: Colors.white, size: 26),
+                const Icon(
+                  Icons.feedback_rounded,
+                  color: Colors.white,
+                  size: 26,
+                ),
                 const SizedBox(height: 10),
-                Text('Still need help?',
-                    style: AppTextStyles.bodyMediumBold
-                        .copyWith(color: Colors.white)),
+                Text(
+                  'Still need help?',
+                  style: AppTextStyles.bodyMediumBold.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
                 const SizedBox(height: 4),
                 Text(
                   'Send us details about the issue you\'re facing and '
                   'we\'ll look into it.',
-                  style: AppTextStyles.labelSmall
-                      .copyWith(color: Colors.white70),
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: Colors.white70,
+                  ),
                 ),
                 const SizedBox(height: 14),
                 SizedBox(
@@ -214,11 +224,15 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(vertical: 13),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    child: Text('Send Feedback',
-                        style: AppTextStyles.bodyMediumBold
-                            .copyWith(color: AppColors.primary)),
+                    child: Text(
+                      'Send Feedback',
+                      style: AppTextStyles.bodyMediumBold.copyWith(
+                        color: AppColors.primary,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -241,7 +255,8 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
       context: context,
       backgroundColor: AppColors.cardBg,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (sheetCtx) => Padding(
         padding: const EdgeInsets.fromLTRB(24, 24, 24, 36),
         child: Column(
@@ -262,16 +277,22 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
             Container(
               width: 52,
               height: 52,
-              decoration:
-                  BoxDecoration(color: color.withOpacity(0.12), shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
               child: Icon(icon, color: color, size: 26),
             ),
             const SizedBox(height: 16),
             Text(title, style: AppTextStyles.headingMedium),
             const SizedBox(height: 10),
-            Text(message,
-                style: AppTextStyles.bodyMedium
-                    .copyWith(color: AppColors.textSecondary, height: 1.6)),
+            Text(
+              message,
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+                height: 1.6,
+              ),
+            ),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
@@ -280,12 +301,16 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: color,
                   padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape:
-                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: Text('Got it',
-                    style: AppTextStyles.bodyMediumBold
-                        .copyWith(color: Colors.white)),
+                child: Text(
+                  'Got it',
+                  style: AppTextStyles.bodyMediumBold.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ],
@@ -325,8 +350,10 @@ class _ContactTile extends StatelessWidget {
             Container(
               width: 42,
               height: 42,
-              decoration:
-                  BoxDecoration(color: color.withOpacity(0.12), shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
               child: Icon(icon, color: color, size: 20),
             ),
             const SizedBox(height: 8),
@@ -385,8 +412,11 @@ class _FaqTile extends StatelessWidget {
                   AnimatedRotation(
                     turns: isExpanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: Icon(Icons.keyboard_arrow_down_rounded,
-                        color: color, size: 22),
+                    child: Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: color,
+                      size: 22,
+                    ),
                   ),
                 ],
               ),
@@ -394,8 +424,9 @@ class _FaqTile extends StatelessWidget {
           ),
           AnimatedCrossFade(
             duration: const Duration(milliseconds: 200),
-            crossFadeState:
-                isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: isExpanded
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
             firstChild: const SizedBox(width: double.infinity, height: 0),
             secondChild: Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -403,8 +434,10 @@ class _FaqTile extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   answer,
-                  style: AppTextStyles.labelSmall
-                      .copyWith(color: AppColors.textSecondary, height: 1.6),
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: AppColors.textSecondary,
+                    height: 1.6,
+                  ),
                 ),
               ),
             ),

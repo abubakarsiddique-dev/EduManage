@@ -55,20 +55,18 @@ class _ClassSeederScreenState extends State<ClassSeederScreen> {
         for (final section in _sections) {
           final fullName = '$level - $section';
           // Use a deterministic doc ID so re-running is idempotent
-          final docId =
-              fullName.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '_');
-          final ref = db.collection('classes').doc(docId);
-          batch.set(
-            ref,
-            {
-              'name': fullName,
-              'section': section,
-              'classLevel': level,
-              'classTeacher': '',
-              'createdAt': FieldValue.serverTimestamp(),
-            },
-            SetOptions(merge: true),
+          final docId = fullName.toLowerCase().replaceAll(
+            RegExp(r'[^a-z0-9]'),
+            '_',
           );
+          final ref = db.collection('classes').doc(docId);
+          batch.set(ref, {
+            'name': fullName,
+            'section': section,
+            'classLevel': level,
+            'classTeacher': '',
+            'createdAt': FieldValue.serverTimestamp(),
+          }, SetOptions(merge: true));
           count++;
         }
       }
@@ -117,15 +115,18 @@ class _ClassSeederScreenState extends State<ClassSeederScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.info.withOpacity(0.1),
+                color: AppColors.info.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.info.withOpacity(0.3)),
+                border: Border.all(color: AppColors.info.withValues(alpha: 0.3)),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.info_outline_rounded,
-                      color: AppColors.info, size: 22),
+                  const Icon(
+                    Icons.info_outline_rounded,
+                    color: AppColors.info,
+                    size: 22,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
@@ -136,16 +137,19 @@ class _ClassSeederScreenState extends State<ClassSeederScreen> {
                       'timetable) use this exact name for filtering — '
                       'so consistent naming is critical.\n\n'
                       'Safe to run multiple times.',
-                      style: AppTextStyles.labelSmall
-                          .copyWith(color: AppColors.textSecondary),
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 24),
-            Text('Classes that will be created:',
-                style: AppTextStyles.sectionTitle),
+            Text(
+              'Classes that will be created:',
+              style: AppTextStyles.sectionTitle,
+            ),
             const SizedBox(height: 12),
             Expanded(
               child: SingleChildScrollView(
@@ -157,12 +161,15 @@ class _ClassSeederScreenState extends State<ClassSeederScreen> {
                       for (final section in _sections)
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
-                            color: AppColors.adminColor.withOpacity(0.1),
+                            color: AppColors.adminColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                                color: AppColors.adminColor.withOpacity(0.3)),
+                              color: AppColors.adminColor.withValues(alpha: 0.3),
+                            ),
                           ),
                           child: Text(
                             '$level - $section',
@@ -182,22 +189,26 @@ class _ClassSeederScreenState extends State<ClassSeederScreen> {
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: _done
-                      ? AppColors.success.withOpacity(0.1)
-                      : AppColors.warning.withOpacity(0.1),
+                      ? AppColors.success.withValues(alpha: 0.1)
+                      : AppColors.warning.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
                     Icon(
-                      _done ? Icons.check_circle_outline_rounded : Icons.info_outline_rounded,
+                      _done
+                          ? Icons.check_circle_outline_rounded
+                          : Icons.info_outline_rounded,
                       color: _done ? AppColors.success : AppColors.warning,
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: Text(_status,
-                          style: AppTextStyles.labelSmall.copyWith(
-                            color: _done ? AppColors.success : AppColors.warning,
-                          )),
+                      child: Text(
+                        _status,
+                        style: AppTextStyles.labelSmall.copyWith(
+                          color: _done ? AppColors.success : AppColors.warning,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -212,19 +223,24 @@ class _ClassSeederScreenState extends State<ClassSeederScreen> {
                         width: 18,
                         height: 18,
                         child: CircularProgressIndicator(
-                            strokeWidth: 2, color: Colors.white),
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
                       )
                     : const Icon(Icons.auto_fix_high_rounded),
-                label: Text(_seeding
-                    ? 'Creating classes...'
-                    : _done
-                        ? 'Run Again'
-                        : 'Create All Classes'),
+                label: Text(
+                  _seeding
+                      ? 'Creating classes...'
+                      : _done
+                      ? 'Run Again'
+                      : 'Create All Classes',
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.adminColor,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                   textStyle: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,

@@ -17,7 +17,9 @@ class AssignmentsApiService {
     try {
       final query = <String, dynamic>{};
       if (className != null && className.isNotEmpty) query['class'] = className;
-      if (teacherId != null && teacherId.isNotEmpty) query['teacherId'] = teacherId;
+      if (teacherId != null && teacherId.isNotEmpty) {
+        query['teacherId'] = teacherId;
+      }
       if (search != null && search.isNotEmpty) query['search'] = search;
 
       final response = await _client.get(
@@ -32,16 +34,10 @@ class AssignmentsApiService {
           return AssignmentModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<AssignmentModel>>(
-          success: true,
-          data: list,
-        );
+        return ApiResponse<List<AssignmentModel>>(success: true, data: list);
       }
 
-      return ApiResponse<List<AssignmentModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<AssignmentModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<AssignmentModel>>.error(
         e.message,
@@ -64,7 +60,10 @@ class AssignmentsApiService {
           data: AssignmentModel.fromMap(assignId, response),
         );
       }
-      return ApiResponse<AssignmentModel>.error('Assignment not found', statusCode: 404);
+      return ApiResponse<AssignmentModel>.error(
+        'Assignment not found',
+        statusCode: 404,
+      );
     } on ApiException catch (e) {
       return ApiResponse<AssignmentModel>.error(
         e.message,
@@ -77,7 +76,9 @@ class AssignmentsApiService {
   }
 
   /// Creates a new assignment.
-  Future<ApiResponse<AssignmentModel>> create(AssignmentModel assignment) async {
+  Future<ApiResponse<AssignmentModel>> create(
+    AssignmentModel assignment,
+  ) async {
     try {
       final payload = {
         'title': assignment.title,
@@ -98,7 +99,8 @@ class AssignmentsApiService {
       );
 
       if (response is Map<String, dynamic>) {
-        final id = (response['id'] ?? response['_id'] ?? assignment.id).toString();
+        final id = (response['id'] ?? response['_id'] ?? assignment.id)
+            .toString();
         return ApiResponse<AssignmentModel>(
           success: true,
           data: AssignmentModel.fromMap(id, response),

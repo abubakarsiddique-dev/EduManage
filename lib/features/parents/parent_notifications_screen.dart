@@ -25,16 +25,19 @@ class ParentNotificationsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Notifications',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Notifications',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
         actions: [
           // Mark all read button
           if (uid != null)
             TextButton(
               onPressed: () => _markAllRead(uid),
-              child: Text('Mark all read',
-                  style: AppTextStyles.labelSmall
-                      .copyWith(color: Colors.white70)),
+              child: Text(
+                'Mark all read',
+                style: AppTextStyles.labelSmall.copyWith(color: Colors.white70),
+              ),
             ),
         ],
       ),
@@ -84,12 +87,18 @@ class _NotificationsList extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.notifications_none_rounded,
-                    size: 64, color: AppColors.textHint),
+                const Icon(
+                  Icons.notifications_none_rounded,
+                  size: 64,
+                  color: AppColors.textHint,
+                ),
                 const SizedBox(height: 16),
-                Text('No notifications yet.',
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(color: AppColors.textSecondary)),
+                Text(
+                  'No notifications yet.',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
           );
@@ -98,7 +107,7 @@ class _NotificationsList extends StatelessWidget {
         return ListView.separated(
           padding: const EdgeInsets.all(16),
           itemCount: docs.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 10),
+          separatorBuilder: (_, _) => const SizedBox(height: 10),
           itemBuilder: (context, i) {
             final data = docs[i].data() as Map<String, dynamic>;
             final isRead = data['isRead'] as bool? ?? false;
@@ -117,13 +126,12 @@ class _NotificationsList extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isRead
                       ? AppColors.cardBg
-                      : AppColors.primary.withOpacity(0.05),
+                      : AppColors.primary.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: AppColors.cardShadow,
                   border: isRead
                       ? null
-                      : Border.all(
-                          color: AppColors.primary.withOpacity(0.2)),
+                      : Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,11 +141,14 @@ class _NotificationsList extends StatelessWidget {
                       width: 42,
                       height: 42,
                       decoration: BoxDecoration(
-                        color: _typeColor(type).withOpacity(0.12),
+                        color: _typeColor(type).withValues(alpha: 0.12),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(_typeIcon(type),
-                          color: _typeColor(type), size: 20),
+                      child: Icon(
+                        _typeIcon(type),
+                        color: _typeColor(type),
+                        size: 20,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -149,8 +160,7 @@ class _NotificationsList extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   data['title'] as String? ?? '',
-                                  style: AppTextStyles.bodyMediumBold
-                                      .copyWith(
+                                  style: AppTextStyles.bodyMediumBold.copyWith(
                                     fontWeight: isRead
                                         ? FontWeight.w500
                                         : FontWeight.w700,
@@ -179,8 +189,9 @@ class _NotificationsList extends StatelessWidget {
                             const SizedBox(height: 6),
                             Text(
                               _formatTime(createdAt),
-                              style: AppTextStyles.labelTiny
-                                  .copyWith(color: AppColors.textHint),
+                              style: AppTextStyles.labelTiny.copyWith(
+                                color: AppColors.textHint,
+                              ),
                             ),
                           ],
                         ],
@@ -198,23 +209,35 @@ class _NotificationsList extends StatelessWidget {
 
   Color _typeColor(String type) {
     switch (type) {
-      case 'finance': return AppColors.warning;
-      case 'attendance': return AppColors.success;
-      case 'result': return AppColors.primary;
-      case 'assignment': return AppColors.accent;
-      case 'notice': return AppColors.info;
-      default: return AppColors.textSecondary;
+      case 'finance':
+        return AppColors.warning;
+      case 'attendance':
+        return AppColors.success;
+      case 'result':
+        return AppColors.primary;
+      case 'assignment':
+        return AppColors.accent;
+      case 'notice':
+        return AppColors.info;
+      default:
+        return AppColors.textSecondary;
     }
   }
 
   IconData _typeIcon(String type) {
     switch (type) {
-      case 'finance': return Icons.payment_rounded;
-      case 'attendance': return Icons.how_to_reg_rounded;
-      case 'result': return Icons.bar_chart_rounded;
-      case 'assignment': return Icons.assignment_rounded;
-      case 'notice': return Icons.campaign_rounded;
-      default: return Icons.notifications_rounded;
+      case 'finance':
+        return Icons.payment_rounded;
+      case 'attendance':
+        return Icons.how_to_reg_rounded;
+      case 'result':
+        return Icons.bar_chart_rounded;
+      case 'assignment':
+        return Icons.assignment_rounded;
+      case 'notice':
+        return Icons.campaign_rounded;
+      default:
+        return Icons.notifications_rounded;
     }
   }
 

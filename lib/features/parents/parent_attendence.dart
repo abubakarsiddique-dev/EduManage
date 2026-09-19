@@ -23,8 +23,10 @@ class ParentAttendanceScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text("Children's Attendance",
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          "Children's Attendance",
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: uid == null
           ? const Center(child: CircularProgressIndicator())
@@ -43,8 +45,7 @@ class _MultiChildAttendanceBody extends StatefulWidget {
       _MultiChildAttendanceBodyState();
 }
 
-class _MultiChildAttendanceBodyState
-    extends State<_MultiChildAttendanceBody> {
+class _MultiChildAttendanceBodyState extends State<_MultiChildAttendanceBody> {
   List<Map<String, dynamic>> _children = [];
   bool _loading = true;
 
@@ -109,16 +110,25 @@ class _MultiChildAttendanceBodyState
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.family_restroom_rounded,
-                size: 64, color: AppColors.textHint),
+            const Icon(
+              Icons.family_restroom_rounded,
+              size: 64,
+              color: AppColors.textHint,
+            ),
             const SizedBox(height: 16),
-            Text('No children linked to your account.',
-                style: AppTextStyles.bodyMedium
-                    .copyWith(color: AppColors.textSecondary)),
+            Text(
+              'No children linked to your account.',
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text('Contact the school admin to link your child.',
-                style: AppTextStyles.labelSmall
-                    .copyWith(color: AppColors.textHint)),
+            Text(
+              'Contact the school admin to link your child.',
+              style: AppTextStyles.labelSmall.copyWith(
+                color: AppColors.textHint,
+              ),
+            ),
           ],
         ),
       );
@@ -137,8 +147,10 @@ class _MultiChildAttendanceBodyState
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        Text('Select a child to view attendance',
-            style: AppTextStyles.sectionTitle),
+        Text(
+          'Select a child to view attendance',
+          style: AppTextStyles.sectionTitle,
+        ),
         const SizedBox(height: 12),
 
         // ── Child selector cards ──────────────────────────────
@@ -148,8 +160,7 @@ class _MultiChildAttendanceBodyState
           final isSelected = _selectedIndex == i;
 
           return GestureDetector(
-            onTap: () => setState(() =>
-                _selectedIndex = isSelected ? -1 : i),
+            onTap: () => setState(() => _selectedIndex = isSelected ? -1 : i),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               margin: const EdgeInsets.only(bottom: 12),
@@ -175,7 +186,7 @@ class _MultiChildAttendanceBodyState
                     radius: 24,
                     backgroundColor: isSelected
                         ? Colors.white24
-                        : AppColors.success.withOpacity(0.12),
+                        : AppColors.success.withValues(alpha: 0.12),
                     child: Text(
                       (child['name'] as String).isNotEmpty
                           ? (child['name'] as String)[0].toUpperCase()
@@ -184,9 +195,7 @@ class _MultiChildAttendanceBodyState
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w700,
                         fontSize: 18,
-                        color: isSelected
-                            ? Colors.white
-                            : AppColors.success,
+                        color: isSelected ? Colors.white : AppColors.success,
                       ),
                     ),
                   ),
@@ -219,9 +228,7 @@ class _MultiChildAttendanceBodyState
                     isSelected
                         ? Icons.keyboard_arrow_up_rounded
                         : Icons.keyboard_arrow_down_rounded,
-                    color: isSelected
-                        ? Colors.white
-                        : AppColors.textSecondary,
+                    color: isSelected ? Colors.white : AppColors.textSecondary,
                   ),
                 ],
               ),
@@ -230,16 +237,12 @@ class _MultiChildAttendanceBodyState
         }),
 
         // ── Detail section for selected child ─────────────────
-        if (_selectedIndex >= 0 &&
-            _selectedIndex < _children.length) ...[
+        if (_selectedIndex >= 0 && _selectedIndex < _children.length) ...[
           const SizedBox(height: 8),
           _AttendanceDetail(
-            studentId:
-                _children[_selectedIndex]['studentId'] as String,
-            studentName:
-                _children[_selectedIndex]['name'] as String,
-            className:
-                _children[_selectedIndex]['class'] as String,
+            studentId: _children[_selectedIndex]['studentId'] as String,
+            studentName: _children[_selectedIndex]['name'] as String,
+            className: _children[_selectedIndex]['class'] as String,
           ),
         ],
       ],
@@ -267,8 +270,7 @@ class _AttendanceDetail extends StatelessWidget {
           .where('studentId', isEqualTo: studentId)
           .snapshots(),
       builder: (context, snap) {
-        if (snap.connectionState == ConnectionState.waiting &&
-            !snap.hasData) {
+        if (snap.connectionState == ConnectionState.waiting && !snap.hasData) {
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 32),
             child: Center(child: CircularProgressIndicator()),
@@ -279,11 +281,9 @@ class _AttendanceDetail extends StatelessWidget {
         final docs = List.of(snap.data?.docs ?? [])
           ..sort((a, b) {
             final aDate =
-                (a.data() as Map<String, dynamic>)['date'] as String? ??
-                    '';
+                (a.data() as Map<String, dynamic>)['date'] as String? ?? '';
             final bDate =
-                (b.data() as Map<String, dynamic>)['date'] as String? ??
-                    '';
+                (b.data() as Map<String, dynamic>)['date'] as String? ?? '';
             return bDate.compareTo(aDate);
           });
 
@@ -297,13 +297,19 @@ class _AttendanceDetail extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const Icon(Icons.event_note_rounded,
-                    size: 48, color: AppColors.textHint),
+                const Icon(
+                  Icons.event_note_rounded,
+                  size: 48,
+                  color: AppColors.textHint,
+                ),
                 const SizedBox(height: 12),
-                Text('No attendance records yet for $studentName.',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(color: AppColors.textSecondary)),
+                Text(
+                  'No attendance records yet for $studentName.',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
           );
@@ -313,9 +319,12 @@ class _AttendanceDetail extends StatelessWidget {
         for (final doc in docs) {
           final data = doc.data() as Map<String, dynamic>;
           final status = data['status'] as String? ?? 'absent';
-          if (status == 'present') present++;
-          else if (status == 'absent') absent++;
-          else if (status == 'late') late++;
+          if (status == 'present') {
+            present++;
+          } else if (status == 'absent')
+            absent++;
+          else if (status == 'late')
+            late++;
         }
         final total = docs.length;
         final pct = total > 0 ? (present / total) : 0.0;
@@ -349,13 +358,16 @@ class _AttendanceDetail extends StatelessWidget {
                                 pct >= 0.85
                                     ? AppColors.success
                                     : pct >= 0.70
-                                        ? AppColors.warning
-                                        : AppColors.danger,
+                                    ? AppColors.warning
+                                    : AppColors.danger,
                               ),
                             ),
-                            Text('${(pct * 100).round()}%',
-                                style: AppTextStyles.statValue
-                                    .copyWith(fontSize: 14)),
+                            Text(
+                              '${(pct * 100).round()}%',
+                              style: AppTextStyles.statValue.copyWith(
+                                fontSize: 14,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -364,25 +376,31 @@ class _AttendanceDetail extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Attendance Overview',
-                                style: AppTextStyles.bodyMediumBold),
+                            Text(
+                              'Attendance Overview',
+                              style: AppTextStyles.bodyMediumBold,
+                            ),
                             const SizedBox(height: 10),
                             _StatRow(
-                                label: 'Present',
-                                value: '$present days',
-                                color: AppColors.success),
+                              label: 'Present',
+                              value: '$present days',
+                              color: AppColors.success,
+                            ),
                             _StatRow(
-                                label: 'Absent',
-                                value: '$absent days',
-                                color: AppColors.danger),
+                              label: 'Absent',
+                              value: '$absent days',
+                              color: AppColors.danger,
+                            ),
                             _StatRow(
-                                label: 'Late',
-                                value: '$late days',
-                                color: AppColors.warning),
+                              label: 'Late',
+                              value: '$late days',
+                              color: AppColors.warning,
+                            ),
                             _StatRow(
-                                label: 'Total',
-                                value: '$total days',
-                                color: AppColors.textSecondary),
+                              label: 'Total',
+                              value: '$total days',
+                              color: AppColors.textSecondary,
+                            ),
                           ],
                         ),
                       ),
@@ -392,24 +410,31 @@ class _AttendanceDetail extends StatelessWidget {
                     const SizedBox(height: 14),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 10),
+                        horizontal: 14,
+                        vertical: 10,
+                      ),
                       decoration: BoxDecoration(
-                        color: AppColors.danger.withOpacity(0.08),
+                        color: AppColors.danger.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                            color: AppColors.danger.withOpacity(0.3)),
+                          color: AppColors.danger.withValues(alpha: 0.3),
+                        ),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.warning_amber_rounded,
-                              color: AppColors.danger, size: 18),
+                          const Icon(
+                            Icons.warning_amber_rounded,
+                            color: AppColors.danger,
+                            size: 18,
+                          ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
                               "$studentName's attendance is below 75%. "
                               "Please ensure regular attendance.",
-                              style: AppTextStyles.labelSmall
-                                  .copyWith(color: AppColors.danger),
+                              style: AppTextStyles.labelSmall.copyWith(
+                                color: AppColors.danger,
+                              ),
                             ),
                           ),
                         ],
@@ -420,8 +445,7 @@ class _AttendanceDetail extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Text('Attendance History',
-                style: AppTextStyles.sectionTitle),
+            Text('Attendance History', style: AppTextStyles.sectionTitle),
             const SizedBox(height: 12),
 
             // History list
@@ -467,8 +491,9 @@ class _AttendanceDetail extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                          color: color.withOpacity(0.1),
-                          shape: BoxShape.circle),
+                        color: color.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
                       child: Icon(icon, color: color, size: 20),
                     ),
                     const SizedBox(width: 14),
@@ -476,25 +501,26 @@ class _AttendanceDetail extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(weekday,
-                              style: AppTextStyles.bodyMediumBold),
-                          Text(dayLabel,
-                              style: AppTextStyles.labelSmall),
+                          Text(weekday, style: AppTextStyles.bodyMediumBold),
+                          Text(dayLabel, style: AppTextStyles.labelSmall),
                         ],
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: color.withOpacity(0.1),
+                        color: color.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         status[0].toUpperCase() + status.substring(1),
                         style: AppTextStyles.labelTiny.copyWith(
-                            color: color,
-                            fontWeight: FontWeight.w700),
+                          color: color,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
@@ -512,8 +538,11 @@ class _AttendanceDetail extends StatelessWidget {
 class _StatRow extends StatelessWidget {
   final String label, value;
   final Color color;
-  const _StatRow(
-      {required this.label, required this.value, required this.color});
+  const _StatRow({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -522,16 +551,19 @@ class _StatRow extends StatelessWidget {
       child: Row(
         children: [
           Container(
-              width: 8,
-              height: 8,
-              decoration:
-                  BoxDecoration(color: color, shape: BoxShape.circle)),
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
           const SizedBox(width: 6),
           Text('$label: ', style: AppTextStyles.labelSmall),
-          Text(value,
-              style: AppTextStyles.labelSmall.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary)),
+          Text(
+            value,
+            style: AppTextStyles.labelSmall.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
         ],
       ),
     );

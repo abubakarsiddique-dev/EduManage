@@ -61,7 +61,7 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
               SliverToBoxAdapter(
                 child: _AdminHeader(userName: user?.displayName ?? 'Admin'),
               ),
-      
+
               // Stats
               SliverToBoxAdapter(
                 child: Padding(
@@ -69,9 +69,9 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                   child: _StatsRow(),
                 ),
               ),
-      
+
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
-      
+
               // ── Fee Alert Banner ──────────────────────────────────────────────
               if (!_feePopupDismissed)
                 SliverToBoxAdapter(
@@ -80,18 +80,21 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                     onView: () => context.push('/admin/home/fees'),
                   ),
                 ),
-      
+
               // Pending banner
               SliverToBoxAdapter(child: _PendingApprovalsBanner()),
-      
+
               // Quick Actions label
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
-                  child: Text('Quick Actions', style: AppTextStyles.sectionTitle),
+                  child: Text(
+                    'Quick Actions',
+                    style: AppTextStyles.sectionTitle,
+                  ),
                 ),
               ),
-      
+
               // Quick Actions — stretched full width
               SliverToBoxAdapter(
                 child: Padding(
@@ -99,9 +102,9 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                   child: _QuickActionsGrid(),
                 ),
               ),
-      
+
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
-      
+
               // Recent Activity label
               SliverToBoxAdapter(
                 child: Padding(
@@ -109,7 +112,10 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Recent Activity', style: AppTextStyles.sectionTitle),
+                      Text(
+                        'Recent Activity',
+                        style: AppTextStyles.sectionTitle,
+                      ),
                       TextButton(
                         onPressed: () => context.push('/admin/home/history'),
                         child: const Text('See all'),
@@ -119,9 +125,9 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen> {
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 8)),
-      
+
               SliverToBoxAdapter(child: _RecentActivityFeed(limit: 8)),
-      
+
               const SliverToBoxAdapter(child: SizedBox(height: 40)),
             ],
           ),
@@ -182,9 +188,9 @@ class _FeeAlertBanner extends StatelessWidget {
         return Container(
           margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
           decoration: BoxDecoration(
-            color: bannerColor.withOpacity(0.08),
+            color: bannerColor.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: bannerColor.withOpacity(0.4)),
+            border: Border.all(color: bannerColor.withValues(alpha: 0.4)),
           ),
           child: Column(
             children: [
@@ -197,7 +203,7 @@ class _FeeAlertBanner extends StatelessWidget {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: bannerColor.withOpacity(0.15),
+                        color: bannerColor.withValues(alpha: 0.15),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(icon, color: bannerColor, size: 22),
@@ -231,7 +237,7 @@ class _FeeAlertBanner extends StatelessWidget {
                       icon: Icon(
                         Icons.close_rounded,
                         size: 18,
-                        color: bannerColor.withOpacity(0.7),
+                        color: bannerColor.withValues(alpha: 0.7),
                       ),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(
@@ -266,7 +272,9 @@ class _FeeAlertBanner extends StatelessWidget {
                       onTap: onView,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 7),
+                          horizontal: 14,
+                          vertical: 7,
+                        ),
                         decoration: BoxDecoration(
                           color: bannerColor,
                           borderRadius: BorderRadius.circular(20),
@@ -274,8 +282,11 @@ class _FeeAlertBanner extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.visibility_rounded,
-                                size: 14, color: Colors.white),
+                            const Icon(
+                              Icons.visibility_rounded,
+                              size: 14,
+                              color: Colors.white,
+                            ),
                             const SizedBox(width: 6),
                             Text(
                               'View All',
@@ -307,8 +318,11 @@ class _FeeAlertBanner extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(14, 8, 14, 4),
                     child: Row(
                       children: [
-                        const Icon(Icons.person_outline_rounded,
-                            size: 14, color: AppColors.textSecondary),
+                        const Icon(
+                          Icons.person_outline_rounded,
+                          size: 14,
+                          color: AppColors.textSecondary,
+                        ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
@@ -371,9 +385,9 @@ class _FeeChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(
         label,
@@ -412,17 +426,16 @@ class _AdminHeader extends StatelessWidget {
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                          color: Colors.white.withOpacity(0.3)),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
                         'assets/logo/logo.png',
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Icon(
+                        errorBuilder: (_, _, _) => const Icon(
                           Icons.school_rounded,
                           color: Colors.white,
                           size: 22,
@@ -434,13 +447,19 @@ class _AdminHeader extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Good Morning,',
-                          style: AppTextStyles.labelMedium
-                              .copyWith(color: Colors.white70)),
+                      Text(
+                        'Good Morning,',
+                        style: AppTextStyles.labelMedium.copyWith(
+                          color: Colors.white70,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(userName,
-                          style: AppTextStyles.headingLarge
-                              .copyWith(color: Colors.white)),
+                      Text(
+                        userName,
+                        style: AppTextStyles.headingLarge.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -448,8 +467,11 @@ class _AdminHeader extends StatelessWidget {
               CircleAvatar(
                 radius: 24,
                 backgroundColor: Colors.white24,
-                child: const Icon(Icons.admin_panel_settings_rounded,
-                    color: Colors.white, size: 26),
+                child: const Icon(
+                  Icons.admin_panel_settings_rounded,
+                  color: Colors.white,
+                  size: 26,
+                ),
               ),
             ],
           ),
@@ -457,16 +479,26 @@ class _AdminHeader extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: Colors.white24),
             ),
-            child: Row(children: [
-              const Icon(Icons.search_rounded, color: Colors.white70, size: 20),
-              const SizedBox(width: 10),
-              Text('Search students, teachers...',
-                  style: AppTextStyles.bodyMedium.copyWith(color: Colors.white60)),
-            ]),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.search_rounded,
+                  color: Colors.white70,
+                  size: 20,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  'Search students, teachers...',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: Colors.white60,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -478,40 +510,51 @@ class _AdminHeader extends StatelessWidget {
 class _StatsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('students').snapshots(),
-          builder: (_, s) => _StatCard(
+    return Row(
+      children: [
+        Expanded(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('students')
+                .snapshots(),
+            builder: (_, s) => _StatCard(
               label: 'Students',
               value: s.data?.docs.length.toString() ?? '...',
               icon: Icons.school_rounded,
-              color: AppColors.studentColor),
+              color: AppColors.studentColor,
+            ),
+          ),
         ),
-      ),
-      const SizedBox(width: 12),
-      Expanded(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('teachers').snapshots(),
-          builder: (_, s) => _StatCard(
+        const SizedBox(width: 12),
+        Expanded(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('teachers')
+                .snapshots(),
+            builder: (_, s) => _StatCard(
               label: 'Teachers',
               value: s.data?.docs.length.toString() ?? '...',
               icon: Icons.person_rounded,
-              color: AppColors.teacherColor),
+              color: AppColors.teacherColor,
+            ),
+          ),
         ),
-      ),
-      const SizedBox(width: 12),
-      Expanded(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('classes').snapshots(),
-          builder: (_, s) => _StatCard(
+        const SizedBox(width: 12),
+        Expanded(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('classes')
+                .snapshots(),
+            builder: (_, s) => _StatCard(
               label: 'Classes',
               value: s.data?.docs.length.toString() ?? '...',
               icon: Icons.class_rounded,
-              color: AppColors.adminColor),
+              color: AppColors.adminColor,
+            ),
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 
@@ -519,33 +562,42 @@ class _StatCard extends StatelessWidget {
   final String label, value;
   final IconData icon;
   final Color color;
-  const _StatCard(
-      {required this.label,
-      required this.value,
-      required this.icon,
-      required this.color});
+  const _StatCard({
+    required this.label,
+    required this.value,
+    required this.icon,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
-          color: AppColors.cardBg,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: AppColors.cardShadow),
-      child: Column(children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration:
-              BoxDecoration(color: color.withOpacity(0.12), shape: BoxShape.circle),
-          child: Icon(icon, color: color, size: 20),
-        ),
-        const SizedBox(height: 8),
-        Text(value, style: AppTextStyles.statValue),
-        const SizedBox(height: 2),
-        Text(label,
-            style: AppTextStyles.labelSmall, textAlign: TextAlign.center),
-      ]),
+        color: AppColors.cardBg,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(height: 8),
+          Text(value, style: AppTextStyles.statValue),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: AppTextStyles.labelSmall,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -568,37 +620,50 @@ class _PendingApprovalsBanner extends StatelessWidget {
             margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: AppColors.warning.withOpacity(0.10),
+              color: AppColors.warning.withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.warning.withOpacity(0.4)),
+              border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
             ),
-            child: Row(children: [
-              Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                    color: AppColors.warning.withOpacity(0.18),
-                    shape: BoxShape.circle),
-                child: const Icon(Icons.hourglass_top_rounded,
-                    color: AppColors.warning, size: 18),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
+            child: Row(
+              children: [
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: AppColors.warning.withValues(alpha: 0.18),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.hourglass_top_rounded,
+                    color: AppColors.warning,
+                    size: 18,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         '$count pending approval${count == 1 ? '' : 's'}',
-                        style: AppTextStyles.bodyMediumBold
-                            .copyWith(color: AppColors.warning),
+                        style: AppTextStyles.bodyMediumBold.copyWith(
+                          color: AppColors.warning,
+                        ),
                       ),
-                      Text('Tap to review registrations',
-                          style: AppTextStyles.labelSmall),
-                    ]),
-              ),
-              const Icon(Icons.chevron_right_rounded,
-                  color: AppColors.warning, size: 18),
-            ]),
+                      Text(
+                        'Tap to review registrations',
+                        style: AppTextStyles.labelSmall,
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.warning,
+                  size: 18,
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -624,96 +689,157 @@ class _QuickActionsGrid extends StatelessWidget {
             final hasClasses = (classSnap.data?.docs.length ?? 0) > 0;
 
             final actions = <_QA>[
-              _QA('Add Student', Icons.person_add_rounded, AppColors.studentColor, null),
-              _QA('Add Teacher', Icons.person_add_alt_1_rounded, AppColors.teacherColor, null),
-              _QA('Manage Classes', Icons.class_rounded, AppColors.adminColor, null),
-              _QA('Timetable', Icons.calendar_month_rounded, AppColors.primary, null),
+              _QA(
+                'Add Student',
+                Icons.person_add_rounded,
+                AppColors.studentColor,
+                null,
+              ),
+              _QA(
+                'Add Teacher',
+                Icons.person_add_alt_1_rounded,
+                AppColors.teacherColor,
+                null,
+              ),
+              _QA(
+                'Manage Classes',
+                Icons.class_rounded,
+                AppColors.adminColor,
+                null,
+              ),
+              _QA(
+                'Timetable',
+                Icons.calendar_month_rounded,
+                AppColors.primary,
+                null,
+              ),
               _QA('Fees', Icons.attach_money_rounded, AppColors.warning, null),
               _QA('Verify Fees', Icons.verified_rounded, AppColors.info, null),
-              _QA('Notices', Icons.announcement_rounded, AppColors.accent, null),
-              _QA('Approvals',Icons.fact_check_rounded,pendingCount > 0 ? AppColors.danger : AppColors.success,pendingCount > 0 ? '$pendingCount' : null,),
+              _QA(
+                'Notices',
+                Icons.announcement_rounded,
+                AppColors.accent,
+                null,
+              ),
+              _QA(
+                'Approvals',
+                Icons.fact_check_rounded,
+                pendingCount > 0 ? AppColors.danger : AppColors.success,
+                pendingCount > 0 ? '$pendingCount' : null,
+              ),
               _QA('Reports', Icons.bar_chart_rounded, AppColors.primary, null),
-              _QA('Fix Classes', Icons.merge_type_rounded, AppColors.danger, null),
-              _QA('Setup Classes',Icons.auto_fix_high_rounded,hasClasses ? AppColors.textSecondary : AppColors.warning,hasClasses ? null : '!',),
+              _QA(
+                'Fix Classes',
+                Icons.merge_type_rounded,
+                AppColors.danger,
+                null,
+              ),
+              _QA(
+                'Setup Classes',
+                Icons.auto_fix_high_rounded,
+                hasClasses ? AppColors.textSecondary : AppColors.warning,
+                hasClasses ? null : '!',
+              ),
               _QA('History', Icons.history_rounded, AppColors.info, null),
-              _QA('Students', Icons.people_rounded, AppColors.studentColor, null),
+              _QA(
+                'Students',
+                Icons.people_rounded,
+                AppColors.studentColor,
+                null,
+              ),
             ];
 
             const cols = 3;
             const spacing = 12.0;
 
-            return LayoutBuilder(builder: (context, constraints) {
-              final cellW =
-                  (constraints.maxWidth - spacing * (cols - 1)) / cols;
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                final cellW =
+                    (constraints.maxWidth - spacing * (cols - 1)) / cols;
 
-              final rows = <Widget>[];
-              for (var i = 0; i < actions.length; i += cols) {
-                final rowItems = actions.sublist(
-                    i, (i + cols).clamp(0, actions.length));
+                final rows = <Widget>[];
+                for (var i = 0; i < actions.length; i += cols) {
+                  final rowItems = actions.sublist(
+                    i,
+                    (i + cols).clamp(0, actions.length),
+                  );
 
-                while (rowItems.length < cols) {
-                  rowItems.add(const _QA('', Icons.circle, Colors.transparent, null));
-                }
+                  while (rowItems.length < cols) {
+                    rowItems.add(
+                      const _QA('', Icons.circle, Colors.transparent, null),
+                    );
+                  }
 
-                rows.add(Row(
-                  children: rowItems.asMap().entries.map((entry) {
-                    final idx = entry.key;
-                    final a = entry.value;
-                    return [
-                      if (idx > 0) const SizedBox(width: spacing),
-                      SizedBox(
-                        width: cellW,
-                        height: cellW,
-                        child: a.label.isEmpty
-                            ? const SizedBox.shrink()
-                            : Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  _QACard(
-                                    qa: a,
-                                    onTap: () =>
-                                        _handleAction(context, a.label),
-                                  ),
-                                  if (a.badge != null)
-                                    Positioned(
-                                      top: -4,
-                                      right: -4,
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.danger,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Text(
-                                          a.badge!,
-                                          style: const TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white,
+                  rows.add(
+                    Row(
+                      children: rowItems
+                          .asMap()
+                          .entries
+                          .map((entry) {
+                            final idx = entry.key;
+                            final a = entry.value;
+                            return [
+                              if (idx > 0) const SizedBox(width: spacing),
+                              SizedBox(
+                                width: cellW,
+                                height: cellW,
+                                child: a.label.isEmpty
+                                    ? const SizedBox.shrink()
+                                    : Stack(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          _QACard(
+                                            qa: a,
+                                            onTap: () =>
+                                                _handleAction(context, a.label),
                                           ),
-                                        ),
+                                          if (a.badge != null)
+                                            Positioned(
+                                              top: -4,
+                                              right: -4,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 6,
+                                                      vertical: 2,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.danger,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Text(
+                                                  a.badge!,
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                        ],
                                       ),
-                                    ),
-                                ],
                               ),
-                      ),
-                    ];
-                  }).expand((x) => x).toList(),
-                ));
+                            ];
+                          })
+                          .expand((x) => x)
+                          .toList(),
+                    ),
+                  );
 
-                if (i + cols < actions.length) {
-                  rows.add(const SizedBox(height: spacing));
+                  if (i + cols < actions.length) {
+                    rows.add(const SizedBox(height: spacing));
+                  }
                 }
-              }
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: rows,
-              );
-            });
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: rows,
+                );
+              },
+            );
           },
         );
       },
@@ -772,7 +898,7 @@ class _QACard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(11),
               decoration: BoxDecoration(
-                color: qa.color.withOpacity(0.12),
+                color: qa.color.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Icon(qa.icon, color: qa.color, size: 24),
@@ -812,22 +938,24 @@ class _RecentActivityFeed extends ConsumerWidget {
           child: CircularProgressIndicator(),
         ),
       ),
-      error: (_, __) => _empty(),
+      error: (_, _) => _empty(),
       data: (events) {
         if (events.isEmpty) return _empty();
         return Column(
           children: events
               .take(limit)
-              .map((e) => _ActivityTile(
-                    event: ActivityEvent(
-                      title: e.title,
-                      subtitle: e.subtitle,
-                      icon: e.icon,
-                      color: e.color,
-                      time: e.time,
-                      route: e.route,
-                    ),
-                  ))
+              .map(
+                (e) => _ActivityTile(
+                  event: ActivityEvent(
+                    title: e.title,
+                    subtitle: e.subtitle,
+                    icon: e.icon,
+                    color: e.color,
+                    time: e.time,
+                    route: e.route,
+                  ),
+                ),
+              )
               .toList(),
         );
       },
@@ -839,20 +967,29 @@ class _RecentActivityFeed extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-          color: AppColors.cardBg,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: AppColors.cardShadow),
-      child: Column(children: [
-        const Icon(Icons.history_rounded, size: 36, color: AppColors.textHint),
-        const SizedBox(height: 10),
-        Text('No activity yet',
-            style: AppTextStyles.labelSmall
-                .copyWith(color: AppColors.textSecondary)),
-      ]),
+        color: AppColors.cardBg,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Column(
+        children: [
+          const Icon(
+            Icons.history_rounded,
+            size: 36,
+            color: AppColors.textHint,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'No activity yet',
+            style: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
 
 class _ActivityTile extends StatelessWidget {
   final ActivityEvent event;
@@ -866,40 +1003,59 @@ class _ActivityTile extends StatelessWidget {
         margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-            color: AppColors.cardBg,
-            borderRadius: BorderRadius.circular(14),
-            boxShadow: AppColors.cardShadow),
-        child: Row(children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                color: event.color.withOpacity(0.12), shape: BoxShape.circle),
-            child: Icon(event.icon, color: event.color, size: 18),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(event.title,
-                  style: AppTextStyles.bodyMediumBold,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis),
-              const SizedBox(height: 2),
-              Text(event.subtitle,
-                  style: AppTextStyles.labelSmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis),
-            ]),
-          ),
-          if (event.time != null) ...[
-            const SizedBox(width: 8),
-            Text(_fmtTime(event.time!),
-                style: AppTextStyles.labelTiny.copyWith(color: AppColors.textHint)),
+          color: AppColors.cardBg,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: AppColors.cardShadow,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: event.color.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(event.icon, color: event.color, size: 18),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    event.title,
+                    style: AppTextStyles.bodyMediumBold,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    event.subtitle,
+                    style: AppTextStyles.labelSmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            if (event.time != null) ...[
+              const SizedBox(width: 8),
+              Text(
+                _fmtTime(event.time!),
+                style: AppTextStyles.labelTiny.copyWith(
+                  color: AppColors.textHint,
+                ),
+              ),
+            ],
+            if (event.route != null)
+              const Icon(
+                Icons.chevron_right_rounded,
+                size: 16,
+                color: AppColors.textHint,
+              ),
           ],
-          if (event.route != null)
-            const Icon(Icons.chevron_right_rounded,
-                size: 16, color: AppColors.textHint),
-        ]),
+        ),
       ),
     );
   }
@@ -920,8 +1076,10 @@ class AdminActivityHistoryScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Activity History',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Activity History',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 16, bottom: 48),
@@ -949,19 +1107,41 @@ class _AdminBottomNav extends StatelessWidget {
       unselectedLabelStyle: AppTextStyles.navLabel,
       onTap: (i) {
         switch (i) {
-          case 0: context.go('/admin/home'); break;
-          case 1: context.go('/admin/home/students'); break;
-          case 2: context.go('/admin/home/teachers'); break;
-          case 3: context.go('/admin/home/reports'); break;
-          case 4: context.go('/admin/home/settings'); break;
+          case 0:
+            context.go('/admin/home');
+            break;
+          case 1:
+            context.go('/admin/home/students');
+            break;
+          case 2:
+            context.go('/admin/home/teachers');
+            break;
+          case 3:
+            context.go('/admin/home/reports');
+            break;
+          case 4:
+            context.go('/admin/home/settings');
+            break;
         }
       },
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.school_rounded), label: 'Students'),
-        BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Teachers'),
-        BottomNavigationBarItem(icon: Icon(Icons.bar_chart_rounded), label: 'Reports'),
-        BottomNavigationBarItem(icon: Icon(Icons.settings_rounded), label: 'Settings'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.school_rounded),
+          label: 'Students',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_rounded),
+          label: 'Teachers',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.bar_chart_rounded),
+          label: 'Reports',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings_rounded),
+          label: 'Settings',
+        ),
       ],
     );
   }

@@ -67,12 +67,14 @@ class CloudinaryService {
     final request = http.MultipartRequest('POST', uri)
       ..fields['upload_preset'] = CloudinaryConfig.uploadPreset
       ..fields['public_id'] = 'profile_photos/$uid'
-      ..files.add(await http.MultipartFile.fromPath(
-        'file',
-        file.path,
-        // Cloudinary auto-detects image type from the file header —
-        // no Content-Type header is needed here.
-      ));
+      ..files.add(
+        await http.MultipartFile.fromPath(
+          'file',
+          file.path,
+          // Cloudinary auto-detects image type from the file header —
+          // no Content-Type header is needed here.
+        ),
+      );
 
     final streamedResponse = await request.send();
     final response = await http.Response.fromStream(streamedResponse);

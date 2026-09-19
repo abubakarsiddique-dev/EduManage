@@ -5,12 +5,7 @@ import 'package:school_management_system/core/theme/app_text_style.dart';
 import 'package:school_management_system/core/utils/responsive_sizer.dart';
 
 /// Semantic types of toasts and banners
-enum ToastType {
-  success,
-  error,
-  warning,
-  info,
-}
+enum ToastType { success, error, warning, info }
 
 /// Helper methods and standardized snackbar presentation for EduManage.
 class AppToast {
@@ -70,7 +65,11 @@ class AppToast {
         ),
         content: Row(
           children: [
-            Icon(_icon(type), color: AppColors.white, size: 5.w.clamp(20.0, 24.0)),
+            Icon(
+              _icon(type),
+              color: AppColors.white,
+              size: 5.w.clamp(20.0, 24.0),
+            ),
             SizedBox(width: 3.w.clamp(10.0, 14.0)),
             Expanded(
               child: Column(
@@ -233,7 +232,7 @@ class AppBanner extends StatelessWidget {
                   ],
                 ),
               ),
-              if (trailing != null) trailing!,
+              ?trailing,
               if (onDismiss != null)
                 IconButton(
                   icon: const Icon(Icons.close_rounded, size: 18),

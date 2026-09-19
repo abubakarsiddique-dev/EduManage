@@ -49,7 +49,9 @@ class AdminDashboardScreen extends ConsumerWidget {
                               Text(
                                 'Good morning 👋',
                                 style: AppTextStyles.caption.copyWith(
-                                  color: AppColors.onPrimary.withValues(alpha: 0.7),
+                                  color: AppColors.onPrimary.withValues(
+                                    alpha: 0.7,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 2),
@@ -65,7 +67,9 @@ class AdminDashboardScreen extends ConsumerWidget {
                             onTap: () => context.push(RouteNames.profile),
                             child: CircleAvatar(
                               radius: avatarRadius,
-                              backgroundColor: AppColors.onPrimary.withValues(alpha: 0.2),
+                              backgroundColor: AppColors.onPrimary.withValues(
+                                alpha: 0.2,
+                              ),
                               child: user?.photoURL != null
                                   ? ClipOval(
                                       child: Image.network(
@@ -89,7 +93,9 @@ class AdminDashboardScreen extends ConsumerWidget {
             ),
             title: Text(
               'Admin Dashboard',
-              style: AppTextStyles.titleMedium.copyWith(color: AppColors.onPrimary),
+              style: AppTextStyles.titleMedium.copyWith(
+                color: AppColors.onPrimary,
+              ),
             ),
           ),
 
@@ -175,11 +181,23 @@ class AdminDashboardScreen extends ConsumerWidget {
     final hasClasses = (classCountAsync.value ?? 0) > 0;
 
     final actions = [
-      const _Action('Add Student', Icons.person_add_rounded, AppColors.adminColor),
-      const _Action('Add Teacher', Icons.person_add_alt_1_rounded, AppColors.teacherColor),
+      const _Action(
+        'Add Student',
+        Icons.person_add_rounded,
+        AppColors.adminColor,
+      ),
+      const _Action(
+        'Add Teacher',
+        Icons.person_add_alt_1_rounded,
+        AppColors.teacherColor,
+      ),
       const _Action('New Notice', Icons.edit_document, AppColors.primary),
       const _Action('Reports', Icons.bar_chart_rounded, AppColors.accent),
-      const _Action('Timetable', Icons.calendar_month_rounded, AppColors.warning),
+      const _Action(
+        'Timetable',
+        Icons.calendar_month_rounded,
+        AppColors.warning,
+      ),
       const _Action('Approvals', Icons.fact_check_rounded, AppColors.success),
       const _Action('Fix Classes', Icons.merge_type_rounded, AppColors.danger),
       _Action(
@@ -345,7 +363,11 @@ class _NoticeCard extends StatelessWidget {
               color: _typeColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(Icons.campaign_rounded, color: _typeColor, size: iconSize),
+            child: Icon(
+              Icons.campaign_rounded,
+              color: _typeColor,
+              size: iconSize,
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -406,10 +428,7 @@ class _EmptyCard extends StatelessWidget {
         children: [
           Icon(icon, size: 40, color: AppColors.textHint),
           const SizedBox(height: 12),
-          Text(
-            message,
-            style: AppTextStyles.labelMedium,
-          ),
+          Text(message, style: AppTextStyles.labelMedium),
         ],
       ),
     );

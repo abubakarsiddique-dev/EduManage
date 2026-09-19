@@ -13,7 +13,7 @@ class ClassesScreen extends ConsumerWidget {
   const ClassesScreen({super.key});
 
   /// Shows a modal bottom sheet to add a new class.
-  /// 
+  ///
   /// The form requires a class name and optionally assigns a class teacher.
   void _showAddClassSheet(BuildContext context, WidgetRef ref) {
     final nameCtrl = TextEditingController();
@@ -59,7 +59,9 @@ class ClassesScreen extends ConsumerWidget {
                   const SizedBox(height: 6),
                   Text(
                     'Use a single name that includes the section, e.g. "Grade 9 - A"',
-                    style: AppTextStyles.labelSmall.copyWith(color: AppColors.textHint),
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: AppColors.textHint,
+                    ),
                   ),
                   const SizedBox(height: 16),
 
@@ -75,120 +77,134 @@ class ClassesScreen extends ConsumerWidget {
                   Text('Class Teacher', style: AppTextStyles.labelMedium),
                   const SizedBox(height: 8),
 
-                  ref.watch(approvedTeachersProvider).when(
-                    loading: () => Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                        color: AppColors.background,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppColors.divider),
-                      ),
-                      alignment: Alignment.center,
-                      child: const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    ),
-                    error: (_, __) => Text(
-                      'Failed to load teachers',
-                      style: AppTextStyles.errorText,
-                    ),
-                    data: (teachers) {
-                      if (teachers.isEmpty) {
-                        return Container(
-                          padding: const EdgeInsets.all(14),
+                  ref
+                      .watch(approvedTeachersProvider)
+                      .when(
+                        loading: () => Container(
+                          height: 54,
                           decoration: BoxDecoration(
-                            color: AppColors.warning.withValues(alpha: 0.08),
+                            color: AppColors.background,
                             borderRadius: BorderRadius.circular(14),
-                            border: Border.all(
-                              color: AppColors.warning.withValues(alpha: 0.3),
-                            ),
+                            border: Border.all(color: AppColors.divider),
                           ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.warning_amber_rounded,
-                                color: AppColors.warning,
-                                size: 18,
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Text(
-                                  'No approved teachers yet. You can assign one later.',
-                                  style: AppTextStyles.labelSmall
-                                      .copyWith(color: AppColors.textSecondary),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-
-                      return DropdownButtonFormField<String>(
-                        initialValue: selectedTeacherId,
-                        decoration: InputDecoration(
-                          hintText: 'Select a teacher (optional)',
-                          filled: true,
-                          fillColor: AppColors.background,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 14,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14),
-                            borderSide: const BorderSide(color: AppColors.divider),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14),
-                            borderSide: const BorderSide(color: AppColors.divider),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14),
-                            borderSide: const BorderSide(
-                              color: AppColors.primary,
-                              width: 2,
-                            ),
+                          alignment: Alignment.center,
+                          child: const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           ),
                         ),
-                        items: [
-                          const DropdownMenuItem<String>(
-                            value: null,
-                            child: Text(
-                              'None',
-                              style: TextStyle(
-                                color: AppColors.textHint,
+                        error: (_, _) => Text(
+                          'Failed to load teachers',
+                          style: AppTextStyles.errorText,
+                        ),
+                        data: (teachers) {
+                          if (teachers.isEmpty) {
+                            return Container(
+                              padding: const EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                color: AppColors.warning.withValues(
+                                  alpha: 0.08,
+                                ),
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: AppColors.warning.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          ...teachers.map((teacher) {
-                            final name = teacher.name.isNotEmpty ? teacher.name : 'Unknown';
-                            final subject = teacher.subject;
-                            return DropdownMenuItem<String>(
-                              value: teacher.id,
-                              child: Text(
-                                subject.isNotEmpty ? '$name — $subject' : name,
-                                style: AppTextStyles.bodyMedium,
-                                overflow: TextOverflow.ellipsis,
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.warning_amber_rounded,
+                                    color: AppColors.warning,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
+                                      'No approved teachers yet. You can assign one later.',
+                                      style: AppTextStyles.labelSmall.copyWith(
+                                        color: AppColors.textSecondary,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
-                          }),
-                        ],
-                        onChanged: (id) {
-                          setSheetState(() {
-                            selectedTeacherId = id;
-                            if (id == null) {
-                              selectedTeacherName = '';
-                            } else {
-                              final teacher =
-                                  teachers.firstWhere((t) => t.id == id);
-                              selectedTeacherName = teacher.name;
-                            }
-                          });
+                          }
+
+                          return DropdownButtonFormField<String>(
+                            initialValue: selectedTeacherId,
+                            decoration: InputDecoration(
+                              hintText: 'Select a teacher (optional)',
+                              filled: true,
+                              fillColor: AppColors.background,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: const BorderSide(
+                                  color: AppColors.divider,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: const BorderSide(
+                                  color: AppColors.divider,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: const BorderSide(
+                                  color: AppColors.primary,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            items: [
+                              const DropdownMenuItem<String>(
+                                value: null,
+                                child: Text(
+                                  'None',
+                                  style: TextStyle(color: AppColors.textHint),
+                                ),
+                              ),
+                              ...teachers.map((teacher) {
+                                final name = teacher.name.isNotEmpty
+                                    ? teacher.name
+                                    : 'Unknown';
+                                final subject = teacher.subject;
+                                return DropdownMenuItem<String>(
+                                  value: teacher.id,
+                                  child: Text(
+                                    subject.isNotEmpty
+                                        ? '$name — $subject'
+                                        : name,
+                                    style: AppTextStyles.bodyMedium,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                );
+                              }),
+                            ],
+                            onChanged: (id) {
+                              setSheetState(() {
+                                selectedTeacherId = id;
+                                if (id == null) {
+                                  selectedTeacherName = '';
+                                } else {
+                                  final teacher = teachers.firstWhere(
+                                    (t) => t.id == id,
+                                  );
+                                  selectedTeacherName = teacher.name;
+                                }
+                              });
+                            },
+                          );
                         },
-                      );
-                    },
-                  ),
+                      ),
 
                   const SizedBox(height: 20),
                   CustomButton(
@@ -206,7 +222,9 @@ class ClassesScreen extends ConsumerWidget {
                           if (sheetContext.mounted) {
                             ScaffoldMessenger.of(sheetContext).showSnackBar(
                               SnackBar(
-                                content: Text('Class "$rawName" already exists.'),
+                                content: Text(
+                                  'Class "$rawName" already exists.',
+                                ),
                                 backgroundColor: AppColors.danger,
                               ),
                             );
@@ -229,7 +247,9 @@ class ClassesScreen extends ConsumerWidget {
                           Navigator.pop(sheetContext);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Class "$rawName" created successfully!'),
+                              content: Text(
+                                'Class "$rawName" created successfully!',
+                              ),
                               backgroundColor: AppColors.success,
                             ),
                           );
@@ -266,12 +286,17 @@ class ClassesScreen extends ConsumerWidget {
         backgroundColor: AppColors.adminColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded, color: AppColors.onPrimary),
+          icon: const Icon(
+            Icons.arrow_back_ios_rounded,
+            color: AppColors.onPrimary,
+          ),
           onPressed: () => context.pop(),
         ),
         title: Text(
           'Classes',
-          style: AppTextStyles.headingMedium.copyWith(color: AppColors.onPrimary),
+          style: AppTextStyles.headingMedium.copyWith(
+            color: AppColors.onPrimary,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -281,7 +306,9 @@ class ClassesScreen extends ConsumerWidget {
         icon: const Icon(Icons.add_rounded),
         label: Text(
           'Add Class',
-          style: AppTextStyles.bodyMediumBold.copyWith(color: AppColors.onPrimary),
+          style: AppTextStyles.bodyMediumBold.copyWith(
+            color: AppColors.onPrimary,
+          ),
         ),
       ),
       body: classesAsync.when(
@@ -307,8 +334,9 @@ class ClassesScreen extends ConsumerWidget {
                   Text(
                     'No classes yet.\nTap "Add Class" to create one.',
                     textAlign: TextAlign.center,
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(color: AppColors.textSecondary),
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
                   ),
                 ],
               ),
@@ -371,14 +399,19 @@ class _ClassCard extends ConsumerWidget {
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.onPrimary.withValues(alpha: 0.24),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     name,
-                    style: AppTextStyles.labelTiny.copyWith(color: AppColors.onPrimary),
+                    style: AppTextStyles.labelTiny.copyWith(
+                      color: AppColors.onPrimary,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

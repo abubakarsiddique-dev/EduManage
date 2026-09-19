@@ -46,8 +46,7 @@ class _AddStudentScreenState extends ConsumerState<AddStudentScreen> {
     });
     if (className == null || className.isEmpty) return;
     setState(() => _loadingPreview = true);
-    final preview =
-        await RollNumberService.instance.peekNextRollNo(className);
+    final preview = await RollNumberService.instance.peekNextRollNo(className);
     if (mounted) {
       setState(() {
         _rollPreview = preview;
@@ -59,9 +58,9 @@ class _AddStudentScreenState extends ConsumerState<AddStudentScreen> {
   Future<void> _saveStudent() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedClass == null || _selectedClass!.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a class')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a class')));
       return;
     }
 
@@ -84,7 +83,9 @@ class _AddStudentScreenState extends ConsumerState<AddStudentScreen> {
     }
 
     final name = _nameCtrl.text.trim();
-    final error = await ref.read(authProvider.notifier).adminCreateUser(
+    final error = await ref
+        .read(authProvider.notifier)
+        .adminCreateUser(
           name: name,
           email: _emailCtrl.text.trim(),
           password: _passwordCtrl.text,
@@ -146,9 +147,10 @@ class _AddStudentScreenState extends ConsumerState<AddStudentScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Add Student',
-            style:
-                AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Add Student',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
@@ -163,24 +165,29 @@ class _AddStudentScreenState extends ConsumerState<AddStudentScreen> {
                 padding: const EdgeInsets.all(14),
                 margin: const EdgeInsets.only(bottom: 24),
                 decoration: BoxDecoration(
-                  color: AppColors.adminColor.withOpacity(0.08),
+                  color: AppColors.adminColor.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                      color: AppColors.adminColor.withOpacity(0.2)),
+                    color: AppColors.adminColor.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.admin_panel_settings_rounded,
-                        color: AppColors.adminColor, size: 20),
+                    Icon(
+                      Icons.admin_panel_settings_rounded,
+                      color: AppColors.adminColor,
+                      size: 20,
+                    ),
                     SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         'Creating a student account. They will be able to '
                         'login immediately. You will stay signed in as admin.',
                         style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            color: AppColors.textSecondary),
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                     ),
                   ],
@@ -271,26 +278,32 @@ class _RollPreviewChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: AppColors.adminColor.withOpacity(0.07),
+          color: AppColors.adminColor.withValues(alpha: 0.07),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.adminColor.withOpacity(0.2)),
+          border: Border.all(color: AppColors.adminColor.withValues(alpha: 0.2)),
         ),
         child: Row(
           children: [
-            Icon(Icons.tag_rounded,
-                size: 16, color: AppColors.adminColor.withOpacity(0.8)),
+            Icon(
+              Icons.tag_rounded,
+              size: 16,
+              color: AppColors.adminColor.withValues(alpha: 0.8),
+            ),
             const SizedBox(width: 8),
             Text(
               'Roll No will be assigned: ',
-              style: AppTextStyles.labelSmall
-                  .copyWith(color: AppColors.textSecondary),
+              style: AppTextStyles.labelSmall.copyWith(
+                color: AppColors.textSecondary,
+              ),
             ),
             if (loading)
               const SizedBox(
                 width: 12,
                 height: 12,
                 child: CircularProgressIndicator(
-                    strokeWidth: 1.5, color: AppColors.adminColor),
+                  strokeWidth: 1.5,
+                  color: AppColors.adminColor,
+                ),
               )
             else
               Text(
@@ -301,9 +314,12 @@ class _RollPreviewChip extends StatelessWidget {
                 ),
               ),
             const Spacer(),
-            Text('auto-generated',
-                style: AppTextStyles.labelTiny
-                    .copyWith(color: AppColors.textHint)),
+            Text(
+              'auto-generated',
+              style: AppTextStyles.labelTiny.copyWith(
+                color: AppColors.textHint,
+              ),
+            ),
           ],
         ),
       ),

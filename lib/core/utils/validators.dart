@@ -38,7 +38,11 @@ class Validators {
     return null;
   }
 
-  static String? minLength(String? value, int length, {String fieldName = 'This field'}) {
+  static String? minLength(
+    String? value,
+    int length, {
+    String fieldName = 'This field',
+  }) {
     if (value == null || value.trim().length < length) {
       return '$fieldName must be at least $length characters';
     }
@@ -46,7 +50,9 @@ class Validators {
   }
 
   static String? phone(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Phone number is required';
+    if (value == null || value.trim().isEmpty) {
+      return 'Phone number is required';
+    }
     final digitsOnly = value.replaceAll(RegExp(r'[^\d]'), '');
     if (digitsOnly.length < 7) return 'Enter a valid phone number';
     return null;
@@ -72,7 +78,9 @@ class Validators {
     if (value == null || value.trim().isEmpty) return 'Score is required';
     final parsed = double.tryParse(value.trim());
     if (parsed == null) return 'Enter a numeric score';
-    if (parsed < min || parsed > max) return 'Score must be between $min and $max';
+    if (parsed < min || parsed > max) {
+      return 'Score must be between $min and $max';
+    }
     return null;
   }
 

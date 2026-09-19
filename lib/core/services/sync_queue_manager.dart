@@ -11,20 +11,10 @@ enum SyncPriority {
 }
 
 /// Lifecycle status of an individual sync mutation.
-enum SyncMutationStatus {
-  pending,
-  inFlight,
-  completed,
-  failed,
-  conflict,
-}
+enum SyncMutationStatus { pending, inFlight, completed, failed, conflict }
 
 /// Strategy for resolving conflict during synchronization.
-enum ConflictResolutionStrategy {
-  serverWins,
-  clientWins,
-  merge,
-}
+enum ConflictResolutionStrategy { serverWins, clientWins, merge }
 
 /// Represents an offline action or mutation queued for synchronization.
 class SyncMutation {
@@ -54,8 +44,8 @@ class SyncMutation {
     this.status = SyncMutationStatus.pending,
     this.errorMessage,
     this.lastAttemptedAt,
-  })  : id = id ?? _generateId(),
-        createdAt = createdAt ?? DateTime.now().toUtc();
+  }) : id = id ?? _generateId(),
+       createdAt = createdAt ?? DateTime.now().toUtc();
 
   static String _generateId() {
     final ms = DateTime.now().millisecondsSinceEpoch;
@@ -93,7 +83,9 @@ class SyncMutation {
         (p) => p.name == map['priority'],
         orElse: () => SyncPriority.normal,
       ),
-      createdAt: map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
+      createdAt: map['createdAt'] != null
+          ? DateTime.parse(map['createdAt'])
+          : null,
       retryCount: (map['retryCount'] as int?) ?? 0,
       maxRetries: (map['maxRetries'] as int?) ?? 3,
       status: SyncMutationStatus.values.firstWhere(
@@ -213,10 +205,14 @@ class SyncQueueManager with ChangeNotifier {
   List<SyncBatchReport> get batchHistory => List.unmodifiable(_batchHistory);
 
   int get totalCount => _queue.length;
-  int get pendingCount => _queue.where((m) => m.status == SyncMutationStatus.pending).length;
-  int get inFlightCount => _queue.where((m) => m.status == SyncMutationStatus.inFlight).length;
-  int get completedCount => _queue.where((m) => m.status == SyncMutationStatus.completed).length;
-  int get failedCount => _queue.where((m) => m.status == SyncMutationStatus.failed).length;
+  int get pendingCount =>
+      _queue.where((m) => m.status == SyncMutationStatus.pending).length;
+  int get inFlightCount =>
+      _queue.where((m) => m.status == SyncMutationStatus.inFlight).length;
+  int get completedCount =>
+      _queue.where((m) => m.status == SyncMutationStatus.completed).length;
+  int get failedCount =>
+      _queue.where((m) => m.status == SyncMutationStatus.failed).length;
 
   List<SyncMutation> get pendingMutations {
     return _queue.where((m) => m.status == SyncMutationStatus.pending).toList()
@@ -244,7 +240,8 @@ class SyncQueueManager with ChangeNotifier {
     final existingIndex = _queue.indexWhere(
       (m) =>
           m.idempotencyKey == idempotencyKey &&
-          (m.status == SyncMutationStatus.pending || m.status == SyncMutationStatus.inFlight),
+          (m.status == SyncMutationStatus.pending ||
+              m.status == SyncMutationStatus.inFlight),
     );
 
     if (existingIndex >= 0) {
@@ -324,10 +321,7 @@ class SyncQueueManager with ChangeNotifier {
     final batchId = 'batch_${startedAt.millisecondsSinceEpoch}';
 
     _eventBus.publish(
-      SyncEvent(
-        type: SyncEventType.syncStarted,
-        pendingCount: pendingCount,
-      ),
+      SyncEvent(type: SyncEventType.syncStarted, pendingCount: pendingCount),
     );
 
     final toProcess = pendingMutations.take(maxBatchSize).toList();
@@ -401,10 +395,7 @@ class SyncQueueManager with ChangeNotifier {
 
     if (pendingCount == 0 && toProcess.isNotEmpty) {
       _eventBus.publish(
-        SyncEvent(
-          type: SyncEventType.queueDrained,
-          pendingCount: 0,
-        ),
+        SyncEvent(type: SyncEventType.queueDrained, pendingCount: 0),
       );
     }
 

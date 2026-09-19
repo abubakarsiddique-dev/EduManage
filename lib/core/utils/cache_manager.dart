@@ -15,9 +15,9 @@ class CacheEntry<T> {
     required this.createdAt,
     this.expiresAt,
     Set<String>? tags,
-  })  : tags = tags ?? const <String>{},
-        accessCount = 0,
-        lastAccessedAt = DateTime.now();
+  }) : tags = tags ?? const <String>{},
+       accessCount = 0,
+       lastAccessedAt = DateTime.now();
 
   /// Whether the entry is expired relative to [now].
   bool isExpired([DateTime? now]) {
@@ -71,22 +71,20 @@ class MemoryCache<T> {
   int _misses = 0;
   int _evictions = 0;
 
-  MemoryCache({
-    this.defaultTtl,
-    this.maxCapacity = 100,
-  }) : assert(maxCapacity > 0, 'maxCapacity must be greater than zero');
+  MemoryCache({this.defaultTtl, this.maxCapacity = 100})
+    : assert(maxCapacity > 0, 'maxCapacity must be greater than zero');
 
   /// Current number of active cached items.
   int get size => _store.length;
 
   /// Current cache performance metrics.
   CacheStats get stats => CacheStats(
-        hits: _hits,
-        misses: _misses,
-        evictions: _evictions,
-        size: _store.length,
-        capacity: maxCapacity,
-      );
+    hits: _hits,
+    misses: _misses,
+    evictions: _evictions,
+    size: _store.length,
+    capacity: maxCapacity,
+  );
 
   /// Put an item in cache with optional custom [ttl] and [tags].
   void set(
@@ -98,8 +96,9 @@ class MemoryCache<T> {
   }) {
     final effectiveTtl = ttl ?? defaultTtl;
     final currentTime = now ?? DateTime.now();
-    final expiresAt =
-        effectiveTtl != null ? currentTime.add(effectiveTtl) : null;
+    final expiresAt = effectiveTtl != null
+        ? currentTime.add(effectiveTtl)
+        : null;
 
     // If key already exists, remove first so it gets re-inserted at the end of LRU order.
     if (_store.containsKey(key)) {

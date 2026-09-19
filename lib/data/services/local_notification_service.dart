@@ -25,7 +25,7 @@ class LocalNotificationService {
 
   // ── Android notification channel ──────────────────────────────────────────
   static const _androidChannel = AndroidNotificationChannel(
-    'edumanage_channel',      // id
+    'edumanage_channel', // id
     'EduManage Notifications', // name
     description: 'School notifications for EduManage',
     importance: Importance.max,
@@ -43,12 +43,14 @@ class LocalNotificationService {
     // Without this the channel doesn't exist and sound won't play.
     await _plugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(_androidChannel);
 
     // ── Init settings ─────────────────────────────────────────────────────
-    const androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
 
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: true,
@@ -72,7 +74,8 @@ class LocalNotificationService {
     // ── Request Android 13+ permission ────────────────────────────────────
     await _plugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.requestNotificationsPermission();
   }
 
@@ -94,27 +97,30 @@ class LocalNotificationService {
         .where('createdAt', isGreaterThan: listenFrom)
         .orderBy('createdAt', descending: false)
         .snapshots()
-        .listen((snapshot) {
-      for (final change in snapshot.docChanges) {
-        // ONLY trigger on brand-new docs, not existing ones
-        if (change.type == DocumentChangeType.added) {
-          final data = change.doc.data();
-          if (data == null) continue;
+        .listen(
+          (snapshot) {
+            for (final change in snapshot.docChanges) {
+              // ONLY trigger on brand-new docs, not existing ones
+              if (change.type == DocumentChangeType.added) {
+                final data = change.doc.data();
+                if (data == null) continue;
 
-          final title = data['title'] as String? ?? 'New Notification';
-          final body  = data['body']  as String? ?? '';
-          final type  = data['type']  as String? ?? 'general';
+                final title = data['title'] as String? ?? 'New Notification';
+                final body = data['body'] as String? ?? '';
+                final type = data['type'] as String? ?? 'general';
 
-          // Skip if already read (e.g. marked read in same session)
-          final isRead = data['isRead'] as bool? ?? false;
-          if (isRead) continue;
+                // Skip if already read (e.g. marked read in same session)
+                final isRead = data['isRead'] as bool? ?? false;
+                if (isRead) continue;
 
-          show(title: title, body: body, type: type);
-        }
-      }
-    }, onError: (e) {
-      // Silently ignore — non-critical feature
-    });
+                show(title: title, body: body, type: type);
+              }
+            }
+          },
+          onError: (e) {
+            // Silently ignore — non-critical feature
+          },
+        );
   }
 
   void stopListening() {

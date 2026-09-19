@@ -1,10 +1,7 @@
 import '../../data/models/fee_model.dart';
 
 /// Type of financial concession or scholarship applied to fees.
-enum DiscountType {
-  percentage,
-  fixedAmount,
-}
+enum DiscountType { percentage, fixedAmount }
 
 /// Represents a discount, grant, or scholarship applied to institutional fees.
 class FeeDiscount {
@@ -67,7 +64,8 @@ class LatePenaltyPolicy {
       return 0.0;
     }
 
-    final overdueDays = evaluationDate.difference(dueDate).inDays - gracePeriodDays;
+    final overdueDays =
+        evaluationDate.difference(dueDate).inDays - gracePeriodDays;
     if (overdueDays <= 0) return 0.0;
 
     double penalty = 0.0;
@@ -192,7 +190,9 @@ class FeeLedgerCalculator {
     FeeStatus status;
     if (totalOutstanding <= 0.0 && netTuition > 0.0) {
       status = FeeStatus.paid;
-    } else if (dueDate != null && effectiveEvalDate.isAfter(dueDate) && principalDue > 0.0) {
+    } else if (dueDate != null &&
+        effectiveEvalDate.isAfter(dueDate) &&
+        principalDue > 0.0) {
       status = FeeStatus.overdue;
     } else {
       status = FeeStatus.pending;
@@ -223,7 +223,8 @@ class FeeLedgerCalculator {
   }) {
     if (numberOfInstallments <= 0 || totalAmount <= 0.0) return [];
 
-    final baseInstallment = (totalAmount / numberOfInstallments).floorToDouble();
+    final baseInstallment = (totalAmount / numberOfInstallments)
+        .floorToDouble();
     double allocated = baseInstallment * (numberOfInstallments - 1);
     final lastInstallment = totalAmount - allocated;
 
@@ -231,13 +232,17 @@ class FeeLedgerCalculator {
 
     for (int i = 0; i < numberOfInstallments; i++) {
       final dueDate = firstDueDate.add(Duration(days: i * intervalDays));
-      final amount = (i == numberOfInstallments - 1) ? lastInstallment : baseInstallment;
+      final amount = (i == numberOfInstallments - 1)
+          ? lastInstallment
+          : baseInstallment;
 
-      installments.add(FeeInstallment(
-        installmentNumber: i + 1,
-        amount: amount,
-        dueDate: dueDate,
-      ));
+      installments.add(
+        FeeInstallment(
+          installmentNumber: i + 1,
+          amount: amount,
+          dueDate: dueDate,
+        ),
+      );
     }
 
     return installments;

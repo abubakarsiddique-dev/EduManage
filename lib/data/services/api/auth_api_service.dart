@@ -15,10 +15,7 @@ class AuthApiService {
     try {
       final response = await _client.post(
         ApiEndpoints.login,
-        body: {
-          'email': email.trim().toLowerCase(),
-          'password': password,
-        },
+        body: {'email': email.trim().toLowerCase(), 'password': password},
       );
 
       if (response is Map<String, dynamic>) {
@@ -94,10 +91,7 @@ class AuthApiService {
     try {
       final response = await _client.get(ApiEndpoints.me);
       if (response is Map<String, dynamic>) {
-        return ApiResponse<Map<String, dynamic>>(
-          success: true,
-          data: response,
-        );
+        return ApiResponse<Map<String, dynamic>>(success: true, data: response);
       }
       return ApiResponse<Map<String, dynamic>>.error('Invalid profile data');
     } on ApiException catch (e) {

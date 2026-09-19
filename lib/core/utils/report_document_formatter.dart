@@ -7,8 +7,10 @@ class ReportDocumentFormatter {
   ReportDocumentFormatter._();
 
   static const String institutionName = 'EduManage International Academy';
-  static const String institutionAddress = '100 University Avenue, Academic District';
-  static const String institutionContact = 'contact@edumanage.edu | +1 (555) 019-2834';
+  static const String institutionAddress =
+      '100 University Avenue, Academic District';
+  static const String institutionContact =
+      'contact@edumanage.edu | +1 (555) 019-2834';
 
   /// Generates an official student academic transcript report.
   static TranscriptDocument generateStudentTranscript({
@@ -40,13 +42,17 @@ class ReportDocumentFormatter {
     }
 
     // Deterministic FNV-1a verification checksum
-    final hashInput = '$studentId:$cleanRollNo:$cgpa:$totalCreditsEarned:$cleanYear';
+    final hashInput =
+        '$studentId:$cleanRollNo:$cgpa:$totalCreditsEarned:$cleanYear';
     int hash = 0x811c9dc5;
     for (final unit in hashInput.codeUnits) {
       hash ^= unit;
       hash = (hash * 0x01000193) & 0xFFFFFFFF;
     }
-    final verificationCode = hash.toRadixString(16).padLeft(8, '0').toUpperCase();
+    final verificationCode = hash
+        .toRadixString(16)
+        .padLeft(8, '0')
+        .toUpperCase();
 
     return TranscriptDocument(
       studentId: studentId,
@@ -119,8 +125,13 @@ class ReportDocumentFormatter {
     final cleanClassName = SecurityHelper.sanitizeInput(className);
     final cleanYear = SecurityHelper.sanitizeInput(academicYear);
 
-    final absentDays = (totalSchoolDays - presentDays).clamp(0, totalSchoolDays);
-    final percentage = totalSchoolDays > 0 ? (presentDays / totalSchoolDays) * 100 : 0.0;
+    final absentDays = (totalSchoolDays - presentDays).clamp(
+      0,
+      totalSchoolDays,
+    );
+    final percentage = totalSchoolDays > 0
+        ? (presentDays / totalSchoolDays) * 100
+        : 0.0;
 
     String complianceStatus;
     if (percentage >= 95.0) {
@@ -181,9 +192,11 @@ class TranscriptDocument {
 
   /// Formats transcript as printable HTML with CSS media print styling.
   String toHtmlPrintable() {
-    final semesterTables = semesters.map((sem) {
-      final rows = sem.courses.map((c) {
-        return '''
+    final semesterTables = semesters
+        .map((sem) {
+          final rows = sem.courses
+              .map((c) {
+                return '''
         <tr>
           <td>${c.subject}</td>
           <td style="text-align:center;">${c.creditHours.toStringAsFixed(1)}</td>
@@ -191,9 +204,10 @@ class TranscriptDocument {
           <td style="text-align:center;"><strong>${c.letterGrade}</strong></td>
           <td style="text-align:right;">${c.gradePoint.toStringAsFixed(2)}</td>
         </tr>''';
-      }).join('\n');
+              })
+              .join('\n');
 
-      return '''
+          return '''
       <div class="semester-block">
         <h3>Semester: ${sem.semesterId} (GPA: ${sem.gpa.toStringAsFixed(2)})</h3>
         <table>
@@ -211,7 +225,8 @@ class TranscriptDocument {
           </tbody>
         </table>
       </div>''';
-    }).join('\n');
+        })
+        .join('\n');
 
     return '''<!DOCTYPE html>
 <html>
@@ -269,17 +284,25 @@ class TranscriptDocument {
   /// Formats transcript as clean text/markdown.
   String toPlainText() {
     final buffer = StringBuffer();
-    buffer.writeln('===========================================================');
+    buffer.writeln(
+      '===========================================================',
+    );
     buffer.writeln('               OFFICIAL ACADEMIC TRANSCRIPT');
     buffer.writeln('         ${ReportDocumentFormatter.institutionName}');
-    buffer.writeln('===========================================================');
+    buffer.writeln(
+      '===========================================================',
+    );
     buffer.writeln('Student: $studentName (Roll No: $rollNumber)');
     buffer.writeln('Class: $className | Academic Year: $academicYear');
     buffer.writeln('Verification Hash: $verificationCode');
-    buffer.writeln('-----------------------------------------------------------');
+    buffer.writeln(
+      '-----------------------------------------------------------',
+    );
 
     for (final sem in semesters) {
-      buffer.writeln('Semester: ${sem.semesterId} (GPA: ${sem.gpa.toStringAsFixed(2)})');
+      buffer.writeln(
+        'Semester: ${sem.semesterId} (GPA: ${sem.gpa.toStringAsFixed(2)})',
+      );
       for (final course in sem.courses) {
         buffer.writeln(
           '  - ${course.subject.padRight(20)}: ${course.percentage.toStringAsFixed(1)}% [${course.letterGrade}] (Pts: ${course.gradePoint.toStringAsFixed(1)})',
@@ -288,11 +311,19 @@ class TranscriptDocument {
       buffer.writeln();
     }
 
-    buffer.writeln('-----------------------------------------------------------');
-    buffer.writeln('Cumulative CGPA: ${cumulativeGpa.toStringAsFixed(2)} / 4.00');
+    buffer.writeln(
+      '-----------------------------------------------------------',
+    );
+    buffer.writeln(
+      'Cumulative CGPA: ${cumulativeGpa.toStringAsFixed(2)} / 4.00',
+    );
     buffer.writeln('Academic Standing: ${academicStanding.name}');
-    buffer.writeln('Total Credits: ${totalCreditsEarned.toStringAsFixed(1)} / ${totalCreditsAttempted.toStringAsFixed(1)}');
-    buffer.writeln('===========================================================');
+    buffer.writeln(
+      'Total Credits: ${totalCreditsEarned.toStringAsFixed(1)} / ${totalCreditsAttempted.toStringAsFixed(1)}',
+    );
+    buffer.writeln(
+      '===========================================================',
+    );
     return buffer.toString();
   }
 }

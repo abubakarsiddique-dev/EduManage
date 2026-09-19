@@ -22,7 +22,9 @@ class ParentHomeScreen extends ConsumerWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: _ParentHeader(userName: parentName, uid: uid)),
+            SliverToBoxAdapter(
+              child: _ParentHeader(userName: parentName, uid: uid),
+            ),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
             // Children cards
@@ -364,7 +366,11 @@ class _ParentHeader extends StatelessWidget {
             child: CircleAvatar(
               radius: avatarRadius,
               backgroundColor: AppColors.white.withValues(alpha: 0.24),
-              child: Icon(Icons.person_rounded, color: AppColors.white, size: avatarIconSize),
+              child: Icon(
+                Icons.person_rounded,
+                color: AppColors.white,
+                size: avatarIconSize,
+              ),
             ),
           ),
         ],

@@ -10,10 +10,7 @@ enum ScheduleConflictType {
 }
 
 /// Severity level of the detected scheduling conflict.
-enum ScheduleConflictSeverity {
-  error,
-  warning,
-}
+enum ScheduleConflictSeverity { error, warning }
 
 /// Represents an identified schedule conflict between one or two timetable slots.
 class ScheduleConflict {
@@ -83,11 +80,14 @@ class AvailableTimeWindow {
 
   int get durationMinutes => endMinutes - startMinutes;
 
-  String get startTimeFormatted => ScheduleConflictEngine.minutesToTimeString(startMinutes);
-  String get endTimeFormatted => ScheduleConflictEngine.minutesToTimeString(endMinutes);
+  String get startTimeFormatted =>
+      ScheduleConflictEngine.minutesToTimeString(startMinutes);
+  String get endTimeFormatted =>
+      ScheduleConflictEngine.minutesToTimeString(endMinutes);
 
   @override
-  String toString() => '$day $startTimeFormatted - $endTimeFormatted ($durationMinutes min)';
+  String toString() =>
+      '$day $startTimeFormatted - $endTimeFormatted ($durationMinutes min)';
 }
 
 /// Enterprise engine for validating timetable constraints, identifying collisions,
@@ -146,24 +146,30 @@ class ScheduleConflictEngine {
       final endMin = parseTimeToMinutes(slot.endTime);
 
       if (startMin == null || endMin == null || startMin >= endMin) {
-        conflicts.add(ScheduleConflict(
-          type: ScheduleConflictType.invalidTimeRange,
-          severity: ScheduleConflictSeverity.error,
-          day: slot.day,
-          message: 'Slot "${slot.subject}" in ${slot.className} has invalid time interval: ${slot.startTime} - ${slot.endTime}',
-          primarySlot: slot,
-        ));
+        conflicts.add(
+          ScheduleConflict(
+            type: ScheduleConflictType.invalidTimeRange,
+            severity: ScheduleConflictSeverity.error,
+            day: slot.day,
+            message:
+                'Slot "${slot.subject}" in ${slot.className} has invalid time interval: ${slot.startTime} - ${slot.endTime}',
+            primarySlot: slot,
+          ),
+        );
         continue;
       }
 
       if (startMin < dayStartMinutes || endMin > dayEndMinutes) {
-        conflicts.add(ScheduleConflict(
-          type: ScheduleConflictType.outsideOperatingHours,
-          severity: ScheduleConflictSeverity.warning,
-          day: slot.day,
-          message: 'Slot "${slot.subject}" in ${slot.className} (${slot.timeRange}) operates outside institutional hours (${minutesToTimeString(dayStartMinutes)} - ${minutesToTimeString(dayEndMinutes)})',
-          primarySlot: slot,
-        ));
+        conflicts.add(
+          ScheduleConflict(
+            type: ScheduleConflictType.outsideOperatingHours,
+            severity: ScheduleConflictSeverity.warning,
+            day: slot.day,
+            message:
+                'Slot "${slot.subject}" in ${slot.className} (${slot.timeRange}) operates outside institutional hours (${minutesToTimeString(dayStartMinutes)} - ${minutesToTimeString(dayEndMinutes)})',
+            primarySlot: slot,
+          ),
+        );
       }
 
       validSlots.add(slot);
@@ -194,45 +200,54 @@ class ScheduleConflictEngine {
         final teacherMatch = _isSameTeacher(a, b);
         if (teacherMatch) {
           final teacherName = a.teacher.isNotEmpty ? a.teacher : b.teacher;
-          conflicts.add(ScheduleConflict(
-            type: ScheduleConflictType.teacherCollision,
-            severity: ScheduleConflictSeverity.error,
-            day: a.day,
-            message: 'Teacher "$teacherName" is double-booked on ${a.day} between ${a.className} (${a.subject}) and ${b.className} (${b.subject})',
-            primarySlot: a,
-            conflictingSlot: b,
-            entityIdentifier: teacherName,
-          ));
+          conflicts.add(
+            ScheduleConflict(
+              type: ScheduleConflictType.teacherCollision,
+              severity: ScheduleConflictSeverity.error,
+              day: a.day,
+              message:
+                  'Teacher "$teacherName" is double-booked on ${a.day} between ${a.className} (${a.subject}) and ${b.className} (${b.subject})',
+              primarySlot: a,
+              conflictingSlot: b,
+              entityIdentifier: teacherName,
+            ),
+          );
         }
 
         // B. Room collision check
         final roomA = (a.room ?? '').trim().toLowerCase();
         final roomB = (b.room ?? '').trim().toLowerCase();
         if (roomA.isNotEmpty && roomB.isNotEmpty && roomA == roomB) {
-          conflicts.add(ScheduleConflict(
-            type: ScheduleConflictType.roomCollision,
-            severity: ScheduleConflictSeverity.error,
-            day: a.day,
-            message: 'Room "${a.room}" is double-booked on ${a.day} for "${a.subject}" (${a.className}) and "${b.subject}" (${b.className})',
-            primarySlot: a,
-            conflictingSlot: b,
-            entityIdentifier: a.room,
-          ));
+          conflicts.add(
+            ScheduleConflict(
+              type: ScheduleConflictType.roomCollision,
+              severity: ScheduleConflictSeverity.error,
+              day: a.day,
+              message:
+                  'Room "${a.room}" is double-booked on ${a.day} for "${a.subject}" (${a.className}) and "${b.subject}" (${b.className})',
+              primarySlot: a,
+              conflictingSlot: b,
+              entityIdentifier: a.room,
+            ),
+          );
         }
 
         // C. Class section collision check
         final classA = a.className.trim().toLowerCase();
         final classB = b.className.trim().toLowerCase();
         if (classA.isNotEmpty && classA == classB) {
-          conflicts.add(ScheduleConflict(
-            type: ScheduleConflictType.classSectionCollision,
-            severity: ScheduleConflictSeverity.error,
-            day: a.day,
-            message: 'Class "$classA" has overlapping sessions: "${a.subject}" and "${b.subject}" on ${a.day}',
-            primarySlot: a,
-            conflictingSlot: b,
-            entityIdentifier: a.className,
-          ));
+          conflicts.add(
+            ScheduleConflict(
+              type: ScheduleConflictType.classSectionCollision,
+              severity: ScheduleConflictSeverity.error,
+              day: a.day,
+              message:
+                  'Class "$classA" has overlapping sessions: "${a.subject}" and "${b.subject}" on ${a.day}',
+              primarySlot: a,
+              conflictingSlot: b,
+              entityIdentifier: a.className,
+            ),
+          );
         }
       }
     }
@@ -323,15 +338,16 @@ class ScheduleConflictEngine {
 
       bool isRelevant = false;
       if (filterClass != null &&
-          slot.className.trim().toLowerCase() == filterClass.trim().toLowerCase()) {
+          slot.className.trim().toLowerCase() ==
+              filterClass.trim().toLowerCase()) {
         isRelevant = true;
       }
-      if (filterTeacher != null &&
-          _isTeacherMatch(slot, filterTeacher)) {
+      if (filterTeacher != null && _isTeacherMatch(slot, filterTeacher)) {
         isRelevant = true;
       }
       if (filterRoom != null &&
-          (slot.room ?? '').trim().toLowerCase() == filterRoom.trim().toLowerCase()) {
+          (slot.room ?? '').trim().toLowerCase() ==
+              filterRoom.trim().toLowerCase()) {
         isRelevant = true;
       }
 
@@ -379,23 +395,28 @@ class ScheduleConflictEngine {
       final busyEnd = busy[1];
 
       if (busyStart > current && (busyStart - current) >= durationMinutes) {
-        available.add(AvailableTimeWindow(
-          day: day,
-          startMinutes: current,
-          endMinutes: busyStart,
-        ));
+        available.add(
+          AvailableTimeWindow(
+            day: day,
+            startMinutes: current,
+            endMinutes: busyStart,
+          ),
+        );
       }
       if (busyEnd > current) {
         current = busyEnd;
       }
     }
 
-    if (dayEndMinutes > current && (dayEndMinutes - current) >= durationMinutes) {
-      available.add(AvailableTimeWindow(
-        day: day,
-        startMinutes: current,
-        endMinutes: dayEndMinutes,
-      ));
+    if (dayEndMinutes > current &&
+        (dayEndMinutes - current) >= durationMinutes) {
+      available.add(
+        AvailableTimeWindow(
+          day: day,
+          startMinutes: current,
+          endMinutes: dayEndMinutes,
+        ),
+      );
     }
 
     return available;
@@ -424,7 +445,8 @@ class ScheduleConflictEngine {
 
   static bool _isTeacherMatch(TimetableModel slot, String teacherQuery) {
     final query = teacherQuery.trim().toLowerCase();
-    if (slot.teacherId != null && slot.teacherId!.trim().toLowerCase() == query) {
+    if (slot.teacherId != null &&
+        slot.teacherId!.trim().toLowerCase() == query) {
       return true;
     }
     return slot.teacher.trim().toLowerCase() == query;

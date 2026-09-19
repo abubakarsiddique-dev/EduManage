@@ -25,16 +25,10 @@ class ClassesApiService {
           return ClassModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<ClassModel>>(
-          success: true,
-          data: classes,
-        );
+        return ApiResponse<List<ClassModel>>(success: true, data: classes);
       }
 
-      return ApiResponse<List<ClassModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<ClassModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<ClassModel>>.error(
         e.message,
@@ -81,13 +75,11 @@ class ClassesApiService {
         if (classModel.capacity != null) 'capacity': classModel.capacity,
       };
 
-      final response = await _client.post(
-        ApiEndpoints.classes,
-        body: payload,
-      );
+      final response = await _client.post(ApiEndpoints.classes, body: payload);
 
       if (response is Map<String, dynamic>) {
-        final id = (response['id'] ?? response['_id'] ?? classModel.id).toString();
+        final id = (response['id'] ?? response['_id'] ?? classModel.id)
+            .toString();
         return ApiResponse<ClassModel>(
           success: true,
           data: ClassModel.fromMap(id, response),

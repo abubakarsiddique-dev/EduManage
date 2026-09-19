@@ -16,7 +16,9 @@ class ApiResponse<T> {
     this.meta,
   });
 
-  bool get isSuccess => success && (statusCode == null || (statusCode! >= 200 && statusCode! < 300));
+  bool get isSuccess =>
+      success &&
+      (statusCode == null || (statusCode! >= 200 && statusCode! < 300));
   bool get hasError => !success || (statusCode != null && statusCode! >= 400);
 
   factory ApiResponse.fromJson(
@@ -38,7 +40,8 @@ class ApiResponse<T> {
       data: parsedData,
       statusCode: json['statusCode'] as int?,
       errors: json['errors'],
-      meta: json['meta'] as Map<String, dynamic>? ??
+      meta:
+          json['meta'] as Map<String, dynamic>? ??
           (json['pagination'] as Map<String, dynamic>?),
     );
   }

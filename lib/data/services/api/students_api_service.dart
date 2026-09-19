@@ -32,16 +32,10 @@ class StudentsApiService {
           return StudentModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<StudentModel>>(
-          success: true,
-          data: students,
-        );
+        return ApiResponse<List<StudentModel>>(success: true, data: students);
       }
 
-      return ApiResponse<List<StudentModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<StudentModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<StudentModel>>.error(
         e.message,
@@ -64,7 +58,10 @@ class StudentsApiService {
           data: StudentModel.fromMap(studentId, response),
         );
       }
-      return ApiResponse<StudentModel>.error('Student not found', statusCode: 404);
+      return ApiResponse<StudentModel>.error(
+        'Student not found',
+        statusCode: 404,
+      );
     } on ApiException catch (e) {
       return ApiResponse<StudentModel>.error(
         e.message,
@@ -77,7 +74,9 @@ class StudentsApiService {
   }
 
   /// Fetches children linked to a parent user.
-  Future<ApiResponse<List<StudentModel>>> getParentChildren([String? parentId]) async {
+  Future<ApiResponse<List<StudentModel>>> getParentChildren([
+    String? parentId,
+  ]) async {
     try {
       final url = ApiEndpoints.parentChildren(parentId);
       final response = await _client.get(url);
@@ -89,16 +88,10 @@ class StudentsApiService {
           return StudentModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<StudentModel>>(
-          success: true,
-          data: children,
-        );
+        return ApiResponse<List<StudentModel>>(success: true, data: children);
       }
 
-      return ApiResponse<List<StudentModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<StudentModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<StudentModel>>.error(
         e.message,
@@ -123,10 +116,7 @@ class StudentsApiService {
         'approved': student.approved,
       };
 
-      final response = await _client.post(
-        ApiEndpoints.students,
-        body: payload,
-      );
+      final response = await _client.post(ApiEndpoints.students, body: payload);
 
       if (response is Map<String, dynamic>) {
         final id = (response['id'] ?? response['uid'] ?? student.id).toString();

@@ -40,7 +40,8 @@ class TeacherModel {
       phone: map['phone'] as String? ?? '',
       subject: map['subject'] as String? ?? '-',
       qualification: map['qualification'] as String? ?? '-',
-      classes: (map['classes'] as List<dynamic>?)
+      classes:
+          (map['classes'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           const [],

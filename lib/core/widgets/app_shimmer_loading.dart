@@ -31,9 +31,10 @@ class _ShimmerPlaceholderState extends State<ShimmerPlaceholder>
       duration: const Duration(milliseconds: 1200),
     )..repeat(reverse: true);
 
-    _animation = Tween<double>(begin: 0.3, end: 0.8).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.3,
+      end: 0.8,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -64,11 +65,7 @@ class ShimmerCardList extends StatelessWidget {
   final int itemCount;
   final double itemHeight;
 
-  const ShimmerCardList({
-    super.key,
-    this.itemCount = 4,
-    this.itemHeight = 72,
-  });
+  const ShimmerCardList({super.key, this.itemCount = 4, this.itemHeight = 72});
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +74,9 @@ class ShimmerCardList extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(vertical: AppDimensions.space12),
-      separatorBuilder: (_, __) => const SizedBox(height: AppDimensions.space12),
-      itemBuilder: (_, __) => ShimmerPlaceholder(
+      separatorBuilder: (_, _) =>
+          const SizedBox(height: AppDimensions.space12),
+      itemBuilder: (_, _) => ShimmerPlaceholder(
         width: double.infinity,
         height: itemHeight,
         borderRadius: AppDimensions.radiusLarge,

@@ -51,7 +51,7 @@ import '../../features/auth/providers/auth_provider.dart';
 
 class _RouterNotifier extends ChangeNotifier {
   _RouterNotifier(this._ref) {
-    _ref.listen<AuthState>(authProvider, (_, __) => notifyListeners());
+    _ref.listen<AuthState>(authProvider, (_, _) => notifyListeners());
   }
 
   final Ref _ref;
@@ -96,91 +96,91 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       // ── Auth ──────────────────────────────────────────────────────────────
-      GoRoute(path: '/splash', builder: (_, __) => const SplashScreen()),
+      GoRoute(path: '/splash', builder: (_, _) => const SplashScreen()),
       GoRoute(
         path: '/onboarding',
-        builder: (_, __) => const OnboardingScreen(),
+        builder: (_, _) => const OnboardingScreen(),
       ),
-      GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
-      GoRoute(path: '/register', builder: (_, __) => const RegisterScreen()),
+      GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
+      GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
 
       // ── Pending approval ──────────────────────────────────────────────────
       GoRoute(
         path: '/pending',
-        builder: (_, __) => const WaitingApprovalScreen(),
+        builder: (_, _) => const WaitingApprovalScreen(),
       ),
 
       // ── Admin ─────────────────────────────────────────────────────────────
       GoRoute(
         path: '/admin/home',
-        builder: (_, __) => const AdminHomeScreen(),
+        builder: (_, _) => const AdminHomeScreen(),
         routes: [
           GoRoute(
             path: 'students',
-            builder: (_, __) => const StudentListScreen(),
+            builder: (_, _) => const StudentListScreen(),
           ),
           GoRoute(
             path: 'students/add',
-            builder: (_, __) => const AddStudentScreen(),
+            builder: (_, _) => const AddStudentScreen(),
           ),
           GoRoute(
             path: 'teachers',
-            builder: (_, __) => const TeacherListScreen(),
+            builder: (_, _) => const TeacherListScreen(),
           ),
           GoRoute(
             path: 'teachers/add',
-            builder: (_, __) => const AddTeacherScreen(),
+            builder: (_, _) => const AddTeacherScreen(),
           ),
-          GoRoute(path: 'classes', builder: (_, __) => const ClassesScreen()),
+          GoRoute(path: 'classes', builder: (_, _) => const ClassesScreen()),
           GoRoute(
             path: 'fees',
-            builder: (_, __) => const FeeManagementScreen(),
+            builder: (_, _) => const FeeManagementScreen(),
           ),
           GoRoute(
             path: 'notices',
-            builder: (_, __) => const NoticeBoardScreen(),
+            builder: (_, _) => const NoticeBoardScreen(),
           ),
           GoRoute(
             path: 'fee-verification',
-            builder: (_, __) => const FeeVerificationScreen(),
+            builder: (_, _) => const FeeVerificationScreen(),
           ),
           // GoRoute(
           //   path: 'fees',
           //   builder: (_, __) => const FeeManagementScreen(),
           // ),
-          GoRoute(path: 'reports', builder: (_, __) => const ReportsScreen()),
+          GoRoute(path: 'reports', builder: (_, _) => const ReportsScreen()),
           GoRoute(
             path: 'approvals',
-            builder: (_, __) => const PendingApprovalsScreen(),
+            builder: (_, _) => const PendingApprovalsScreen(),
           ),
           GoRoute(
             path: 'fix-class-names',
-            builder: (_, __) => const ClassNameMergeScreen(),
+            builder: (_, _) => const ClassNameMergeScreen(),
           ),
           GoRoute(
             path: 'seed-classes',
-            builder: (_, __) => const ClassSeederScreen(),
+            builder: (_, _) => const ClassSeederScreen(),
           ),
           GoRoute(
             path: 'history',
-            builder: (_, __) => const AdminActivityHistoryScreen(),
+            builder: (_, _) => const AdminActivityHistoryScreen(),
           ),
           GoRoute(
             path: 'timetable',
-            builder: (_, __) => const TimetableScreen(),
+            builder: (_, _) => const TimetableScreen(),
           ),
-          GoRoute(path: 'settings', builder: (_, __) => const ProfileScreen()),
+          GoRoute(path: 'settings', builder: (_, _) => const ProfileScreen()),
         ],
       ),
 
       // ── Teacher ───────────────────────────────────────────────────────────
       GoRoute(
         path: '/teacher/home',
-        builder: (_, __) => const TeacherHomeScreen(),
+        builder: (_, _) => const TeacherHomeScreen(),
         routes: [
           GoRoute(
             path: 'attendance',
-            builder: (_, __) => const AttendanceScreen(),
+            builder: (_, _) => const AttendanceScreen(),
             routes: [
               GoRoute(
                 path: 'class',
@@ -193,60 +193,60 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'classes',
-            builder: (_, __) => const TeacherClassesScreen(),
+            builder: (_, _) => const TeacherClassesScreen(),
           ),
           GoRoute(
             path: 'assignments',
-            builder: (_, __) => const AssignmentsScreen(),
+            builder: (_, _) => const AssignmentsScreen(),
           ),
-          GoRoute(path: 'grades', builder: (_, __) => const GradesScreen()),
+          GoRoute(path: 'grades', builder: (_, _) => const GradesScreen()),
           GoRoute(
             path: 'timetable',
             builder: (_, state) => const StudentTimetableScreen(),
           ),
           GoRoute(
             path: 'messages',
-            builder: (_, __) => const Scaffold(
+            builder: (_, _) => const Scaffold(
               body: Center(child: Text('Messages – Coming Soon')),
             ),
           ),
-          GoRoute(path: 'profile', builder: (_, __) => const ProfileScreen()),
+          GoRoute(path: 'profile', builder: (_, _) => const ProfileScreen()),
         ],
       ),
 
       // ── Student ───────────────────────────────────────────────────────────
       GoRoute(
         path: '/student/home',
-        builder: (_, __) => const StudentHomeScreen(),
+        builder: (_, _) => const StudentHomeScreen(),
         routes: [
           GoRoute(
             path: 'timetable',
-            builder: (_, __) => const StudentTimetableScreen(),
+            builder: (_, _) => const StudentTimetableScreen(),
           ),
           GoRoute(
             path: 'assignments',
-            builder: (_, __) => const StudentAssignmentsScreen(),
+            builder: (_, _) => const StudentAssignmentsScreen(),
           ),
           GoRoute(
             path: 'results',
-            builder: (_, __) => const StudentResultsScreen(),
+            builder: (_, _) => const StudentResultsScreen(),
           ),
           GoRoute(
             path: 'attendance',
-            builder: (_, __) => const StudentAttendanceScreen(),
+            builder: (_, _) => const StudentAttendanceScreen(),
           ),
           GoRoute(
             path: 'notices',
-            builder: (_, __) => const StudentNoticesScreen(),
+            builder: (_, _) => const StudentNoticesScreen(),
           ),
-          GoRoute(path: 'profile', builder: (_, __) => const ProfileScreen()),
+          GoRoute(path: 'profile', builder: (_, _) => const ProfileScreen()),
         ],
       ),
 
       // ── Parent ────────────────────────────────────────────────────────────
       GoRoute(
         path: '/parent/home',
-        builder: (_, __) => const ParentHomeScreen(),
+        builder: (_, _) => const ParentHomeScreen(),
         routes: [
           GoRoute(
             path: 'timetable',
@@ -255,49 +255,49 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: 'attendance',
-            builder: (_, __) => const ParentAttendanceScreen(),
+            builder: (_, _) => const ParentAttendanceScreen(),
           ),
           GoRoute(
             path: 'results',
-            builder: (_, __) => const ParentResultsScreen(),
+            builder: (_, _) => const ParentResultsScreen(),
           ),
           GoRoute(
             path: '/parent/notifications',
-            builder: (_, __) => const ParentNotificationsScreen(),
+            builder: (_, _) => const ParentNotificationsScreen(),
           ),
           GoRoute(
             path: 'fees',
-            builder: (_, __) => const ParentFeePaymentScreen(),
+            builder: (_, _) => const ParentFeePaymentScreen(),
           ),
           GoRoute(
             path: 'notices',
-            builder: (_, __) => const StudentNoticesScreen(),
+            builder: (_, _) => const StudentNoticesScreen(),
           ),
-          GoRoute(path: 'profile', builder: (_, __) => const ProfileScreen()),
+          GoRoute(path: 'profile', builder: (_, _) => const ProfileScreen()),
           GoRoute(
             path: 'assignments',
-            builder: (_, __) => const ParentAssignmentsScreen(),
+            builder: (_, _) => const ParentAssignmentsScreen(),
           ),
         ],
       ),
       GoRoute(
         path: '/parent/notifications',
-        builder: (_, __) => const NotificationsScreen(),
+        builder: (_, _) => const NotificationsScreen(),
       ),
 
       // ── Shared ────────────────────────────────────────────────────────────
-      GoRoute(path: '/profile', builder: (_, __) => const ProfileScreen()),
+      GoRoute(path: '/profile', builder: (_, _) => const ProfileScreen()),
       GoRoute(
         path: '/notifications',
-        builder: (_, __) => const NotificationsScreen(),
+        builder: (_, _) => const NotificationsScreen(),
       ),
       GoRoute(
         path: '/profile/edit',
-        builder: (_, __) => const EditProfileScreen(),
+        builder: (_, _) => const EditProfileScreen(),
       ),
       GoRoute(
         path: '/settings/password',
-        builder: (_, __) => const ChangePasswordScreen(),
+        builder: (_, _) => const ChangePasswordScreen(),
       ),
       // FIX: this route was referenced from profile_screen.dart's
       // "Notifications" settings row but never had a matching GoRoute —
@@ -305,22 +305,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       // backed by a real preferences screen instead of a placeholder.
       GoRoute(
         path: '/settings/notifications',
-        builder: (_, __) => const NotificationSettingsScreen(),
+        builder: (_, _) => const NotificationSettingsScreen(),
       ),
       // FIX: replaced "Coming Soon" placeholder with a real screen.
-      GoRoute(path: '/help', builder: (_, __) => const HelpSupportScreen()),
+      GoRoute(path: '/help', builder: (_, _) => const HelpSupportScreen()),
       // FIX: replaced "Coming Soon" placeholder with a real screen.
-      GoRoute(path: '/about', builder: (_, __) => const AboutAppScreen()),
+      GoRoute(path: '/about', builder: (_, _) => const AboutAppScreen()),
       // New: school-management-specific legal screens, linked from
       // AboutAppScreen's "Legal" section (Privacy Policy / Terms of Service
       // rows previously just showed a "coming soon" SnackBar).
       GoRoute(
         path: '/legal/privacy',
-        builder: (_, __) => const PrivacyPolicyScreen(),
+        builder: (_, _) => const PrivacyPolicyScreen(),
       ),
       GoRoute(
         path: '/legal/terms',
-        builder: (_, __) => const TermsOfServiceScreen(),
+        builder: (_, _) => const TermsOfServiceScreen(),
       ),
     ],
 

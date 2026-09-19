@@ -59,8 +59,10 @@ class _FeeManagementScreenState extends State<FeeManagementScreen>
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Fee Management',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Fee Management',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add_rounded, color: Colors.white, size: 28),
@@ -82,11 +84,14 @@ class _FeeManagementScreenState extends State<FeeManagementScreen>
       body: TabBarView(
         controller: _tab,
         children: [
-          _RecordsTab(searchQuery: _searchQuery, statusFilter: _statusFilter,
-              searchCtrl: _searchCtrl,
-              onSearch: (v) => setState(() => _searchQuery = v.toLowerCase()),
-              onFilter: (v) => setState(() => _statusFilter = v),
-              statuses: _statuses),
+          _RecordsTab(
+            searchQuery: _searchQuery,
+            statusFilter: _statusFilter,
+            searchCtrl: _searchCtrl,
+            onSearch: (v) => setState(() => _searchQuery = v.toLowerCase()),
+            onFilter: (v) => setState(() => _statusFilter = v),
+            statuses: _statuses,
+          ),
           const _SummaryTab(),
         ],
       ),
@@ -99,9 +104,11 @@ class _FeeManagementScreenState extends State<FeeManagementScreen>
     final classCtrl = TextEditingController();
     final amountCtrl = TextEditingController();
     final monthCtrl = TextEditingController(
-        text: DateFormat('MMMM').format(DateTime.now()));
+      text: DateFormat('MMMM').format(DateTime.now()),
+    );
     final yearCtrl = TextEditingController(
-        text: DateTime.now().year.toString());
+      text: DateTime.now().year.toString(),
+    );
     String status = 'pending';
     bool loading = false;
     final formKey = GlobalKey<FormState>();
@@ -111,11 +118,14 @@ class _FeeManagementScreenState extends State<FeeManagementScreen>
       isScrollControlled: true,
       backgroundColor: AppColors.cardBg,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (sheetCtx) => StatefulBuilder(
         builder: (ctx, setSheet) => Padding(
           padding: EdgeInsets.only(
-            left: 20, right: 20, top: 20,
+            left: 20,
+            right: 20,
+            top: 20,
             bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
           ),
           child: Form(
@@ -124,73 +134,114 @@ class _FeeManagementScreenState extends State<FeeManagementScreen>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Container(width: 40, height: 4,
-                    decoration: BoxDecoration(color: AppColors.divider,
-                        borderRadius: BorderRadius.circular(2)))),
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: AppColors.divider,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20),
                 Text('Add Fee Record', style: AppTextStyles.headingMedium),
                 const SizedBox(height: 16),
                 // Student name + ID row
-                Row(children: [
-                  Expanded(child: CustomTextField(label: 'Student Name',
-                      controller: studentCtrl,
-                      validator: (v) =>
-                      v == null || v.trim().isEmpty ? 'Required' : null)),
-                  const SizedBox(width: 12),
-                  Expanded(child: CustomTextField(label: 'Student UID',
-                      hint: 'From Firestore',
-                      controller: studentIdCtrl,
-                      validator: (v) =>
-                      v == null || v.trim().isEmpty ? 'Required' : null)),
-                ]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Student Name',
+                        controller: studentCtrl,
+                        validator: (v) =>
+                            v == null || v.trim().isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Student UID',
+                        hint: 'From Firestore',
+                        controller: studentIdCtrl,
+                        validator: (v) =>
+                            v == null || v.trim().isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
-                Row(children: [
-                  Expanded(child: CustomTextField(label: 'Class',
-                      controller: classCtrl,
-                      validator: (v) =>
-                      v == null || v.trim().isEmpty ? 'Required' : null)),
-                  const SizedBox(width: 12),
-                  Expanded(child: CustomTextField(label: 'Amount (Rs.)',
-                      controller: amountCtrl,
-                      keyboardType: TextInputType.number,
-                      validator: (v) =>
-                      v == null || v.trim().isEmpty ? 'Required' : null)),
-                ]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Class',
+                        controller: classCtrl,
+                        validator: (v) =>
+                            v == null || v.trim().isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Amount (Rs.)',
+                        controller: amountCtrl,
+                        keyboardType: TextInputType.number,
+                        validator: (v) =>
+                            v == null || v.trim().isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
-                Row(children: [
-                  Expanded(child: CustomTextField(label: 'Month',
-                      controller: monthCtrl)),
-                  const SizedBox(width: 12),
-                  Expanded(child: CustomTextField(label: 'Year',
-                      controller: yearCtrl,
-                      keyboardType: TextInputType.number)),
-                ]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Month',
+                        controller: monthCtrl,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Year',
+                        controller: yearCtrl,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
                 // Status selector
                 Text('Status', style: AppTextStyles.labelMedium),
                 const SizedBox(height: 8),
-                Row(children: ['pending', 'paid', 'overdue'].map((s) {
-                  final selected = status == s;
-                  return GestureDetector(
-                    onTap: () => setSheet(() => status = s),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      margin: const EdgeInsets.only(right: 8),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: selected
-                            ? _statusColor(s).withOpacity(0.15)
-                            : AppColors.background,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: selected
-                              ? _statusColor(s)
-                              : AppColors.divider,
-                          width: selected ? 1.5 : 1,
+                Row(
+                  children: ['pending', 'paid', 'overdue'].map((s) {
+                    final selected = status == s;
+                    return GestureDetector(
+                      onTap: () => setSheet(() => status = s),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        margin: const EdgeInsets.only(right: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
                         ),
-                      ),
-                      child: Text(s[0].toUpperCase() + s.substring(1),
+                        decoration: BoxDecoration(
+                          color: selected
+                              ? _statusColor(s).withValues(alpha: 0.15)
+                              : AppColors.background,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: selected
+                                ? _statusColor(s)
+                                : AppColors.divider,
+                            width: selected ? 1.5 : 1,
+                          ),
+                        ),
+                        child: Text(
+                          s[0].toUpperCase() + s.substring(1),
                           style: AppTextStyles.labelSmall.copyWith(
                             color: selected
                                 ? _statusColor(s)
@@ -198,10 +249,12 @@ class _FeeManagementScreenState extends State<FeeManagementScreen>
                             fontWeight: selected
                                 ? FontWeight.w700
                                 : FontWeight.w400,
-                          )),
-                    ),
-                  );
-                }).toList()),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
                 const SizedBox(height: 20),
                 CustomButton(
                   label: 'Save Fee Record',
@@ -216,7 +269,8 @@ class _FeeManagementScreenState extends State<FeeManagementScreen>
                       'className': classCtrl.text.trim(),
                       'amount': double.tryParse(amountCtrl.text.trim()) ?? 0,
                       'month': monthCtrl.text.trim(),
-                      'year': int.tryParse(yearCtrl.text.trim()) ??
+                      'year':
+                          int.tryParse(yearCtrl.text.trim()) ??
                           DateTime.now().year,
                       'status': status,
                       'paidAt': status == 'paid'
@@ -254,124 +308,136 @@ class _RecordsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      // Search bar
-      Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: TextField(
-          controller: searchCtrl,
-          onChanged: onSearch,
-          decoration: InputDecoration(
-            hintText: 'Search by student name...',
-            prefixIcon: const Icon(Icons.search_rounded,
-                color: AppColors.textHint),
-            filled: true,
-            fillColor: AppColors.cardBg,
-            border: OutlineInputBorder(
+    return Column(
+      children: [
+        // Search bar
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          child: TextField(
+            controller: searchCtrl,
+            onChanged: onSearch,
+            decoration: InputDecoration(
+              hintText: 'Search by student name...',
+              prefixIcon: const Icon(
+                Icons.search_rounded,
+                color: AppColors.textHint,
+              ),
+              filled: true,
+              fillColor: AppColors.cardBg,
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: AppColors.divider)),
-            enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: AppColors.divider),
+              ),
+              enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: AppColors.divider)),
-            contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                borderSide: const BorderSide(color: AppColors.divider),
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+            ),
           ),
         ),
-      ),
-      // Status filter chips
-      Padding(
-        padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-        child: SizedBox(
-          height: 34,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: statuses.map((s) {
-              final isSel = statusFilter == s;
-              final color = s == 'all'
-                  ? AppColors.textSecondary
-                  : _statusColor(s);
-              return GestureDetector(
-                onTap: () => onFilter(s),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  margin: const EdgeInsets.only(right: 8),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 14, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: isSel ? color.withOpacity(0.12) : Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                        color: isSel ? color : AppColors.divider),
-                  ),
-                  child: Text(
-                    s == 'all' ? 'All' : s[0].toUpperCase() + s.substring(1),
-                    style: AppTextStyles.labelSmall.copyWith(
-                      color: isSel ? color : AppColors.textSecondary,
-                      fontWeight:
-                      isSel ? FontWeight.w700 : FontWeight.w400,
+        // Status filter chips
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+          child: SizedBox(
+            height: 34,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: statuses.map((s) {
+                final isSel = statusFilter == s;
+                final color = s == 'all'
+                    ? AppColors.textSecondary
+                    : _statusColor(s);
+                return GestureDetector(
+                  onTap: () => onFilter(s),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    margin: const EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSel
+                          ? color.withValues(alpha: 0.12)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: isSel ? color : AppColors.divider,
+                      ),
+                    ),
+                    child: Text(
+                      s == 'all' ? 'All' : s[0].toUpperCase() + s.substring(1),
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: isSel ? color : AppColors.textSecondary,
+                        fontWeight: isSel ? FontWeight.w700 : FontWeight.w400,
+                      ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
         ),
-      ),
-      // List
-      Expanded(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('fees')
-              .orderBy('createdAt', descending: true)
-              .snapshots(),
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            final docs = snap.data?.docs ?? [];
-            final filtered = docs.where((doc) {
-              final data = doc.data() as Map<String, dynamic>;
-              final name = (data['studentName'] as String? ?? '')
-                  .toLowerCase();
-              final status = data['status'] as String? ?? '';
-              final matchName = name.contains(searchQuery);
-              final matchStatus =
-                  statusFilter == 'all' || status == statusFilter;
-              return matchName && matchStatus;
-            }).toList();
+        // List
+        Expanded(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('fees')
+                .orderBy('createdAt', descending: true)
+                .snapshots(),
+            builder: (context, snap) {
+              if (snap.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final docs = snap.data?.docs ?? [];
+              final filtered = docs.where((doc) {
+                final data = doc.data() as Map<String, dynamic>;
+                final name = (data['studentName'] as String? ?? '')
+                    .toLowerCase();
+                final status = data['status'] as String? ?? '';
+                final matchName = name.contains(searchQuery);
+                final matchStatus =
+                    statusFilter == 'all' || status == statusFilter;
+                return matchName && matchStatus;
+              }).toList();
 
-            if (filtered.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.receipt_long_outlined,
-                        size: 64, color: AppColors.textHint),
-                    const SizedBox(height: 16),
-                    Text('No fee records found',
-                        style: AppTextStyles.bodyMedium
-                            .copyWith(color: AppColors.textSecondary)),
-                  ],
-                ),
-              );
-            }
-
-            return ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 100),
-              itemCount: filtered.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 10),
-              itemBuilder: (context, i) {
-                final data =
-                filtered[i].data() as Map<String, dynamic>;
-                return _FeeCard(
-                  docId: filtered[i].id,
-                  data: data,
+              if (filtered.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.receipt_long_outlined,
+                        size: 64,
+                        color: AppColors.textHint,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'No fee records found',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
                 );
-              },
-            );
-          },
+              }
+
+              return ListView.separated(
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 100),
+                itemCount: filtered.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 10),
+                itemBuilder: (context, i) {
+                  final data = filtered[i].data() as Map<String, dynamic>;
+                  return _FeeCard(docId: filtered[i].id, data: data);
+                },
+              );
+            },
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
 
@@ -397,61 +463,96 @@ class _FeeCard extends StatelessWidget {
         border: Border(left: BorderSide(color: color, width: 4)),
       ),
       padding: const EdgeInsets.all(14),
-      child: Row(children: [
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(data['studentName'] as String? ?? '',
-                style: AppTextStyles.bodyMediumBold),
-            const SizedBox(height: 4),
-            Row(children: [
-              _Chip(label: data['className'] as String? ?? '',
-                  color: AppColors.primary),
-              const SizedBox(width: 6),
-              _Chip(label: '$month $year', color: AppColors.textSecondary),
-            ]),
-          ]),
-        ),
-        Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-          Text('Rs. ${amount.toStringAsFixed(0)}',
-              style: AppTextStyles.bodyMediumBold
-                  .copyWith(color: AppColors.textPrimary)),
-          const SizedBox(height: 6),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20)),
-            child: Text(status[0].toUpperCase() + status.substring(1),
-                style: AppTextStyles.labelTiny
-                    .copyWith(color: color, fontWeight: FontWeight.w700)),
-          ),
-          if (status == 'pending' || status == 'overdue') ...[
-            const SizedBox(height: 6),
-            GestureDetector(
-              onTap: () => FirebaseFirestore.instance
-                  .collection('fees')
-                  .doc(docId)
-                  .update({
-                'status': 'paid',
-                'paidAt': FieldValue.serverTimestamp(),
-              }),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                    color: AppColors.success.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                        color: AppColors.success.withOpacity(0.4))),
-                child: Text('Mark Paid',
-                    style: AppTextStyles.labelTiny.copyWith(
-                        color: AppColors.success,
-                        fontWeight: FontWeight.w700)),
-              ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  data['studentName'] as String? ?? '',
+                  style: AppTextStyles.bodyMediumBold,
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    _Chip(
+                      label: data['className'] as String? ?? '',
+                      color: AppColors.primary,
+                    ),
+                    const SizedBox(width: 6),
+                    _Chip(
+                      label: '$month $year',
+                      color: AppColors.textSecondary,
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ]),
-      ]),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                'Rs. ${amount.toStringAsFixed(0)}',
+                style: AppTextStyles.bodyMediumBold.copyWith(
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  status[0].toUpperCase() + status.substring(1),
+                  style: AppTextStyles.labelTiny.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              if (status == 'pending' || status == 'overdue') ...[
+                const SizedBox(height: 6),
+                GestureDetector(
+                  onTap: () => FirebaseFirestore.instance
+                      .collection('fees')
+                      .doc(docId)
+                      .update({
+                        'status': 'paid',
+                        'paidAt': FieldValue.serverTimestamp(),
+                      }),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.success.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: AppColors.success.withValues(alpha: 0.4),
+                      ),
+                    ),
+                    child: Text(
+                      'Mark Paid',
+                      style: AppTextStyles.labelTiny.copyWith(
+                        color: AppColors.success,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -508,45 +609,64 @@ class _SummaryTab extends StatelessWidget {
                   boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Total Collected',
-                          style: AppTextStyles.labelMedium
-                              .copyWith(color: AppColors.white.withValues(alpha: 0.7))),
-                      const SizedBox(height: 8),
-                      Text('Rs. ${_fmt(totalCollected)}',
-                          style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 32,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white)),
-                      const SizedBox(height: 4),
-                      Text('$paidCount payments received',
-                          style: AppTextStyles.labelSmall
-                              .copyWith(color: Colors.white60)),
-                    ]),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total Collected',
+                      style: AppTextStyles.labelMedium.copyWith(
+                        color: AppColors.white.withValues(alpha: 0.7),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Rs. ${_fmt(totalCollected)}',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '$paidCount payments received',
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: Colors.white60,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
-              Row(children: [
-                Expanded(child: _SummaryCard(
-                    label: 'Pending',
-                    amount: totalPending,
-                    count: pendingCount,
-                    color: AppColors.warning)),
-                const SizedBox(width: 12),
-                Expanded(child: _SummaryCard(
-                    label: 'Overdue',
-                    amount: totalOverdue,
-                    count: overdueCount,
-                    color: AppColors.danger)),
-              ]),
+              Row(
+                children: [
+                  Expanded(
+                    child: _SummaryCard(
+                      label: 'Pending',
+                      amount: totalPending,
+                      count: pendingCount,
+                      color: AppColors.warning,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _SummaryCard(
+                      label: 'Overdue',
+                      amount: totalOverdue,
+                      count: overdueCount,
+                      color: AppColors.danger,
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 24),
               Text('Collection rate', style: AppTextStyles.sectionTitle),
               const SizedBox(height: 12),
               _CollectionBar(
-                  paid: totalCollected,
-                  pending: totalPending,
-                  overdue: totalOverdue),
+                paid: totalCollected,
+                pending: totalPending,
+                overdue: totalOverdue,
+              ),
               const SizedBox(height: 32),
             ],
           ),
@@ -575,27 +695,34 @@ class _SummaryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: AppColors.cardBg,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: AppColors.cardShadow),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label,
-            style: AppTextStyles.labelSmall.copyWith(color: color)),
-        const SizedBox(height: 8),
-        Text('Rs. ${NumberFormat('#,##0').format(amount)}',
-            style: AppTextStyles.bodyMediumBold),
-        const SizedBox(height: 4),
-        Text('$count records',
-            style: AppTextStyles.labelTiny),
-      ]),
+        color: AppColors.cardBg,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: AppTextStyles.labelSmall.copyWith(color: color)),
+          const SizedBox(height: 8),
+          Text(
+            'Rs. ${NumberFormat('#,##0').format(amount)}',
+            style: AppTextStyles.bodyMediumBold,
+          ),
+          const SizedBox(height: 4),
+          Text('$count records', style: AppTextStyles.labelTiny),
+        ],
+      ),
     );
   }
 }
 
 class _CollectionBar extends StatelessWidget {
   final double paid, pending, overdue;
-  const _CollectionBar(
-      {required this.paid, required this.pending, required this.overdue});
+  const _CollectionBar({
+    required this.paid,
+    required this.pending,
+    required this.overdue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -604,40 +731,60 @@ class _CollectionBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: AppColors.cardBg,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: AppColors.cardShadow),
-      child: Column(children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-          child: SizedBox(
-            height: 12,
-            child: Row(children: [
-              if (paid > 0)
-                Flexible(
-                    flex: (paid / total * 100).round(),
-                    child: Container(color: AppColors.success)),
-              if (pending > 0)
-                Flexible(
-                    flex: (pending / total * 100).round(),
-                    child: Container(color: AppColors.warning)),
-              if (overdue > 0)
-                Flexible(
-                    flex: (overdue / total * 100).round(),
-                    child: Container(color: AppColors.danger)),
-            ]),
+        color: AppColors.cardBg,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppColors.cardShadow,
+      ),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: SizedBox(
+              height: 12,
+              child: Row(
+                children: [
+                  if (paid > 0)
+                    Flexible(
+                      flex: (paid / total * 100).round(),
+                      child: Container(color: AppColors.success),
+                    ),
+                  if (pending > 0)
+                    Flexible(
+                      flex: (pending / total * 100).round(),
+                      child: Container(color: AppColors.warning),
+                    ),
+                  if (overdue > 0)
+                    Flexible(
+                      flex: (overdue / total * 100).round(),
+                      child: Container(color: AppColors.danger),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-        const SizedBox(height: 14),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          _LegendItem(color: AppColors.success, label: 'Paid',
-              pct: paid / total),
-          _LegendItem(color: AppColors.warning, label: 'Pending',
-              pct: pending / total),
-          _LegendItem(color: AppColors.danger, label: 'Overdue',
-              pct: overdue / total),
-        ]),
-      ]),
+          const SizedBox(height: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _LegendItem(
+                color: AppColors.success,
+                label: 'Paid',
+                pct: paid / total,
+              ),
+              _LegendItem(
+                color: AppColors.warning,
+                label: 'Pending',
+                pct: pending / total,
+              ),
+              _LegendItem(
+                color: AppColors.danger,
+                label: 'Overdue',
+                pct: overdue / total,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -646,18 +793,28 @@ class _LegendItem extends StatelessWidget {
   final Color color;
   final String label;
   final double pct;
-  const _LegendItem(
-      {required this.color, required this.label, required this.pct});
+  const _LegendItem({
+    required this.color,
+    required this.label,
+    required this.pct,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Container(width: 10, height: 10,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-      const SizedBox(width: 6),
-      Text('$label ${(pct * 100).toStringAsFixed(0)}%',
-          style: AppTextStyles.labelTiny),
-    ]);
+    return Row(
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          '$label ${(pct * 100).toStringAsFixed(0)}%',
+          style: AppTextStyles.labelTiny,
+        ),
+      ],
+    );
   }
 }
 
@@ -671,11 +828,16 @@ class _Chip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(20)),
-      child: Text(label,
-          style: AppTextStyles.labelTiny
-              .copyWith(color: color, fontWeight: FontWeight.w600)),
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        style: AppTextStyles.labelTiny.copyWith(
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }

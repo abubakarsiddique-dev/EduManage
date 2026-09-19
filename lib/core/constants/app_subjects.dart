@@ -16,11 +16,7 @@ class AppSubjects {
   // ── Subjects taught at Nursery / KG only ────────────────────────────
   static const List<String> earlyLevels = ['Nursery', 'KG'];
 
-  static const List<String> earlyLevelSubjects = [
-    'English',
-    'Urdu',
-    'Maths',
-  ];
+  static const List<String> earlyLevelSubjects = ['English', 'Urdu', 'Maths'];
 
   // ── Subjects taught from Grade 1 through Grade 12 ───────────────────
   static const List<String> gradeLevelSubjects = [

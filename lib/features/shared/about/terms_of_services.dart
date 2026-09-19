@@ -49,8 +49,10 @@ class TermsOfServiceScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Terms of Service',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Terms of Service',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
@@ -75,41 +77,60 @@ class TermsOfServiceScreen extends ConsumerWidget {
           ),
 
           _TosSectionTitle(title: '1. Accounts & Roles', color: roleColor),
-          const _TosBullet('Admin accounts are created only by an '
-              'existing administrator — there is no public sign‑up for '
-              'the Admin role.'),
-          const _TosBullet('Teacher, Student, and Parent accounts may '
-              'self‑register but remain inactive until approved by a '
-              'school Admin.'),
-          const _TosBullet('You are responsible for keeping your login '
-              'credentials confidential and for all activity that occurs '
-              'under your account.'),
-          const _TosBullet('Parent accounts are linked to a specific '
-              'student by the school Admin; you may only view information '
-              'for student(s) actually linked to your account.'),
+          const _TosBullet(
+            'Admin accounts are created only by an '
+            'existing administrator — there is no public sign‑up for '
+            'the Admin role.',
+          ),
+          const _TosBullet(
+            'Teacher, Student, and Parent accounts may '
+            'self‑register but remain inactive until approved by a '
+            'school Admin.',
+          ),
+          const _TosBullet(
+            'You are responsible for keeping your login '
+            'credentials confidential and for all activity that occurs '
+            'under your account.',
+          ),
+          const _TosBullet(
+            'Parent accounts are linked to a specific '
+            'student by the school Admin; you may only view information '
+            'for student(s) actually linked to your account.',
+          ),
 
-          _TosSectionTitle(
-              title: '2. Acceptable Use', color: roleColor),
+          _TosSectionTitle(title: '2. Acceptable Use', color: roleColor),
           const _TosParagraph(
             'The App is provided for legitimate school administration '
             'purposes only. You agree not to:',
           ),
-          const _TosBullet('Attempt to access another user\'s account, '
-              'another student\'s records, or any data you are not '
-              'authorized to view.'),
-          const _TosBullet('Enter false attendance, grades, fee records, '
-              'or other academic data.'),
-          const _TosBullet('Use the App to harass, defame, or share '
-              'inappropriate content with other users via notices or any '
-              'in‑app communication feature.'),
-          const _TosBullet('Attempt to reverse‑engineer, disrupt, or gain '
-              'unauthorized access to the App\'s systems or Firebase '
-              'backend.'),
-          const _TosBullet('Share your login credentials with anyone '
-              'else, including other students, parents, or staff.'),
+          const _TosBullet(
+            'Attempt to access another user\'s account, '
+            'another student\'s records, or any data you are not '
+            'authorized to view.',
+          ),
+          const _TosBullet(
+            'Enter false attendance, grades, fee records, '
+            'or other academic data.',
+          ),
+          const _TosBullet(
+            'Use the App to harass, defame, or share '
+            'inappropriate content with other users via notices or any '
+            'in‑app communication feature.',
+          ),
+          const _TosBullet(
+            'Attempt to reverse‑engineer, disrupt, or gain '
+            'unauthorized access to the App\'s systems or Firebase '
+            'backend.',
+          ),
+          const _TosBullet(
+            'Share your login credentials with anyone '
+            'else, including other students, parents, or staff.',
+          ),
 
           _TosSectionTitle(
-              title: '3. Academic & Administrative Data', color: roleColor),
+            title: '3. Academic & Administrative Data',
+            color: roleColor,
+          ),
           const _TosParagraph(
             'Attendance, grades, fee, and timetable data entered into the '
             'App by Admins and Teachers is considered an official record '
@@ -121,16 +142,24 @@ class TermsOfServiceScreen extends ConsumerWidget {
           ),
 
           _TosSectionTitle(
-              title: '4. Roles & Responsibilities', color: roleColor),
-          const _TosBullet('School Admins are responsible for approving '
-              'accounts, assigning classes correctly, and managing the '
-              'accuracy of student/teacher/parent records.'),
-          const _TosBullet('Teachers are responsible for the accuracy of '
-              'attendance and grades they submit for their assigned '
-              'classes.'),
-          const _TosBullet('Students and Parents are responsible for '
-              'reviewing their own records and promptly reporting '
-              'discrepancies to the school Admin.'),
+            title: '4. Roles & Responsibilities',
+            color: roleColor,
+          ),
+          const _TosBullet(
+            'School Admins are responsible for approving '
+            'accounts, assigning classes correctly, and managing the '
+            'accuracy of student/teacher/parent records.',
+          ),
+          const _TosBullet(
+            'Teachers are responsible for the accuracy of '
+            'attendance and grades they submit for their assigned '
+            'classes.',
+          ),
+          const _TosBullet(
+            'Students and Parents are responsible for '
+            'reviewing their own records and promptly reporting '
+            'discrepancies to the school Admin.',
+          ),
 
           _TosSectionTitle(title: '5. Availability', color: roleColor),
           const _TosParagraph(
@@ -142,7 +171,9 @@ class TermsOfServiceScreen extends ConsumerWidget {
           ),
 
           _TosSectionTitle(
-              title: '6. Suspension & Termination', color: roleColor),
+            title: '6. Suspension & Termination',
+            color: roleColor,
+          ),
           const _TosParagraph(
             'A school Admin may reject a pending registration or remove '
             'an existing account at their discretion — for example, when a '
@@ -153,7 +184,9 @@ class TermsOfServiceScreen extends ConsumerWidget {
           ),
 
           _TosSectionTitle(
-              title: '7. Limitation of Liability', color: roleColor),
+            title: '7. Limitation of Liability',
+            color: roleColor,
+          ),
           const _TosParagraph(
             'The App is a record‑keeping and communication tool. To the '
             'fullest extent permitted by law, we are not liable for '
@@ -164,7 +197,10 @@ class TermsOfServiceScreen extends ConsumerWidget {
             'limited under applicable law.',
           ),
 
-          _TosSectionTitle(title: '8. Changes to These Terms', color: roleColor),
+          _TosSectionTitle(
+            title: '8. Changes to These Terms',
+            color: roleColor,
+          ),
           const _TosParagraph(
             'We may update these Terms from time to time. We will update '
             'the "Last updated" date above when changes are made. '
@@ -218,8 +254,10 @@ class _TosHeaderBlock extends StatelessWidget {
           Container(
             width: 48,
             height: 48,
-            decoration:
-                BoxDecoration(color: color.withValues(alpha: 0.12), shape: BoxShape.circle),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
             child: Icon(icon, color: color, size: 24),
           ),
           const SizedBox(width: 14),
@@ -229,9 +267,12 @@ class _TosHeaderBlock extends StatelessWidget {
               children: [
                 Text(title, style: AppTextStyles.bodyMediumBold),
                 const SizedBox(height: 3),
-                Text(subtitle,
-                    style: AppTextStyles.labelSmall
-                        .copyWith(color: AppColors.textSecondary)),
+                Text(
+                  subtitle,
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
           ),
@@ -255,8 +296,10 @@ class _TosSectionTitle extends StatelessWidget {
           Container(
             width: 4,
             height: 16,
-            decoration:
-                BoxDecoration(color: color, borderRadius: BorderRadius.circular(2)),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(2),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(child: Text(title, style: AppTextStyles.sectionTitle)),
@@ -276,8 +319,10 @@ class _TosParagraph extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4),
       child: Text(
         text,
-        style: AppTextStyles.bodyMedium
-            .copyWith(color: AppColors.textSecondary, height: 1.6),
+        style: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.textSecondary,
+          height: 1.6,
+        ),
       ),
     );
   }
@@ -300,15 +345,19 @@ class _TosBullet extends StatelessWidget {
               width: 6,
               height: 6,
               decoration: const BoxDecoration(
-                  color: AppColors.textHint, shape: BoxShape.circle),
+                color: AppColors.textHint,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               text,
-              style: AppTextStyles.bodyMedium
-                  .copyWith(color: AppColors.textSecondary, height: 1.6),
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+                height: 1.6,
+              ),
             ),
           ),
         ],

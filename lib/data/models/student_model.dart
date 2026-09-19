@@ -37,7 +37,8 @@ class StudentModel {
       name: map['name'] as String? ?? 'Unknown',
       email: map['email'] as String? ?? '',
       rollNo: map['rollNo'] as String? ?? '-',
-      className: map['class'] as String? ?? map['className'] as String? ?? 'Unknown',
+      className:
+          map['class'] as String? ?? map['className'] as String? ?? 'Unknown',
       section: map['section'] as String? ?? '-',
       contact: map['contact'] as String? ?? '-',
       approved: map['approved'] as bool? ?? true,

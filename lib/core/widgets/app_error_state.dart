@@ -23,12 +23,16 @@ class AppErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final circleSize = isCompact ? 14.w.clamp(48.0, 58.0) : 20.w.clamp(68.0, 80.0);
+    final circleSize = isCompact
+        ? 14.w.clamp(48.0, 58.0)
+        : 20.w.clamp(68.0, 80.0);
     final iconSize = isCompact ? 7.w.clamp(24.0, 30.0) : 10.w.clamp(34.0, 40.0);
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(isCompact ? AppDimensions.space16 : AppDimensions.space32),
+        padding: EdgeInsets.all(
+          isCompact ? AppDimensions.space16 : AppDimensions.space32,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -39,13 +43,11 @@ class AppErrorState extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.dangerLight,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.danger.withValues(alpha: 0.3)),
+                border: Border.all(
+                  color: AppColors.danger.withValues(alpha: 0.3),
+                ),
               ),
-              child: Icon(
-                icon,
-                size: iconSize,
-                color: AppColors.danger,
-              ),
+              child: Icon(icon, size: iconSize, color: AppColors.danger),
             ),
             const SizedBox(height: AppDimensions.space16),
             Text(

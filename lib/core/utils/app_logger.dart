@@ -1,13 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 /// Severity levels for application logs.
-enum LogLevel {
-  debug,
-  info,
-  warning,
-  error,
-  wtf,
-}
+enum LogLevel { debug, info, warning, error, wtf }
 
 /// A structured log record containing metadata, timestamp, and payload.
 class LogEntry {
@@ -52,7 +46,9 @@ class LogEntry {
 
   @override
   String toString() {
-    final buffer = StringBuffer('[$formattedTime] [$levelLabel] [$tag] $message');
+    final buffer = StringBuffer(
+      '[$formattedTime] [$levelLabel] [$tag] $message',
+    );
     if (error != null) {
       buffer.write(' | Error: $error');
     }
@@ -95,7 +91,11 @@ class AppLogger {
     _log(LogLevel.info, message, tag: tag);
   }
 
-  static void warning(String message, {String tag = defaultTag, Object? error}) {
+  static void warning(
+    String message, {
+    String tag = defaultTag,
+    Object? error,
+  }) {
     _log(LogLevel.warning, message, tag: tag, error: error);
   }
 
@@ -105,7 +105,13 @@ class AppLogger {
     Object? error,
     StackTrace? stackTrace,
   }) {
-    _log(LogLevel.error, message, tag: tag, error: error, stackTrace: stackTrace);
+    _log(
+      LogLevel.error,
+      message,
+      tag: tag,
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
   static void fatal(

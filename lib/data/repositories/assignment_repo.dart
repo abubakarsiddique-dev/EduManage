@@ -15,15 +15,15 @@ class AssignmentRepository {
         .where('className', isEqualTo: className.trim())
         .snapshots()
         .map((snap) {
-      final list = snap.docs.map(AssignmentModel.fromDoc).toList();
-      list.sort((a, b) {
-        if (a.dueDate == null && b.dueDate == null) return 0;
-        if (a.dueDate == null) return 1;
-        if (b.dueDate == null) return -1;
-        return a.dueDate!.compareTo(b.dueDate!);
-      });
-      return list;
-    });
+          final list = snap.docs.map(AssignmentModel.fromDoc).toList();
+          list.sort((a, b) {
+            if (a.dueDate == null && b.dueDate == null) return 0;
+            if (a.dueDate == null) return 1;
+            if (b.dueDate == null) return -1;
+            return a.dueDate!.compareTo(b.dueDate!);
+          });
+          return list;
+        });
   }
 
   /// Stream assignments created by a specific teacher.
@@ -32,15 +32,15 @@ class AssignmentRepository {
         .where('teacherId', isEqualTo: teacherId)
         .snapshots()
         .map((snap) {
-      final list = snap.docs.map(AssignmentModel.fromDoc).toList();
-      list.sort((a, b) {
-        if (a.dueDate == null && b.dueDate == null) return 0;
-        if (a.dueDate == null) return 1;
-        if (b.dueDate == null) return -1;
-        return a.dueDate!.compareTo(b.dueDate!);
-      });
-      return list;
-    });
+          final list = snap.docs.map(AssignmentModel.fromDoc).toList();
+          list.sort((a, b) {
+            if (a.dueDate == null && b.dueDate == null) return 0;
+            if (a.dueDate == null) return 1;
+            if (b.dueDate == null) return -1;
+            return a.dueDate!.compareTo(b.dueDate!);
+          });
+          return list;
+        });
   }
 
   /// Watch recent assignments for all classes up to [limit].
@@ -66,7 +66,8 @@ class AssignmentRepository {
 
   /// Create a new assignment document.
   Future<DocumentReference<Map<String, dynamic>>> create(
-      AssignmentModel assignment) {
+    AssignmentModel assignment,
+  ) {
     return _fs.assignments.add(assignment.toMap());
   }
 

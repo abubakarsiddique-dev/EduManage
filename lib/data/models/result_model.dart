@@ -44,7 +44,8 @@ class ResultModel {
       examTitle: map['examTitle'] as String? ?? 'General',
       marksObtained: marks,
       totalMarks: total,
-      percentage: (map['percentage'] as num?)?.toDouble() ??
+      percentage:
+          (map['percentage'] as num?)?.toDouble() ??
           (total == 0 ? 0 : (marks / total) * 100),
       createdAt: parseDate(map['createdAt']) ?? parseDate(map['timestamp']),
     );

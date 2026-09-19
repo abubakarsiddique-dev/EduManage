@@ -67,7 +67,9 @@ class _AddTeacherScreenState extends ConsumerState<AddTeacherScreen> {
     final name = _nameCtrl.text.trim();
     final email = _emailCtrl.text.trim();
 
-    final error = await ref.read(authProvider.notifier).adminCreateUser(
+    final error = await ref
+        .read(authProvider.notifier)
+        .adminCreateUser(
           name: name,
           email: email,
           password: _passwordCtrl.text,
@@ -130,8 +132,10 @@ class _AddTeacherScreenState extends ConsumerState<AddTeacherScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Add Teacher',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Add Teacher',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -145,24 +149,29 @@ class _AddTeacherScreenState extends ConsumerState<AddTeacherScreen> {
                 padding: const EdgeInsets.all(14),
                 margin: const EdgeInsets.only(bottom: 24),
                 decoration: BoxDecoration(
-                  color: AppColors.teacherColor.withOpacity(0.08),
+                  color: AppColors.teacherColor.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                      color: AppColors.teacherColor.withOpacity(0.2)),
+                    color: AppColors.teacherColor.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.admin_panel_settings_rounded,
-                        color: AppColors.teacherColor, size: 20),
+                    Icon(
+                      Icons.admin_panel_settings_rounded,
+                      color: AppColors.teacherColor,
+                      size: 20,
+                    ),
                     SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         'Creating a teacher account. They will be able to login '
                         'immediately. You will stay signed in as admin.',
                         style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            color: AppColors.textSecondary),
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                     ),
                   ],
@@ -283,20 +292,29 @@ class _QualificationDropdown extends StatelessWidget {
               hint: const Text(
                 'Select qualification',
                 style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    color: AppColors.textHint),
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  color: AppColors.textHint,
+                ),
               ),
-              icon: const Icon(Icons.keyboard_arrow_down_rounded,
-                  color: AppColors.textSecondary),
+              icon: const Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: AppColors.textSecondary,
+              ),
               borderRadius: BorderRadius.circular(14),
               items: AppQualifications.all
-                  .map((q) => DropdownMenuItem(
-                        value: q,
-                        child: Text(q,
-                            style: const TextStyle(
-                                fontFamily: 'Poppins', fontSize: 14)),
-                      ))
+                  .map(
+                    (q) => DropdownMenuItem(
+                      value: q,
+                      child: Text(
+                        q,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: onChanged,
             ),
@@ -312,8 +330,7 @@ class _SubjectMultiSelect extends StatelessWidget {
   final List<String> selected;
   final ValueChanged<List<String>> onChanged;
 
-  const _SubjectMultiSelect(
-      {required this.selected, required this.onChanged});
+  const _SubjectMultiSelect({required this.selected, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -357,7 +374,9 @@ class _SubjectMultiSelect extends StatelessWidget {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 14, vertical: 9),
+                    horizontal: 14,
+                    vertical: 9,
+                  ),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? AppColors.teacherColor
@@ -373,8 +392,11 @@ class _SubjectMultiSelect extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (isSelected) ...[
-                        const Icon(Icons.check_rounded,
-                            size: 14, color: Colors.white),
+                        const Icon(
+                          Icons.check_rounded,
+                          size: 14,
+                          color: Colors.white,
+                        ),
                         const SizedBox(width: 4),
                       ],
                       Text(
@@ -400,9 +422,10 @@ class _SubjectMultiSelect extends StatelessWidget {
           const Text(
             'No subjects selected yet — tap to assign.',
             style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 11,
-                color: AppColors.textHint),
+              fontFamily: 'Poppins',
+              fontSize: 11,
+              color: AppColors.textHint,
+            ),
           ),
         ],
       ],

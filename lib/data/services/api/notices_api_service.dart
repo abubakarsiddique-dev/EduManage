@@ -30,16 +30,10 @@ class NoticesApiService {
           return NoticeModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<NoticeModel>>(
-          success: true,
-          data: list,
-        );
+        return ApiResponse<List<NoticeModel>>(success: true, data: list);
       }
 
-      return ApiResponse<List<NoticeModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<NoticeModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<NoticeModel>>.error(
         e.message,
@@ -62,7 +56,10 @@ class NoticesApiService {
           data: NoticeModel.fromMap(noticeId, response),
         );
       }
-      return ApiResponse<NoticeModel>.error('Notice not found', statusCode: 404);
+      return ApiResponse<NoticeModel>.error(
+        'Notice not found',
+        statusCode: 404,
+      );
     } on ApiException catch (e) {
       return ApiResponse<NoticeModel>.error(
         e.message,
@@ -84,10 +81,7 @@ class NoticesApiService {
         'author': notice.author,
       };
 
-      final response = await _client.post(
-        ApiEndpoints.notices,
-        body: payload,
-      );
+      final response = await _client.post(ApiEndpoints.notices, body: payload);
 
       if (response is Map<String, dynamic>) {
         final id = (response['id'] ?? response['_id'] ?? notice.id).toString();

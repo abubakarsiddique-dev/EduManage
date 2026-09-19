@@ -11,9 +11,10 @@ class StudentRepository {
 
   /// Real-time list of every student, ordered by name.
   Stream<List<StudentModel>> watchAll() {
-    return _fs.students.orderBy('name').snapshots().map(
-          (snap) => snap.docs.map(StudentModel.fromDoc).toList(),
-        );
+    return _fs.students
+        .orderBy('name')
+        .snapshots()
+        .map((snap) => snap.docs.map(StudentModel.fromDoc).toList());
   }
 
   /// Real-time list of students in one class (used by attendance & grades).

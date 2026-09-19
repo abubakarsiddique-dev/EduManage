@@ -7,7 +7,9 @@ class DateTimeHelper {
   static final DateFormat _isoDateFormatter = DateFormat('yyyy-MM-dd');
   static final DateFormat _displayDateFormatter = DateFormat('MMM d, yyyy');
   static final DateFormat _displayTimeFormatter = DateFormat('h:mm a');
-  static final DateFormat _fullDateTimeFormatter = DateFormat('MMM d, yyyy • h:mm a');
+  static final DateFormat _fullDateTimeFormatter = DateFormat(
+    'MMM d, yyyy • h:mm a',
+  );
   static final DateFormat _monthYearFormatter = DateFormat('MMMM yyyy');
 
   /// Formats date to 'yyyy-MM-dd' (standard API format).

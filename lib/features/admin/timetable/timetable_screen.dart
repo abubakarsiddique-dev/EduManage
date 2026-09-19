@@ -16,7 +16,14 @@ class TimetableScreen extends StatefulWidget {
 class _TimetableScreenState extends State<TimetableScreen> {
   String _selectedClass = '';
   String _selectedDay = 'Monday';
-  final _days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  final _days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +36,20 @@ class _TimetableScreenState extends State<TimetableScreen> {
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: Text('Timetable',
-            style: AppTextStyles.headingMedium.copyWith(color: Colors.white)),
+        title: Text(
+          'Timetable',
+          style: AppTextStyles.headingMedium.copyWith(color: Colors.white),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddSlotSheet(context),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add_rounded),
-        label: const Text('Add Slot',
-            style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w600)),
+        label: const Text(
+          'Add Slot',
+          style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w600),
+        ),
       ),
       body: Column(
         children: [
@@ -54,11 +65,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
               builder: (context, snap) {
                 final names = snap.hasData
                     ? snap.data!.docs
-                        .map((d) =>
-                            (d.data() as Map<String, dynamic>)['name'] as String? ?? '')
-                        .where((n) => n.isNotEmpty)
-                        .toSet()
-                        .toList()
+                          .map(
+                            (d) =>
+                                (d.data() as Map<String, dynamic>)['name']
+                                    as String? ??
+                                '',
+                          )
+                          .where((n) => n.isNotEmpty)
+                          .toSet()
+                          .toList()
                     : <String>[];
                 if (names.isNotEmpty && _selectedClass.isEmpty) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -77,18 +92,22 @@ class _TimetableScreenState extends State<TimetableScreen> {
                           duration: const Duration(milliseconds: 200),
                           margin: const EdgeInsets.only(right: 8),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: isSel ? Colors.white : Colors.white24,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Text(c,
-                              style: AppTextStyles.labelSmall.copyWith(
-                                color: isSel ? AppColors.primary : Colors.white,
-                                fontWeight: isSel
-                                    ? FontWeight.w700
-                                    : FontWeight.w400,
-                              )),
+                          child: Text(
+                            c,
+                            style: AppTextStyles.labelSmall.copyWith(
+                              color: isSel ? AppColors.primary : Colors.white,
+                              fontWeight: isSel
+                                  ? FontWeight.w700
+                                  : FontWeight.w400,
+                            ),
+                          ),
                         ),
                       );
                     }).toList(),
@@ -110,27 +129,23 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     duration: const Duration(milliseconds: 200),
                     margin: const EdgeInsets.only(right: 8),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 7),
+                      horizontal: 14,
+                      vertical: 7,
+                    ),
                     decoration: BoxDecoration(
-                      color: isSel
-                          ? AppColors.primary
-                          : AppColors.background,
+                      color: isSel ? AppColors.primary : AppColors.background,
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: isSel
-                            ? AppColors.primary
-                            : AppColors.divider,
+                        color: isSel ? AppColors.primary : AppColors.divider,
                       ),
                     ),
-                    child: Text(d,
-                        style: AppTextStyles.labelSmall.copyWith(
-                          color: isSel
-                              ? Colors.white
-                              : AppColors.textSecondary,
-                          fontWeight: isSel
-                              ? FontWeight.w700
-                              : FontWeight.w400,
-                        )),
+                    child: Text(
+                      d,
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: isSel ? Colors.white : AppColors.textSecondary,
+                        fontWeight: isSel ? FontWeight.w700 : FontWeight.w400,
+                      ),
+                    ),
                   ),
                 );
               }).toList(),
@@ -150,15 +165,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
                         .snapshots(),
                     builder: (context, snap) {
                       if (snap.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                            child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
                       if (!snap.hasData || snap.data!.docs.isEmpty) {
                         return Center(
                           child: Text(
                             'No classes on $_selectedDay for $_selectedClass.',
-                            style: AppTextStyles.bodyMedium
-                                .copyWith(color: AppColors.textSecondary),
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         );
@@ -167,11 +182,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       return ListView.separated(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
                         itemCount: snap.data!.docs.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 10),
+                        separatorBuilder: (_, _) => const SizedBox(height: 10),
                         itemBuilder: (context, i) {
-                          final data = snap.data!.docs[i].data()
-                              as Map<String, dynamic>;
+                          final data =
+                              snap.data!.docs[i].data() as Map<String, dynamic>;
                           return _SlotCard(
                             docId: snap.data!.docs[i].id,
                             subject: data['subject'] ?? '',
@@ -204,11 +218,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
       isScrollControlled: true,
       backgroundColor: AppColors.cardBg,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (sheetCtx) => StatefulBuilder(
         builder: (sheetCtx, setSS) => Padding(
           padding: EdgeInsets.only(
-            left: 20, right: 20, top: 20,
+            left: 20,
+            right: 20,
+            top: 20,
             bottom: MediaQuery.of(sheetCtx).viewInsets.bottom + 20,
           ),
           child: Form(
@@ -217,13 +234,16 @@ class _TimetableScreenState extends State<TimetableScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Container(
-                  width: 40, height: 4,
-                  decoration: BoxDecoration(
-                    color: AppColors.divider,
-                    borderRadius: BorderRadius.circular(2),
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: AppColors.divider,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
                   ),
-                )),
+                ),
                 const SizedBox(height: 20),
                 Text('Add Time Slot', style: AppTextStyles.headingMedium),
                 Text(
@@ -231,24 +251,43 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   style: AppTextStyles.labelMedium,
                 ),
                 const SizedBox(height: 16),
-                CustomTextField(label: 'Subject', controller: subjectCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null),
+                CustomTextField(
+                  label: 'Subject',
+                  controller: subjectCtrl,
+                  validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                ),
                 const SizedBox(height: 12),
                 CustomTextField(label: 'Teacher name', controller: teacherCtrl),
                 const SizedBox(height: 12),
-                Row(children: [
-                  Expanded(child: CustomTextField(
-                    label: 'Start time', hint: '08:00', controller: startCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
-                  )),
-                  const SizedBox(width: 14),
-                  Expanded(child: CustomTextField(
-                    label: 'End time', hint: '09:00', controller: endCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
-                  )),
-                ]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'Start time',
+                        hint: '08:00',
+                        controller: startCtrl,
+                        validator: (v) =>
+                            v == null || v.isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: CustomTextField(
+                        label: 'End time',
+                        hint: '09:00',
+                        controller: endCtrl,
+                        validator: (v) =>
+                            v == null || v.isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
-                CustomTextField(label: 'Room', hint: 'Room 101', controller: roomCtrl),
+                CustomTextField(
+                  label: 'Room',
+                  hint: 'Room 101',
+                  controller: roomCtrl,
+                ),
                 const SizedBox(height: 20),
                 CustomButton(
                   label: 'Save Slot',
@@ -260,15 +299,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     await FirebaseFirestore.instance
                         .collection('timetable')
                         .add({
-                      'className': _selectedClass,
-                      'day': _selectedDay,
-                      'subject': subjectCtrl.text.trim(),
-                      'teacherName': teacherCtrl.text.trim(),
-                      'startTime': startCtrl.text.trim(),
-                      'endTime': endCtrl.text.trim(),
-                      'room': roomCtrl.text.trim(),
-                      'createdAt': FieldValue.serverTimestamp(),
-                    });
+                          'className': _selectedClass,
+                          'day': _selectedDay,
+                          'subject': subjectCtrl.text.trim(),
+                          'teacherName': teacherCtrl.text.trim(),
+                          'startTime': startCtrl.text.trim(),
+                          'endTime': endCtrl.text.trim(),
+                          'room': roomCtrl.text.trim(),
+                          'createdAt': FieldValue.serverTimestamp(),
+                        });
                     if (sheetCtx.mounted) Navigator.pop(sheetCtx);
                   },
                 ),
@@ -284,8 +323,12 @@ class _TimetableScreenState extends State<TimetableScreen> {
 class _SlotCard extends StatelessWidget {
   final String docId, subject, teacher, room, start, end;
   const _SlotCard({
-    required this.docId, required this.subject, required this.teacher,
-    required this.room, required this.start, required this.end,
+    required this.docId,
+    required this.subject,
+    required this.teacher,
+    required this.room,
+    required this.start,
+    required this.end,
   });
 
   @override
@@ -302,16 +345,25 @@ class _SlotCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               children: [
-                Text(start, style: AppTextStyles.labelSmall
-                    .copyWith(color: AppColors.primary, fontWeight: FontWeight.w700)),
+                Text(
+                  start,
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 Text('–', style: AppTextStyles.labelTiny),
-                Text(end, style: AppTextStyles.labelTiny
-                    .copyWith(color: AppColors.primary)),
+                Text(
+                  end,
+                  style: AppTextStyles.labelTiny.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
               ],
             ),
           ),
@@ -327,8 +379,11 @@ class _SlotCard extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.delete_outline_rounded,
-                color: AppColors.danger, size: 20),
+            icon: const Icon(
+              Icons.delete_outline_rounded,
+              color: AppColors.danger,
+              size: 20,
+            ),
             onPressed: () => FirebaseFirestore.instance
                 .collection('timetable')
                 .doc(docId)

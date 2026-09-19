@@ -11,12 +11,9 @@ abstract class AppEvent {
   /// Optional metadata or extra context for the event.
   final Map<String, dynamic>? metadata;
 
-  AppEvent({
-    String? id,
-    DateTime? timestamp,
-    this.metadata,
-  })  : id = id ?? _generateEventId(),
-        timestamp = timestamp ?? DateTime.now().toUtc();
+  AppEvent({String? id, DateTime? timestamp, this.metadata})
+    : id = id ?? _generateEventId(),
+      timestamp = timestamp ?? DateTime.now().toUtc();
 
   /// Descriptive name representing this event.
   String get eventName;
@@ -27,7 +24,8 @@ abstract class AppEvent {
   }
 
   @override
-  String toString() => '$eventName(id: $id, timestamp: ${timestamp.toIso8601String()})';
+  String toString() =>
+      '$eventName(id: $id, timestamp: ${timestamp.toIso8601String()})';
 }
 
 /// Authentication state changes (login, logout, session expiration).
@@ -194,7 +192,7 @@ class EventBus {
   final int maxHistorySize;
 
   EventBus({this.maxHistorySize = 50, bool sync = false})
-      : _controller = StreamController<AppEvent>.broadcast(sync: sync);
+    : _controller = StreamController<AppEvent>.broadcast(sync: sync);
 
   /// Raw stream of all events dispatched through this bus.
   Stream<AppEvent> get stream => _controller.stream;

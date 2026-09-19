@@ -28,12 +28,12 @@ final classNamesProvider = StreamProvider<List<String>>((ref) {
       .orderBy('name')
       .snapshots()
       .map((snap) {
-    final names = snap.docs
-        .map((d) => (d.data())['name'] as String? ?? '')
-        .where((n) => n.trim().isNotEmpty)
-        .toList();
-    return names;
-  });
+        final names = snap.docs
+            .map((d) => (d.data())['name'] as String? ?? '')
+            .where((n) => n.trim().isNotEmpty)
+            .toList();
+        return names;
+      });
 });
 
 // ── Screen ────────────────────────────────────────────────────────────────────
@@ -51,25 +51,22 @@ class StudentListScreen extends ConsumerWidget {
     final filterChips = classNamesAsync.when(
       data: (names) => ['All', ...names],
       loading: () => ['All'],
-      error: (_, __) => ['All'],
+      error: (_, _) => ['All'],
     );
 
     final filtered = studentsSnap.when(
       data: (snapshot) {
-        return snapshot.docs
-            .map((doc) => StudentModel.fromDoc(doc))
-            .where((s) {
-              final matchGrade =
-                  selectedGrade == 'All' || s.className == selectedGrade;
-              final matchQuery =
-                  s.name.toLowerCase().contains(query.toLowerCase()) ||
-                  s.rollNo.contains(query);
-              return matchGrade && matchQuery;
-            })
-            .toList();
+        return snapshot.docs.map((doc) => StudentModel.fromDoc(doc)).where((s) {
+          final matchGrade =
+              selectedGrade == 'All' || s.className == selectedGrade;
+          final matchQuery =
+              s.name.toLowerCase().contains(query.toLowerCase()) ||
+              s.rollNo.contains(query);
+          return matchGrade && matchQuery;
+        }).toList();
       },
       loading: () => <StudentModel>[],
-      error: (_, __) => <StudentModel>[],
+      error: (_, _) => <StudentModel>[],
     );
 
     return Scaffold(
@@ -114,7 +111,7 @@ class StudentListScreen extends ConsumerWidget {
                       color: Colors.white54,
                     ),
                     filled: true,
-                    fillColor: Colors.white.withOpacity(0.15),
+                    fillColor: Colors.white.withValues(alpha: 0.15),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -139,7 +136,7 @@ class StudentListScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    error: (_, __) => const SizedBox.shrink(),
+                    error: (_, _) => const SizedBox.shrink(),
                     data: (_) => ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: filterChips.length,
@@ -147,9 +144,9 @@ class StudentListScreen extends ConsumerWidget {
                         final g = filterChips[i];
                         final isSelected = selectedGrade == g;
                         return GestureDetector(
-                          onTap: () => ref
-                              .read(selectedGradeProvider.notifier)
-                              .state = g,
+                          onTap: () =>
+                              ref.read(selectedGradeProvider.notifier).state =
+                                  g,
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             margin: const EdgeInsets.only(right: 8),
@@ -158,8 +155,7 @@ class StudentListScreen extends ConsumerWidget {
                               vertical: 8,
                             ),
                             decoration: BoxDecoration(
-                              color:
-                                  isSelected ? Colors.white : Colors.white24,
+                              color: isSelected ? Colors.white : Colors.white24,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
@@ -196,25 +192,30 @@ class StudentListScreen extends ConsumerWidget {
                   const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 3),
+                      horizontal: 10,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
+                      color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       selectedGrade,
                       style: AppTextStyles.labelTiny.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600),
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 4),
                   GestureDetector(
-                    onTap: () => ref
-                        .read(selectedGradeProvider.notifier)
-                        .state = 'All',
-                    child: const Icon(Icons.close_rounded,
-                        size: 16, color: AppColors.textSecondary),
+                    onTap: () =>
+                        ref.read(selectedGradeProvider.notifier).state = 'All',
+                    child: const Icon(
+                      Icons.close_rounded,
+                      size: 16,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
                 ],
               ],
@@ -225,19 +226,14 @@ class StudentListScreen extends ConsumerWidget {
           Expanded(
             child: studentsSnap.when(
               data: (_) => filtered.isEmpty
-                  ? _EmptyState(
-                      selectedGrade: selectedGrade,
-                      query: query,
-                    )
+                  ? _EmptyState(selectedGrade: selectedGrade, query: query)
                   : ListView.separated(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
                       itemCount: filtered.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 10),
-                      itemBuilder: (_, i) =>
-                          _StudentCard(student: filtered[i]),
+                      separatorBuilder: (_, _) => const SizedBox(height: 10),
+                      itemBuilder: (_, i) => _StudentCard(student: filtered[i]),
                     ),
-              loading: () =>
-                  const Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, stack) => Center(
                 child: Text(
                   'Failed to load students',
@@ -280,8 +276,9 @@ class _EmptyState extends StatelessWidget {
                   ? 'No students match your search.'
                   : 'No students yet.\nTap + to add one.',
               textAlign: TextAlign.center,
-              style: AppTextStyles.bodyMedium
-                  .copyWith(color: AppColors.textSecondary),
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
             ),
           ],
         ),
@@ -308,7 +305,7 @@ class _StudentCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 22,
-            backgroundColor: AppColors.studentColor.withOpacity(0.12),
+            backgroundColor: AppColors.studentColor.withValues(alpha: 0.12),
             child: Text(
               student.name.isNotEmpty ? student.name.substring(0, 1) : '?',
               style: AppTextStyles.bodyMediumBold.copyWith(
@@ -342,8 +339,8 @@ class _StudentCard extends StatelessWidget {
                         label: student.className.isEmpty
                             ? 'No class'
                             : student.section.isEmpty
-                                ? student.className
-                                : '${student.className} – ${student.section}',
+                            ? student.className
+                            : '${student.className} – ${student.section}',
                         color: AppColors.studentColor,
                       ),
                     ),
@@ -376,8 +373,10 @@ class _StudentCard extends StatelessWidget {
               PopupMenuItem(value: 'parents', child: Text('Manage Parents')),
               PopupMenuItem(
                 value: 'delete',
-                child: Text('Delete',
-                    style: TextStyle(color: Colors.redAccent)),
+                child: Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.redAccent),
+                ),
               ),
             ],
           ),
@@ -390,11 +389,11 @@ class _StudentCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('Delete student?'),
         content: Text(
-            'This will permanently remove ${student.name} from the system.'),
+          'This will permanently remove ${student.name} from the system.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -408,8 +407,10 @@ class _StudentCard extends StatelessWidget {
                   .doc(student.id)
                   .delete();
             },
-            child: const Text('Delete',
-                style: TextStyle(color: Colors.redAccent)),
+            child: const Text(
+              'Delete',
+              style: TextStyle(color: Colors.redAccent),
+            ),
           ),
         ],
       ),
@@ -427,7 +428,7 @@ class _Badge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

@@ -63,8 +63,7 @@ class _TeacherNotificationsScreenState
               onPressed: () => _markAllRead(uid),
               child: Text(
                 'Mark all read',
-                style: AppTextStyles.labelSmall
-                    .copyWith(color: Colors.white70),
+                style: AppTextStyles.labelSmall.copyWith(color: Colors.white70),
               ),
             ),
         ],
@@ -115,8 +114,7 @@ class _TeacherNotificationsScreenState
                     builder: (context, snap) {
                       if (snap.connectionState == ConnectionState.waiting &&
                           !snap.hasData) {
-                        return const Center(
-                            child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
 
                       var docs = snap.data?.docs ?? [];
@@ -135,12 +133,10 @@ class _TeacherNotificationsScreenState
                       }
 
                       // Count unread
-                      final unreadCount = (snap.data?.docs ?? [])
-                          .where((d) {
-                            final data = d.data() as Map<String, dynamic>;
-                            return !(data['isRead'] as bool? ?? false);
-                          })
-                          .length;
+                      final unreadCount = (snap.data?.docs ?? []).where((d) {
+                        final data = d.data() as Map<String, dynamic>;
+                        return !(data['isRead'] as bool? ?? false);
+                      }).length;
 
                       if (docs.isEmpty) {
                         return _EmptyState(filter: _filter);
@@ -151,10 +147,8 @@ class _TeacherNotificationsScreenState
                           {};
                       for (final doc in docs) {
                         final data = doc.data() as Map<String, dynamic>;
-                        final ts =
-                            (data['createdAt'] as Timestamp?)?.toDate();
-                        final label =
-                            ts != null ? _dateLabel(ts) : 'Earlier';
+                        final ts = (data['createdAt'] as Timestamp?)?.toDate();
+                        final label = ts != null ? _dateLabel(ts) : 'Earlier';
                         grouped.putIfAbsent(label, () => []).add(doc);
                       }
 
@@ -164,55 +158,56 @@ class _TeacherNotificationsScreenState
                           // Unread count banner
                           if (unreadCount > 0 && _filter != 'read')
                             Container(
-                              margin:
-                                  const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                              margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 10),
+                                horizontal: 14,
+                                vertical: 10,
+                              ),
                               decoration: BoxDecoration(
-                                color: AppColors.teacherColor
-                                    .withOpacity(0.08),
+                                color: AppColors.teacherColor.withValues(alpha: 0.08),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                    color: AppColors.teacherColor
-                                        .withOpacity(0.3)),
+                                  color: AppColors.teacherColor.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                ),
                               ),
                               child: Row(
                                 children: [
                                   const Icon(
-                                      Icons.notifications_active_rounded,
-                                      color: AppColors.teacherColor,
-                                      size: 16),
+                                    Icons.notifications_active_rounded,
+                                    color: AppColors.teacherColor,
+                                    size: 16,
+                                  ),
                                   const SizedBox(width: 8),
                                   Text(
                                     '$unreadCount unread notification${unreadCount == 1 ? '' : 's'}',
                                     style: AppTextStyles.labelSmall.copyWith(
-                                        color: AppColors.teacherColor,
-                                        fontWeight: FontWeight.w600),
+                                      color: AppColors.teacherColor,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
 
-                          ...grouped.entries.expand((entry) => [
-                                _DateHeader(label: entry.key),
-                                ...entry.value.map((doc) {
-                                  final data =
-                                      doc.data() as Map<String, dynamic>;
-                                  return _NotifTile(
-                                    docId: doc.id,
-                                    title:
-                                        data['title'] as String? ?? '',
-                                    body: data['body'] as String? ?? '',
-                                    type:
-                                        data['type'] as String? ?? 'general',
-                                    isRead:
-                                        data['isRead'] as bool? ?? false,
-                                    createdAt: (data['createdAt']
-                                            as Timestamp?)
-                                        ?.toDate(),
-                                  );
-                                }),
-                              ]),
+                          ...grouped.entries.expand(
+                            (entry) => [
+                              _DateHeader(label: entry.key),
+                              ...entry.value.map((doc) {
+                                final data = doc.data() as Map<String, dynamic>;
+                                return _NotifTile(
+                                  docId: doc.id,
+                                  title: data['title'] as String? ?? '',
+                                  body: data['body'] as String? ?? '',
+                                  type: data['type'] as String? ?? 'general',
+                                  isRead: data['isRead'] as bool? ?? false,
+                                  createdAt: (data['createdAt'] as Timestamp?)
+                                      ?.toDate(),
+                                );
+                              }),
+                            ],
+                          ),
                         ],
                       );
                     },
@@ -230,12 +225,12 @@ class _TeacherNotificationsScreenState
         .where('isRead', isEqualTo: false)
         .get()
         .then((snap) {
-      final batch = FirebaseFirestore.instance.batch();
-      for (final doc in snap.docs) {
-        batch.update(doc.reference, {'isRead': true});
-      }
-      batch.commit();
-    });
+          final batch = FirebaseFirestore.instance.batch();
+          for (final doc in snap.docs) {
+            batch.update(doc.reference, {'isRead': true});
+          }
+          batch.commit();
+        });
   }
 
   String _dateLabel(DateTime dt) {
@@ -256,8 +251,11 @@ class _FilterChip extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _FilterChip(
-      {required this.label, required this.selected, required this.onTap});
+  const _FilterChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -274,8 +272,7 @@ class _FilterChip extends StatelessWidget {
           label,
           style: AppTextStyles.labelSmall.copyWith(
             color: selected ? AppColors.teacherColor : Colors.white,
-            fontWeight:
-                selected ? FontWeight.w700 : FontWeight.w400,
+            fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
           ),
         ),
       ),
@@ -295,8 +292,10 @@ class _DateHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Text(
         label,
-        style: AppTextStyles.labelMedium
-            .copyWith(fontWeight: FontWeight.w700, color: AppColors.textSecondary),
+        style: AppTextStyles.labelMedium.copyWith(
+          fontWeight: FontWeight.w700,
+          color: AppColors.textSecondary,
+        ),
       ),
     );
   }
@@ -320,29 +319,47 @@ class _NotifTile extends StatelessWidget {
 
   IconData get _icon {
     switch (type) {
-      case 'exam': return Icons.quiz_rounded;
-      case 'finance': return Icons.account_balance_wallet_rounded;
-      case 'holiday': return Icons.beach_access_rounded;
-      case 'attendance': return Icons.how_to_reg_rounded;
-      case 'assignment': return Icons.assignment_rounded;
-      case 'result': return Icons.bar_chart_rounded;
-      case 'approval': return Icons.check_circle_outline_rounded;
-      case 'registration': return Icons.person_add_rounded;
-      default: return Icons.campaign_rounded;
+      case 'exam':
+        return Icons.quiz_rounded;
+      case 'finance':
+        return Icons.account_balance_wallet_rounded;
+      case 'holiday':
+        return Icons.beach_access_rounded;
+      case 'attendance':
+        return Icons.how_to_reg_rounded;
+      case 'assignment':
+        return Icons.assignment_rounded;
+      case 'result':
+        return Icons.bar_chart_rounded;
+      case 'approval':
+        return Icons.check_circle_outline_rounded;
+      case 'registration':
+        return Icons.person_add_rounded;
+      default:
+        return Icons.campaign_rounded;
     }
   }
 
   Color get _typeColor {
     switch (type) {
-      case 'exam': return AppColors.primary;
-      case 'finance': return AppColors.warning;
-      case 'holiday': return AppColors.success;
-      case 'attendance': return AppColors.teacherColor;
-      case 'assignment': return AppColors.accent;
-      case 'result': return AppColors.info;
-      case 'approval': return AppColors.success;
-      case 'registration': return AppColors.adminColor;
-      default: return AppColors.textSecondary;
+      case 'exam':
+        return AppColors.primary;
+      case 'finance':
+        return AppColors.warning;
+      case 'holiday':
+        return AppColors.success;
+      case 'attendance':
+        return AppColors.teacherColor;
+      case 'assignment':
+        return AppColors.accent;
+      case 'result':
+        return AppColors.info;
+      case 'approval':
+        return AppColors.success;
+      case 'registration':
+        return AppColors.adminColor;
+      default:
+        return AppColors.textSecondary;
     }
   }
 
@@ -361,14 +378,12 @@ class _NotifTile extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: isRead
-              ? AppColors.cardBg
-              : _typeColor.withOpacity(0.05),
+          color: isRead ? AppColors.cardBg : _typeColor.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(14),
           boxShadow: AppColors.cardShadow,
           border: isRead
               ? Border.all(color: AppColors.divider, width: 1)
-              : Border.all(color: _typeColor.withOpacity(0.3), width: 1),
+              : Border.all(color: _typeColor.withValues(alpha: 0.3), width: 1),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -378,7 +393,7 @@ class _NotifTile extends StatelessWidget {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                color: _typeColor.withOpacity(0.12),
+                color: _typeColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(_icon, color: _typeColor, size: 20),
@@ -422,8 +437,9 @@ class _NotifTile extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       DateFormat('h:mm a').format(createdAt!),
-                      style: AppTextStyles.labelTiny
-                          .copyWith(color: AppColors.textHint),
+                      style: AppTextStyles.labelTiny.copyWith(
+                        color: AppColors.textHint,
+                      ),
                     ),
                   ],
                 ],
@@ -448,17 +464,21 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.notifications_none_rounded,
-              size: 72, color: AppColors.textHint),
+          const Icon(
+            Icons.notifications_none_rounded,
+            size: 72,
+            color: AppColors.textHint,
+          ),
           const SizedBox(height: 20),
           Text(
             filter == 'unread'
                 ? 'No unread notifications'
                 : filter == 'read'
-                    ? 'No read notifications'
-                    : 'No notifications yet',
-            style: AppTextStyles.bodyMediumBold
-                .copyWith(color: AppColors.textSecondary),
+                ? 'No read notifications'
+                : 'No notifications yet',
+            style: AppTextStyles.bodyMediumBold.copyWith(
+              color: AppColors.textSecondary,
+            ),
           ),
           const SizedBox(height: 8),
           Text(

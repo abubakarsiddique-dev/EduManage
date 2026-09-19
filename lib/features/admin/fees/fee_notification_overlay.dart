@@ -40,8 +40,7 @@ class FeeNotificationOverlay extends StatefulWidget {
   const FeeNotificationOverlay({super.key, required this.child});
 
   @override
-  State<FeeNotificationOverlay> createState() =>
-      _FeeNotificationOverlayState();
+  State<FeeNotificationOverlay> createState() => _FeeNotificationOverlayState();
 }
 
 class _FeeNotificationOverlayState extends State<FeeNotificationOverlay>
@@ -79,14 +78,12 @@ class _FeeNotificationOverlayState extends State<FeeNotificationOverlay>
     _slideAnim = Tween<Offset>(
       begin: const Offset(0, -1.5),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animCtrl,
-      curve: Curves.easeOutBack,
-    ));
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutBack));
 
-    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeIn),
-    );
+    _fadeAnim = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeIn));
 
     _startListening();
   }
@@ -98,37 +95,37 @@ class _FeeNotificationOverlayState extends State<FeeNotificationOverlay>
         .where('createdAt', isGreaterThanOrEqualTo: _listenFrom)
         .snapshots()
         .listen((snap) {
-      for (final change in snap.docChanges) {
-        if (change.type == DocumentChangeType.added ||
-            change.type == DocumentChangeType.modified) {
-          final data = change.doc.data();
-          if (data == null) continue;
+          for (final change in snap.docChanges) {
+            if (change.type == DocumentChangeType.added ||
+                change.type == DocumentChangeType.modified) {
+              final data = change.doc.data();
+              if (data == null) continue;
 
-          // Only show if status changed to pending_verification recently
-          final updatedAt = data['updatedAt'] as Timestamp?;
-          final createdAt = data['createdAt'] as Timestamp?;
-          final ts = updatedAt ?? createdAt;
-          if (ts == null) continue;
+              // Only show if status changed to pending_verification recently
+              final updatedAt = data['updatedAt'] as Timestamp?;
+              final createdAt = data['createdAt'] as Timestamp?;
+              final ts = updatedAt ?? createdAt;
+              if (ts == null) continue;
 
-          final age = DateTime.now().difference(ts.toDate()).inSeconds;
-          if (age > 300) continue; // skip old ones
+              final age = DateTime.now().difference(ts.toDate()).inSeconds;
+              if (age > 300) continue; // skip old ones
 
-          final notif = _FeeNotif(
-            docId: change.doc.id,
-            studentName: data['studentName'] as String? ?? 'Student',
-            feeType: data['feeType'] as String? ?? 'Fee',
-            amount:
-                (data['paymentProof']?['paidAmount'] as num?)?.toDouble() ??
-                (data['amount'] as num?)?.toDouble() ??
-                0,
-            txnId: data['paymentProof']?['transactionId'] as String? ?? '',
-            className: data['className'] as String? ?? '',
-          );
+              final notif = _FeeNotif(
+                docId: change.doc.id,
+                studentName: data['studentName'] as String? ?? 'Student',
+                feeType: data['feeType'] as String? ?? 'Fee',
+                amount:
+                    (data['paymentProof']?['paidAmount'] as num?)?.toDouble() ??
+                    (data['amount'] as num?)?.toDouble() ??
+                    0,
+                txnId: data['paymentProof']?['transactionId'] as String? ?? '',
+                className: data['className'] as String? ?? '',
+              );
 
-          _enqueue(notif);
-        }
-      }
-    });
+              _enqueue(notif);
+            }
+          }
+        });
   }
 
   void _enqueue(_FeeNotif notif) {
@@ -235,8 +232,7 @@ class _NotificationCardState extends State<_NotificationCard> {
     const steps = 50;
     const interval = Duration(milliseconds: 100); // 5s total
     int tick = 0;
-    _progressTimer =
-        Timer.periodic(interval, (_) {
+    _progressTimer = Timer.periodic(interval, (_) {
       if (!mounted) return;
       tick++;
       setState(() => _progress = 1.0 - (tick / steps));
@@ -252,8 +248,7 @@ class _NotificationCardState extends State<_NotificationCard> {
 
   @override
   Widget build(BuildContext context) {
-    final amount =
-        'Rs. ${NumberFormat('#,##0').format(widget.notif.amount)}';
+    final amount = 'Rs. ${NumberFormat('#,##0').format(widget.notif.amount)}';
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -276,13 +271,13 @@ class _NotificationCardState extends State<_NotificationCard> {
               // Progress bar (auto-dismiss timer)
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(18)),
+                  top: Radius.circular(18),
+                ),
                 child: LinearProgressIndicator(
                   value: _progress,
                   minHeight: 3,
                   backgroundColor: Colors.white24,
-                  valueColor:
-                      const AlwaysStoppedAnimation(Colors.white),
+                  valueColor: const AlwaysStoppedAnimation(Colors.white),
                 ),
               ),
 
@@ -311,42 +306,48 @@ class _NotificationCardState extends State<_NotificationCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(children: [
-                            const Icon(Icons.notifications_active_rounded,
-                                size: 12, color: Colors.white70),
-                            const SizedBox(width: 4),
-                            Text(
-                              'NEW PAYMENT PROOF',
-                              style: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.notifications_active_rounded,
+                                size: 12,
                                 color: Colors.white70,
-                                letterSpacing: 0.8,
                               ),
-                            ),
-                            if (widget.queueCount > 0) ...[
-                              const SizedBox(width: 6),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 1),
-                                decoration: BoxDecoration(
-                                  color: AppColors.danger,
-                                  borderRadius:
-                                      BorderRadius.circular(10),
+                              const SizedBox(width: 4),
+                              Text(
+                                'NEW PAYMENT PROOF',
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white70,
+                                  letterSpacing: 0.8,
                                 ),
-                                child: Text(
-                                  '+${widget.queueCount} more',
-                                  style: const TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 9,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
+                              ),
+                              if (widget.queueCount > 0) ...[
+                                const SizedBox(width: 6),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 1,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.danger,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    '+${widget.queueCount} more',
+                                    style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 9,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ],
-                          ]),
+                          ),
                           const SizedBox(height: 4),
                           Text(
                             widget.notif.studentName,
@@ -394,14 +395,19 @@ class _NotificationCardState extends State<_NotificationCard> {
                               color: Colors.white24,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.close_rounded,
-                                color: Colors.white, size: 14),
+                            child: const Icon(
+                              Icons.close_rounded,
+                              color: Colors.white,
+                              size: 14,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),

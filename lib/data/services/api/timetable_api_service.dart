@@ -14,9 +14,7 @@ class TimetableApiService {
     String? day,
   }) async {
     try {
-      final query = <String, dynamic>{
-        'class': className,
-      };
+      final query = <String, dynamic>{'class': className};
       if (day != null && day.isNotEmpty) query['day'] = day;
 
       final response = await _client.get(
@@ -31,16 +29,10 @@ class TimetableApiService {
           return TimetableModel.fromMap(id, map);
         }).toList();
 
-        return ApiResponse<List<TimetableModel>>(
-          success: true,
-          data: list,
-        );
+        return ApiResponse<List<TimetableModel>>(success: true, data: list);
       }
 
-      return ApiResponse<List<TimetableModel>>(
-        success: true,
-        data: const [],
-      );
+      return ApiResponse<List<TimetableModel>>(success: true, data: const []);
     } on ApiException catch (e) {
       return ApiResponse<List<TimetableModel>>.error(
         e.message,
@@ -81,7 +73,9 @@ class TimetableApiService {
         );
       }
 
-      return ApiResponse<TimetableModel>.error('Failed to create timetable slot');
+      return ApiResponse<TimetableModel>.error(
+        'Failed to create timetable slot',
+      );
     } on ApiException catch (e) {
       return ApiResponse<TimetableModel>.error(
         e.message,

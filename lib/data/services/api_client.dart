@@ -41,13 +41,15 @@ class ApiClient {
   void setAuthToken(String? token, {bool persist = true}) {
     _authToken = token;
     if (persist) {
-      SharedPreferences.getInstance().then((prefs) {
-        if (token != null && token.isNotEmpty) {
-          prefs.setString(tokenStorageKey, token);
-        } else {
-          prefs.remove(tokenStorageKey);
-        }
-      }).catchError((_) {});
+      SharedPreferences.getInstance()
+          .then((prefs) {
+            if (token != null && token.isNotEmpty) {
+              prefs.setString(tokenStorageKey, token);
+            } else {
+              prefs.remove(tokenStorageKey);
+            }
+          })
+          .catchError((_) {});
     }
   }
 
@@ -207,11 +209,7 @@ class ApiClient {
         return ApiResponse<T>.fromJson(raw, mapper);
       }
       final parsed = mapper != null ? mapper(raw) : raw as T;
-      return ApiResponse<T>(
-        success: true,
-        data: parsed,
-        statusCode: 200,
-      );
+      return ApiResponse<T>(success: true, data: parsed, statusCode: 200);
     } on ApiException catch (e) {
       return ApiResponse<T>.error(
         e.message,
@@ -219,10 +217,7 @@ class ApiClient {
         errors: e.data,
       );
     } catch (e) {
-      return ApiResponse<T>.error(
-        e.toString(),
-        statusCode: 500,
-      );
+      return ApiResponse<T>.error(e.toString(), statusCode: 500);
     }
   }
 
@@ -241,7 +236,8 @@ class ApiClient {
       return jsonBody;
     }
 
-    final message = jsonBody is Map<String, dynamic> && jsonBody.containsKey('message')
+    final message =
+        jsonBody is Map<String, dynamic> && jsonBody.containsKey('message')
         ? jsonBody['message'] as String
         : 'Request failed with status ${response.statusCode}';
 

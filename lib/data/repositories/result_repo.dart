@@ -11,18 +11,17 @@ class ResultRepository {
 
   /// Stream all exam results for a specific student.
   Stream<List<ResultModel>> watchByStudent(String studentId) {
-    return _fs.results
-        .where('studentId', isEqualTo: studentId)
-        .snapshots()
-        .map((snap) {
-      final list = snap.docs.map(ResultModel.fromDoc).toList();
-      list.sort((a, b) {
-        final aTime = a.createdAt ?? DateTime(0);
-        final bTime = b.createdAt ?? DateTime(0);
-        return bTime.compareTo(aTime);
-      });
-      return list;
-    });
+    return _fs.results.where('studentId', isEqualTo: studentId).snapshots().map(
+      (snap) {
+        final list = snap.docs.map(ResultModel.fromDoc).toList();
+        list.sort((a, b) {
+          final aTime = a.createdAt ?? DateTime(0);
+          final bTime = b.createdAt ?? DateTime(0);
+          return bTime.compareTo(aTime);
+        });
+        return list;
+      },
+    );
   }
 
   /// Stream exam results for a specific class.
