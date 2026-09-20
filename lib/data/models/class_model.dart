@@ -75,4 +75,33 @@ class ClassModel {
       createdAt: createdAt ?? this.createdAt,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ClassModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          classTeacher == other.classTeacher &&
+          classTeacherId == other.classTeacherId &&
+          room == other.room &&
+          capacity == other.capacity &&
+          createdAt == other.createdAt;
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        name,
+        classTeacher,
+        classTeacherId,
+        room,
+        capacity,
+        createdAt,
+      );
+
+  @override
+  String toString() =>
+      'ClassModel(id: $id, name: $name, teacher: $classTeacher, room: $room, capacity: $capacity)';
 }
+
