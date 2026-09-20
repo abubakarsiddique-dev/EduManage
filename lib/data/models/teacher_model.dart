@@ -70,4 +70,63 @@ class TeacherModel {
           : FieldValue.serverTimestamp(),
     };
   }
+
+  /// Returns a comma-separated list of assigned classes for UI display.
+  String get classesFormatted =>
+      classes.isEmpty ? 'No classes assigned' : classes.join(', ');
+
+  TeacherModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? phone,
+    String? subject,
+    String? qualification,
+    List<String>? classes,
+    bool? approved,
+    DateTime? createdAt,
+  }) {
+    return TeacherModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      subject: subject ?? this.subject,
+      qualification: qualification ?? this.qualification,
+      classes: classes ?? this.classes,
+      approved: approved ?? this.approved,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TeacherModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          email == other.email &&
+          phone == other.phone &&
+          subject == other.subject &&
+          qualification == other.qualification &&
+          approved == other.approved &&
+          createdAt == other.createdAt;
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        name,
+        email,
+        phone,
+        subject,
+        qualification,
+        approved,
+        createdAt,
+      );
+
+  @override
+  String toString() =>
+      'TeacherModel(id: $id, name: $name, subject: $subject, email: $email)';
 }
+
