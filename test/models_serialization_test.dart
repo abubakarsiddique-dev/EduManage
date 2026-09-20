@@ -6,6 +6,7 @@ import 'package:school_management_system/data/models/class_model.dart';
 import 'package:school_management_system/data/models/fee_model.dart';
 import 'package:school_management_system/data/models/notice_model.dart';
 import 'package:school_management_system/data/models/result_model.dart';
+import 'package:school_management_system/data/models/teacher_model.dart';
 import 'package:school_management_system/data/models/timetable_model.dart';
 
 void main() {
@@ -97,7 +98,32 @@ void main() {
       expect(parsed.room, 'Room 204');
       expect(parsed.capacity, 35);
     });
+
+    test('value equality and copyWith work properly', () {
+      final classModel = ClassModel(
+        id: 'cls_001',
+        name: 'Grade 9 - B',
+        classTeacher: 'Mr. Anderson',
+        room: 'Room 204',
+        capacity: 35,
+      );
+      final identicalClone = ClassModel(
+        id: 'cls_001',
+        name: 'Grade 9 - B',
+        classTeacher: 'Mr. Anderson',
+        room: 'Room 204',
+        capacity: 35,
+      );
+
+      expect(classModel, equals(identicalClone));
+      expect(classModel.hashCode, equals(identicalClone.hashCode));
+
+      final modified = classModel.copyWith(room: 'Room 305');
+      expect(modified.room, 'Room 305');
+      expect(classModel, isNot(equals(modified)));
+    });
   });
+
 
   group('FeeModel Tests', () {
     test('handles fee statuses and overdue tracking', () {
@@ -250,5 +276,82 @@ void main() {
       expect(notice, isNot(equals(differentNotice)));
     });
   });
+
+  group('TeacherModel Tests', () {
+    test('serializes and deserializes correctly', () {
+      final teacher = TeacherModel(
+        id: 'teach_01',
+        name: 'Prof. John Doe',
+        email: 'john.doe@school.edu',
+        phone: '+92 300 1234567',
+        subject: 'Mathematics',
+        qualification: 'M.Sc Mathematics',
+        classes: ['Grade 9 - A', 'Grade 10 - B'],
+        approved: true,
+      );
+
+      final map = teacher.toMap();
+      expect(map['uid'], 'teach_01');
+      expect(map['name'], 'Prof. John Doe');
+      expect(map['subject'], 'Mathematics');
+      expect(map['classes'], ['Grade 9 - A', 'Grade 10 - B']);
+
+      final parsed = TeacherModel.fromMap('teach_01', {
+        'name': 'Prof. John Doe',
+        'email': 'john.doe@school.edu',
+        'phone': '+92 300 1234567',
+        'subject': 'Mathematics',
+        'qualification': 'M.Sc Mathematics',
+        'classes': ['Grade 9 - A', 'Grade 10 - B'],
+        'approved': true,
+      });
+
+      expect(parsed.id, 'teach_01');
+      expect(parsed.name, 'Prof. John Doe');
+      expect(parsed.classesFormatted, 'Grade 9 - A, Grade 10 - B');
+    });
+
+    test('classesFormatted handles empty class list', () {
+      const teacher = TeacherModel(
+        id: 't2',
+        name: 'Jane',
+        email: 'jane@school.edu',
+        phone: '123',
+        subject: 'Physics',
+        qualification: 'B.Sc',
+        classes: [],
+      );
+      expect(teacher.classesFormatted, 'No classes assigned');
+    });
+
+    test('value equality, copyWith, and hashCode operate accurately', () {
+      final teacher1 = TeacherModel(
+        id: 't1',
+        name: 'Sir Isaac',
+        email: 'isaac@school.edu',
+        phone: '111',
+        subject: 'Physics',
+        qualification: 'Ph.D',
+        classes: ['10-A'],
+      );
+      final teacherClone = TeacherModel(
+        id: 't1',
+        name: 'Sir Isaac',
+        email: 'isaac@school.edu',
+        phone: '111',
+        subject: 'Physics',
+        qualification: 'Ph.D',
+        classes: ['10-A'],
+      );
+
+      expect(teacher1, equals(teacherClone));
+      expect(teacher1.hashCode, equals(teacherClone.hashCode));
+
+      final updated = teacher1.copyWith(subject: 'Advanced Physics');
+      expect(updated.subject, 'Advanced Physics');
+      expect(teacher1, isNot(equals(updated)));
+    });
+  });
 }
+
 
