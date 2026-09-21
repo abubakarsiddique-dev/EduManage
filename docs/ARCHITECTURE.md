@@ -98,3 +98,11 @@ Standardized JSON Response Envelope
 - **Rate Limiting**: Sliding window in-memory limiter blocks IP addresses exceeding burst thresholds.
 - **Header Hardening**: `helmet` enforces strict HTTP headers including HSTS, X-Content-Type-Options, and CSP protections.
 - **Sanitized Inputs**: Centralized validator suite trims and strips control characters from all user payloads before persistence.
+
+---
+
+## 5. Domain Models & Utility Standards
+
+- **Value Equality & Immutability**: All client-side domain entities (`ClassModel`, `TeacherModel`, `NoticeModel`, `ResultModel`, etc.) implement explicit `copyWith`, `operator ==`, `hashCode`, and `toString` overrides, ensuring clean state comparisons and caching predictability in Riverpod state trees.
+- **Shared Data Transformations**: Centralized `DataHelpers` encapsulates reusable data presentation logic (letter grade thresholds, semantic color mapping, ISO and relative date-key generation, safe division percentage, and currency formatting), avoiding duplicated formatting implementations across screens.
+
