@@ -109,4 +109,38 @@ class DataHelpers {
     if (total <= 0) return 0;
     return (obtained / total) * 100;
   }
+
+  // ── Currency & String Formatting ──────────────────────────────────────
+
+  /// Formats a numeric amount with standard thousand separators (e.g. 'Rs. 4,500').
+  static String formatCurrency(
+    num? amount, {
+    String prefix = 'Rs. ',
+    int decimalDigits = 0,
+  }) {
+    if (amount == null) return '${prefix}0';
+    final formatter = NumberFormat.currency(
+      symbol: prefix,
+      decimalDigits: decimalDigits,
+    );
+    return formatter.format(amount).trim();
+  }
+
+  /// Truncates text exceeding [maxLength] and attaches an ellipsis '...'.
+  static String truncateWithEllipsis(String? text, int maxLength) {
+    if (text == null || text.isEmpty) return '';
+    if (text.length <= maxLength) return text;
+    if (maxLength <= 3) return text.substring(0, maxLength);
+    return '${text.substring(0, maxLength - 3)}...';
+  }
+
+  /// Converts a string into Title Case capitalized words.
+  static String titleCase(String? text) {
+    if (text == null || text.trim().isEmpty) return '';
+    return text.trim().split(RegExp(r'\s+')).map((word) {
+      if (word.isEmpty) return '';
+      return '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}';
+    }).join(' ');
+  }
 }
+
