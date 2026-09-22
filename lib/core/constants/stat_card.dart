@@ -4,6 +4,9 @@ import 'package:school_management_system/core/theme/app_dimensions.dart';
 import 'package:school_management_system/core/theme/app_text_style.dart';
 import 'package:school_management_system/core/utils/responsive_sizer.dart';
 
+/// A card widget that displays a statistic with a label, value, and icon.
+///
+/// Typically used in dashboards to show key metrics.
 class StatCard extends StatelessWidget {
   final String label;
   final String value;
@@ -76,6 +79,9 @@ class StatCard extends StatelessWidget {
   }
 }
 
+/// A card widget that represents a quick action.
+///
+/// Displays an icon and a label with a specific color theme.
 class QuickActionCard extends StatelessWidget {
   final String label;
   final IconData icon;
