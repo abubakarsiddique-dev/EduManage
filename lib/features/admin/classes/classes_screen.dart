@@ -9,6 +9,8 @@ import 'package:school_management_system/data/providers/repository_providers.dar
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 
+/// A screen that displays the list of classes and allows administrators
+/// to add new classes or manage existing ones.
 class ClassesScreen extends ConsumerWidget {
   const ClassesScreen({super.key});
 
