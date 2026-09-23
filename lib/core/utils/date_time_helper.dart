@@ -103,4 +103,46 @@ class DateTimeHelper {
     final today = DateTime(now.year, now.month, now.day);
     return targetDate.difference(today).inDays;
   }
+
+  /// Checks whether a given [target] date falls inclusively between [start] and [end].
+  static bool isDateInRange(DateTime? target, DateTime? start, DateTime? end) {
+    if (target == null || start == null || end == null) return false;
+    final t = DateTime(target.year, target.month, target.day);
+    final s = DateTime(start.year, start.month, start.day);
+    final e = DateTime(end.year, end.month, end.day);
+    return !t.isBefore(s) && !t.isAfter(e);
+  }
+
+  /// Formats date to academic year label (e.g., '2026-2027' when term starts in August/September).
+  static String formatAcademicYear(DateTime? date, {int startMonth = 8}) {
+    if (date == null) return '';
+    final year = date.year;
+    if (date.month >= startMonth) {
+      return '$year-${year + 1}';
+    } else {
+      return '${year - 1}-$year';
+    }
+  }
+
+  /// Returns the calendar quarter string for the date (e.g., 'Q1', 'Q2', 'Q3', 'Q4').
+  static String getQuarter(DateTime? date) {
+    if (date == null) return '';
+    final q = ((date.month - 1) ~/ 3) + 1;
+    return 'Q$q';
+  }
+
+  /// Computes the start of the week (Monday at 00:00:00) for a given date.
+  static DateTime? startOfWeek(DateTime? date) {
+    if (date == null) return null;
+    final d = DateTime(date.year, date.month, date.day);
+    return d.subtract(Duration(days: d.weekday - 1));
+  }
+
+  /// Computes the end of the week (Sunday at 23:59:59) for a given date.
+  static DateTime? endOfWeek(DateTime? date) {
+    if (date == null) return null;
+    final start = startOfWeek(date)!;
+    return DateTime(start.year, start.month, start.day + 6, 23, 59, 59);
+  }
 }
+
