@@ -114,6 +114,57 @@ class Validators {
     return null;
   }
 
+  static final RegExp _postalRegex = RegExp(r'^[A-Za-z0-9\s\-]{3,10}$');
+
+  /// Validates postal or ZIP code format.
+  static String? postalCode(String? value) {
+    if (value == null || value.trim().isEmpty) return 'Postal code is required';
+    if (!_postalRegex.hasMatch(value.trim())) {
+      return 'Enter a valid postal code';
+    }
+    return null;
+  }
+
+  /// Validates a percentage score or attendance threshold.
+  static String? percentage(
+    String? value, {
+    double min = 0.0,
+    double max = 100.0,
+  }) {
+    if (value == null || value.trim().isEmpty) return 'Percentage is required';
+    final parsed = double.tryParse(value.trim().replaceAll('%', ''));
+    if (parsed == null) return 'Enter a valid percentage';
+    if (parsed < min || parsed > max) {
+      return 'Percentage must be between $min% and $max%';
+    }
+    return null;
+  }
+
+  /// Validates payment card numbers using standard length and Luhn checksum.
+  static String? creditCard(String? value) {
+    if (value == null || value.trim().isEmpty) return 'Card number is required';
+    final sanitized = value.replaceAll(RegExp(r'[\s\-]'), '');
+    if (!RegExp(r'^\d{13,19}$').hasMatch(sanitized)) {
+      return 'Enter a valid card number';
+    }
+    int sum = 0;
+    bool alternate = false;
+    for (int i = sanitized.length - 1; i >= 0; i--) {
+      int digit = int.parse(sanitized[i]);
+      if (alternate) {
+        digit *= 2;
+        if (digit > 9) digit -= 9;
+      }
+      sum += digit;
+      alternate = !alternate;
+    }
+    if (sum % 10 != 0) {
+      return 'Invalid card number';
+    }
+    return null;
+  }
+
+
   // ── Sanitizers ──────────────────────────────────────────────────────────
   static String cleanPhone(String value) {
     return value.replaceAll(RegExp(r'[^\d+]'), '');
