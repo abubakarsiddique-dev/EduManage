@@ -109,5 +109,48 @@ void main() {
       expect(DateTimeHelper.daysUntil(clock, clock: clock), 0);
       expect(DateTimeHelper.daysUntil(null), 0);
     });
+
+    test('isDateInRange accurately determines date boundaries', () {
+      final start = DateTime(2026, 9, 1);
+      final end = DateTime(2026, 9, 30);
+      final within = DateTime(2026, 9, 15);
+      final before = DateTime(2026, 8, 31);
+      final after = DateTime(2026, 10, 1);
+
+      expect(DateTimeHelper.isDateInRange(within, start, end), isTrue);
+      expect(DateTimeHelper.isDateInRange(start, start, end), isTrue);
+      expect(DateTimeHelper.isDateInRange(end, start, end), isTrue);
+      expect(DateTimeHelper.isDateInRange(before, start, end), isFalse);
+      expect(DateTimeHelper.isDateInRange(after, start, end), isFalse);
+      expect(DateTimeHelper.isDateInRange(null, start, end), isFalse);
+    });
+
+    test('formatAcademicYear formats school sessions correctly', () {
+      expect(DateTimeHelper.formatAcademicYear(DateTime(2026, 9, 15)), '2026-2027');
+      expect(DateTimeHelper.formatAcademicYear(DateTime(2026, 3, 20)), '2025-2026');
+      expect(DateTimeHelper.formatAcademicYear(DateTime(2026, 8, 1)), '2026-2027');
+      expect(DateTimeHelper.formatAcademicYear(null), '');
+    });
+
+    test('getQuarter computes correct fiscal and academic quarters', () {
+      expect(DateTimeHelper.getQuarter(DateTime(2026, 1, 15)), 'Q1');
+      expect(DateTimeHelper.getQuarter(DateTime(2026, 5, 20)), 'Q2');
+      expect(DateTimeHelper.getQuarter(DateTime(2026, 9, 10)), 'Q3');
+      expect(DateTimeHelper.getQuarter(DateTime(2026, 11, 30)), 'Q4');
+      expect(DateTimeHelper.getQuarter(null), '');
+    });
+
+    test('startOfWeek and endOfWeek calculate calendar week limits', () {
+      // 2026-09-23 is Wednesday (weekday 3)
+      final wednesday = DateTime(2026, 9, 23);
+      final monday = DateTimeHelper.startOfWeek(wednesday);
+      final sunday = DateTimeHelper.endOfWeek(wednesday);
+
+      expect(monday, DateTime(2026, 9, 21));
+      expect(sunday, DateTime(2026, 9, 27, 23, 59, 59));
+      expect(DateTimeHelper.startOfWeek(null), isNull);
+      expect(DateTimeHelper.endOfWeek(null), isNull);
+    });
   });
 }
+
