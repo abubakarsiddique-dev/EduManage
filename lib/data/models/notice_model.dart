@@ -76,4 +76,50 @@ class NoticeModel {
 
   /// Alias for `body` for convenience and backwards compatibility.
   String get description => body;
+
+  /// Creates a copy of this [NoticeModel] with optionally modified fields.
+  NoticeModel copyWith({
+    String? id,
+    String? title,
+    String? body,
+    String? category,
+    String? author,
+    DateTime? createdAt,
+  }) {
+    return NoticeModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      body: body ?? this.body,
+      category: category ?? this.category,
+      author: author ?? this.author,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is NoticeModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          title == other.title &&
+          body == other.body &&
+          category == other.category &&
+          author == other.author &&
+          createdAt == other.createdAt;
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        title,
+        body,
+        category,
+        author,
+        createdAt,
+      );
+
+  @override
+  String toString() =>
+      'NoticeModel(id: $id, title: $title, category: $category, author: $author)';
 }
+
