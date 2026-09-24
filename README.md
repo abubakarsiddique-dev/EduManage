@@ -15,9 +15,10 @@ EduManage is a comprehensive, multi-role School Management System featuring a cr
 - **REST API + Firebase Dual Support**: Clean, modular API architecture with JWT authentication, query search/pagination, and persistent token caching.
 - **Dark Mode & Dynamic Theming**: Complete Material 3 dark palette with `themeModeProvider` support for light, dark, and system theme switching.
 - **Standardized UI Feedback**: Responsive `AppToast` floating snackbars and dismissible `AppBanner` alert widgets for consistent user feedback.
-- **Robust Form Validation Engine**: Centralized `Validators` suite with email, password, phone, amount/currency, numeric bounds, score, GPA, URL, sanitizers, and composite rule chaining.
+- **Robust Form Validation Engine**: Centralized `Validators` suite with email, password, phone, postal code, credit card (Luhn checksum), amount/currency, numeric bounds, score, GPA, URL, sanitizers, and composite rule chaining.
 - **CSV Data Export Engine**: RFC 4180 compliant `CsvExporter` for students roster, fee collections, attendance, and exam grades with injection attack protection.
-- **DateTime & Formatting Utilities**: Centralized `DateTimeHelper` for ISO parsing, human relative timestamps (`timeAgo`), and academic deadline calculations.
+- **DateTime & Formatting Utilities**: Centralized `DateTimeHelper` for ISO parsing, human relative timestamps (`timeAgo`), academic term ranges (`isDateInRange`), session labels (`formatAcademicYear`), fiscal quarters, week boundaries, and deadline calculations.
+
 - **Attendance Management**: Class attendance marking, student percentage tracking, and monthly reports.
 - **Assignments & Submissions**: Assignment distribution, deadline reminders, and file submission workflows.
 - **Fee Management**: Invoice generation, receipt upload, admin verification, and fee collection analytics.
