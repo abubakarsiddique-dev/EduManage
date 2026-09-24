@@ -4,6 +4,7 @@ import 'package:school_management_system/data/models/assignment_model.dart';
 import 'package:school_management_system/data/models/attendence_model.dart';
 import 'package:school_management_system/data/models/class_model.dart';
 import 'package:school_management_system/data/models/fee_model.dart';
+import 'package:school_management_system/data/models/notice_model.dart';
 import 'package:school_management_system/data/models/result_model.dart';
 import 'package:school_management_system/data/models/timetable_model.dart';
 
@@ -184,4 +185,70 @@ void main() {
       expect(attendanceStatusFromString('unknown'), AttendanceStatusValue.unmarked);
     });
   });
+
+  group('NoticeModel Tests', () {
+    final sampleDate = DateTime(2026, 9, 24, 8, 30);
+    final notice = NoticeModel(
+      id: 'notice_01',
+      title: 'Annual Sports Gala',
+      body: 'The annual sports gala will commence next Monday.',
+      category: 'Event',
+      author: 'Principal Office',
+      createdAt: sampleDate,
+    );
+
+    test('serializes and deserializes correctly', () {
+      final map = notice.toMap();
+      expect(map['title'], 'Annual Sports Gala');
+      expect(map['body'], 'The annual sports gala will commence next Monday.');
+      expect(map['category'], 'Event');
+      expect(map['author'], 'Principal Office');
+
+      final fromMap = NoticeModel.fromMap('notice_01', {
+        'title': 'Annual Sports Gala',
+        'body': 'The annual sports gala will commence next Monday.',
+        'category': 'Event',
+        'author': 'Principal Office',
+        'createdAt': Timestamp.fromDate(sampleDate),
+      });
+
+      expect(fromMap.id, 'notice_01');
+      expect(fromMap.title, notice.title);
+      expect(fromMap.category, notice.category);
+      expect(fromMap.description, notice.body);
+      expect(fromMap.dateLabel, 'Sep 24');
+    });
+
+    test('copyWith modifies targeted attributes and preserves others', () {
+      final updated = notice.copyWith(
+        title: 'Updated Gala Schedule',
+        category: 'General',
+      );
+
+      expect(updated.id, 'notice_01');
+      expect(updated.title, 'Updated Gala Schedule');
+      expect(updated.category, 'General');
+      expect(updated.body, notice.body);
+      expect(updated.author, notice.author);
+      expect(updated.createdAt, notice.createdAt);
+    });
+
+    test('value equality and hashCode operate correctly', () {
+      final noticeClone = NoticeModel(
+        id: 'notice_01',
+        title: 'Annual Sports Gala',
+        body: 'The annual sports gala will commence next Monday.',
+        category: 'Event',
+        author: 'Principal Office',
+        createdAt: sampleDate,
+      );
+
+      expect(notice, equals(noticeClone));
+      expect(notice.hashCode, equals(noticeClone.hashCode));
+
+      final differentNotice = notice.copyWith(id: 'notice_02');
+      expect(notice, isNot(equals(differentNotice)));
+    });
+  });
 }
+
