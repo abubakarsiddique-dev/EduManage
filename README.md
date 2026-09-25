@@ -49,6 +49,14 @@ EduManage is a comprehensive, multi-role School Management System featuring a cr
 - **Campus Events & Academic Calendar**: `SchoolEventModel` scheduling sports days, parent-teacher conferences, and assemblies with audience segmentation.
 - **Asset Inventory & Hardware Depreciation**: `InventoryAssetModel` managing laboratory and IT hardware lifecycle, condition auditing, and straight-line depreciation.
 - **Smart Query Parsing & File Validation**: `SearchQueryParser` tokenizing queries with key-value tag filters, and `FileTypeHelper` validating homework file uploads.
+- **Student ID Badges & Barcode Authentication**: `StudentIdCardModel` managing digital student credentials, issue/expiry dates, and barcode verification.
+- **Campus Health & Medical Profiles**: `MedicalRecordModel` and `BloodGroupTypes` tracking student emergency directives, allergies, and universal donor matching.
+- **Admission Eligibility & Age Verification**: `AgeCalculatorHelper` computing chronological student age and grade admission eligibility.
+- **Text Search & Term Highlighting**: `TextHighlightHelper` splitting search result snippets into matched and unmatched text spans for UI highlighting.
+- **Institutional Scholarship & Concession Framework**: `ScholarshipGrantModel` and `ScholarshipTiers` applying merit and need-based tuition fee waivers.
+- **Facility & Venue Booking Management**: `FacilityBookingModel` coordinating auditorium, laboratory, and sports field reservations.
+- **Campus Dormitory & Hostel Allocations**: `HostelRoomModel` tracking boarding room occupancy, bed availability, and rental fees.
+- **Academic Roll Number Engine & Session Security**: `RollNumberGenerator` formatting institutional enrollment IDs, and `SessionTokenHelper` monitoring JWT validity.
 - **EventBus & Reactive AppEvent Architecture**: Decoupled, type-safe publish-subscribe event dispatcher in Flutter with specialized domain events (`AuthEvent`, `AttendanceEvent`, `FeePaymentEvent`, `GradeSubmissionEvent`, `SystemNotificationEvent`, `SyncEvent`), FIFO history replay buffer, and isolated error handling.
 - **Automated Database Snapshots & Backups**: Automated system snapshot engine with recursive deterministic JSON serialization, SHA-256 cryptographic verification, tamper detection, and administrative restore endpoints.
 - **Universal SearchFilterEngine**: Client-side collection query pipeline with multi-field tokenized search, composable `FilterPredicate` rules, multi-level sorting, facet counts, and pagination.
