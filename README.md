@@ -1,115 +1,148 @@
-# EduManage - School Management System
+# 🎓 EduManage — School Management System
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
-[![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![Dart](https://img.shields.io/badge/Dart-3.11-0175C2?logo=dart&logoColor=white)](https://dart.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![Firebase](https://img.shields.io/badge/Firebase-Auth%20%7C%20Firestore%20%7C%20Storage-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/mrabukust-cmd/EduManage/actions/workflows/ci.yml/badge.svg)](https://github.com/mrabukust-cmd/EduManage/actions)
 
-EduManage is a comprehensive, multi-role School Management System featuring a cross-platform **Flutter** client (Android, iOS, Web, Desktop) and a high-performance **Node.js/Express** REST API backend with real-time Firebase support.
+**EduManage** is a multi-role school management platform built as a Final Year Project. It pairs a cross‑platform **Flutter + Firebase** client with an optional **Node.js/Express REST API** backend, giving Admins, Teachers, Students, and Parents dedicated dashboards for attendance, exams, fees, timetables, and communication.
 
----
-
-## Key Features
-
-- **Multi-Role Dashboards**: Tailored experiences for Administrators, Teachers, Students, and Parents.
-- **REST API + Firebase Dual Support**: Clean, modular API architecture with JWT authentication, query search/pagination, and persistent token caching.
-- **Dark Mode & Dynamic Theming**: Complete Material 3 dark palette with `themeModeProvider` support for light, dark, and system theme switching.
-- **Standardized UI Feedback**: Responsive `AppToast` floating snackbars and dismissible `AppBanner` alert widgets for consistent user feedback.
-- **Robust Form Validation Engine**: Centralized `Validators` suite with email, password, phone, postal code, credit card (Luhn checksum), amount/currency, numeric bounds, score, GPA, URL, sanitizers, and composite rule chaining.
-- **CSV Data Export Engine**: RFC 4180 compliant `CsvExporter` for students roster, fee collections, attendance, and exam grades with injection attack protection.
-- **DateTime & Formatting Utilities**: Centralized `DateTimeHelper` for ISO parsing, human relative timestamps (`timeAgo`), academic term ranges (`isDateInRange`), session labels (`formatAcademicYear`), fiscal quarters, week boundaries, and deadline calculations.
-
-- **Attendance Management**: Class attendance marking, student percentage tracking, and monthly reports.
-- **Assignments & Submissions**: Assignment distribution, deadline reminders, and file submission workflows.
-- **Fee Management**: Invoice generation, receipt upload, admin verification, and fee collection analytics.
-- **ExamAssessmentEngine & Grade Analytics**: Client-side statistical evaluation engine in Flutter (`ExamAssessmentEngine`) computing cohort distribution metrics (mean, median, mode, sample standard deviation, IQR), standardized Z/T-scores, weighted assessment aggregation, honors classifications, and four curving models (anchorToMax, linearBoost, squareRoot, bellCurve).
-- **Exam Management & Automated Curving API**: Express backend exam suite (`/api/v1/exams`) supporting exam scheduling, boundary-validated grade submissions (`0 <= score <= maxScore`), real-time cohort statistics, and non-destructive grade curving simulations.
-- **AttendanceForecastingEngine & Threshold Trajectory**: Predictive attendance engine (`AttendanceForecastingEngine`) in Flutter analyzing historical presence logs to project best-case/worst-case end-of-term attendance, maximum allowable future absences before breaching 75% statutory threshold, and deficit recovery streak requirements.
-- **Student Leave Management API**: Enterprise student leave workflow module in Express (`/api/v1/leaves`) supporting multi-day leave applications with ISO date validation, teacher/admin review and approval workflows, student-scoped access controls, and integrated attendance deficit impact simulation (`/impact/:studentId`).
-- **ScheduleConflictEngine & Timetable Intelligence**: Client-side scheduling intelligence engine (`ScheduleConflictEngine`) in Flutter detecting teacher double-booking, room overlap, and class section collisions, computing workload distribution and open gap discovery.
-- **Timetable Collision Guard & Schedule Validation API**: Express backend scheduling engine with automated conflict prevention, rejecting conflicting timetable slots with `409 Conflict` (`/api/v1/timetable/validate`, `/conflicts`, `/workload/:teacherId`).
-- **FeeLedgerCalculator & Tuition Financing Suite**: Client-side financial ledger engine in Flutter (`FeeLedgerCalculator`) supporting percentage/fixed scholarship discounts, configurable late penalty policies, and multi-installment schedules with exact sum preservation.
-- **Batch Student Admission & Bulk Ingestion API**: Enterprise high-throughput bulk enrollment module in Express (`/api/v1/students/bulk-validate`, `/api/v1/students/bulk-enroll`) with schema validation, intra-batch duplicate checks, and atomic/partial enrollment modes.
-- **OfflineSyncEngine & Mutation Queue**: Client-side offline synchronization engine (`SyncQueueManager`) with priority weighting (`high`, `normal`, `low`), idempotency key deduplication, exponential retry backoff, and conflict resolution (`serverWins`, `clientWins`, `merge`).
-- **Dynamic RBAC Permission Matrix & Policy Enforcer**: Granular capability system with 19 operation permissions, least-privilege matrix, custom user override grants/revocations, and `requirePermissions` middleware with security audit logging.
-- **Institutional Report Document Formatter**: Production document generator (`ReportDocumentFormatter`) producing official student academic transcripts, fee payment receipts, and attendance certifications with dual rendering (ASCII tables and print-ready HTML with CSS `@media print` styling).
-- **Institutional Reporting & Performance Analytics API**: REST analytics module (`/api/v1/reports/academic`, `/attendance`, `/financial`) aggregating term-wide scores, pass/fail ratios, grade distribution buckets, top performers, attendance rates, chronic absenteeism alerts (<75%), fee reconciliation, and collection efficiency metrics.
-- **Academic Grading & GPA Scales**: `GradeScaleModel` domain suite establishing continuous GPA bounds ($4.0$ scale), descriptive outcomes, and score matching algorithms.
-- **Academic Calendar & Term Forecasting**: `AcademicCalendarHelper` computing active session milestones, term progress percentages, and deadline countdowns.
-- **Statistical Analytics & Descriptive Metrics**: `MathStatsHelper` computing class averages, median distribution, sample standard deviation, and boundary-interpolated percentiles.
-- **Functional Collection Extensions**: `EduIterableX` utilities providing type-safe chunking (`chunk`), key-based deduplication (`distinctBy`), and predicate-based bipartite splitting (`partition`).
-- **Portal Navigation Breadcrumbs**: `BreadcrumbHelper` parsing route hierarchies into capitalized navigation items for admin and student portals.
-- **System Error Taxonomy & Resolution**: `AppErrorCodes` providing centralized error mappings for authentication, network timeouts, and permissions.
-- **Notification Channel Infrastructure**: `AppNotificationChannels` defining category metadata and urgency priorities across mobile push alert channels.
-- **Campus Transportation & Transit Routing**: `SchoolBusRouteModel` and `GeoDistanceHelper` providing Haversine distance, geofencing, driver contacts, and waypoint tracking.
-- **Library Catalog & Issue Circulations**: `LibraryBookModel` tracking book volume availability, shelf positions, and automated overdue penalty calculations.
-- **Bell Schedule & Recess Timing Engine**: `BellScheduleModel` structuring class period durations, timetable sequencing, and interval alerts.
-- **Staff Attendance & Biometric Audit**: `StaffAttendanceModel` auditing teacher arrival punctuality, worked duration, and check-in/out transitions.
-- **Curriculum & Syllabus Progress Tracker**: `SyllabusTopicModel` tracking chapter progress percentage, completed lessons, and syllabus completion states.
-- **Campus Events & Academic Calendar**: `SchoolEventModel` scheduling sports days, parent-teacher conferences, and assemblies with audience segmentation.
-- **Asset Inventory & Hardware Depreciation**: `InventoryAssetModel` managing laboratory and IT hardware lifecycle, condition auditing, and straight-line depreciation.
-- **Smart Query Parsing & File Validation**: `SearchQueryParser` tokenizing queries with key-value tag filters, and `FileTypeHelper` validating homework file uploads.
-- **Student ID Badges & Barcode Authentication**: `StudentIdCardModel` managing digital student credentials, issue/expiry dates, and barcode verification.
-- **Campus Health & Medical Profiles**: `MedicalRecordModel` and `BloodGroupTypes` tracking student emergency directives, allergies, and universal donor matching.
-- **Admission Eligibility & Age Verification**: `AgeCalculatorHelper` computing chronological student age and grade admission eligibility.
-- **Text Search & Term Highlighting**: `TextHighlightHelper` splitting search result snippets into matched and unmatched text spans for UI highlighting.
-- **Institutional Scholarship & Concession Framework**: `ScholarshipGrantModel` and `ScholarshipTiers` applying merit and need-based tuition fee waivers.
-- **Facility & Venue Booking Management**: `FacilityBookingModel` coordinating auditorium, laboratory, and sports field reservations.
-- **Campus Dormitory & Hostel Allocations**: `HostelRoomModel` tracking boarding room occupancy, bed availability, and rental fees.
-- **Academic Roll Number Engine & Session Security**: `RollNumberGenerator` formatting institutional enrollment IDs, and `SessionTokenHelper` monitoring JWT validity.
-- **EventBus & Reactive AppEvent Architecture**: Decoupled, type-safe publish-subscribe event dispatcher in Flutter with specialized domain events (`AuthEvent`, `AttendanceEvent`, `FeePaymentEvent`, `GradeSubmissionEvent`, `SystemNotificationEvent`, `SyncEvent`), FIFO history replay buffer, and isolated error handling.
-- **Automated Database Snapshots & Backups**: Automated system snapshot engine with recursive deterministic JSON serialization, SHA-256 cryptographic verification, tamper detection, and administrative restore endpoints.
-- **Universal SearchFilterEngine**: Client-side collection query pipeline with multi-field tokenized search, composable `FilterPredicate` rules, multi-level sorting, facet counts, and pagination.
-- **Notification Templating & Dispatch Engine**: Educational template renderer (`FEE_DUE_REMINDER`, `ASSIGNMENT_POSTED`, `ATTENDANCE_ABSENT_ALERT`, `EXAM_RESULT_PUBLISHED`) with parameter interpolation, multi-channel routing (`IN_APP`, `EMAIL`, `SMS`), batch queuing, and delivery stats.
-- **MemoryCache & CacheManager**: High-performance client-side caching with configurable TTL, LRU eviction, tag-based invalidation, and hit/miss statistics.
-- **Academic Analytics Engine**: Attendance streak calculation, linear regression grade trajectory analysis, academic risk detection, and class percentile ranking.
-- **Backend Audit Logging & Security Trail**: Structured audit logging middleware tracking administrative events, actor metadata, client IP, execution duration, and payload redaction.
-- **Database Relational Integrity Probes**: Deep relational integrity validator verifying foreign key references, detecting orphaned fees, and providing `/api/v1/health/integrity` diagnostic endpoints.
-- **Structured Telemetry & Logging**: Configurable `AppLogger` utility with severity levels, ring buffer caching, and diagnostic exports.
-- **Security & Data Sanitization**: `SecurityHelper` suite protecting against XSS, SQL injection, and providing automated PII masking for emails, phones, and IDs.
-- **Academic GPA & Honors Engine**: Precision `GpaCalculator` supporting 4.0 weighted scale, SGPA, CGPA, and honors/standing evaluation.
-- **Smart Notification Categorization**: Dynamic `NotificationHelper` for urgency classification, badge counters, and category color mapping.
-- **Network Reachability Monitoring**: `NetworkService` supporting latency evaluation and real-time connectivity state management.
-- **API Security & Rate Limiting**: In-memory sliding window rate limiter protecting endpoints against brute-force and request flooding.
-- **Backend Health & Liveness Probes**: System health endpoint `/api/v1/health` with process memory metrics and `/api/v1/health/ping` liveness probe.
+> Package name: `school_management_system` · Backend: [`edumanage-backend`](./edumanage-backend)
 
 ---
 
-## Tech Stack
+## 📱 Overview
 
-- **Frontend**: Flutter 3.x, Flutter Riverpod, GoRouter, HTTP, ResponsiveSizer
-- **Backend**: Node.js, Express.js, JWT, Helmet, Morgan, Bcrypt, RateLimit
-- **Architecture**: Clean Architecture, Repository Pattern, Type-Safe API Services
+The Flutter app is the primary product — it talks directly to **Firebase** (Auth, Firestore, Storage, Cloud Messaging) for real-time data. The Node.js backend in `edumanage-backend/` is a separate, self-contained REST API with its own JWT auth and file-based JSON store; it powers a set of analytics-heavy modules (grade curving, timetable collision checks, leave-impact simulation, system backups) that are documented in its own [backend README](./edumanage-backend/README.md).
 
----
-
-## Quick Start
-
-1. Clone the repository: `git clone https://github.com/mrabukust-cmd/EduManage.git`
-2. Install dependencies: `flutter pub get`
-3. Run the app: `flutter run`
+### Roles
+| Role | Highlights |
+|---|---|
+| **Admin** | Manage students, teachers, classes, fees, notices; approve pending registrations |
+| **Teacher** | Attendance, assignments, exam results, timetable |
+| **Student** | View attendance, assignments, results, fees, notices |
+| **Parent** | Track linked children's attendance, results, fees, and notifications |
 
 ---
 
-## Documentation & Navigation
+## ✨ Features
 
-- **[System Architecture](docs/ARCHITECTURE.md)**: Deep-dive into client and server components, state management, and security model.
-- **[REST API Specifications](docs/API_DOCUMENTATION.md)**: Complete endpoint contracts, request/response schemas, and Curl examples.
-- **[Utilities & Health Monitoring](docs/UTILITIES_AND_HEALTH_SPEC.md)**: Specifications for security, logging, academic calculators, and health probes.
-- **[Backend Guide](edumanage-backend/README.md)**: Setup and run instructions for the Express REST server.
-- **[Contributing Guide](CONTRIBUTING.md)**: Standards, branch workflows, and conventional commit rules.
-- **[Changelog](CHANGELOG.md)**: Full history of releases and milestone updates.
+**Core**
+- Role-based authentication with an admin approval flow for new Teacher/Student/Parent sign-ups
+- Real-time Firestore-backed dashboards for all four roles
+- Attendance marking and history (daily/monthly views)
+- Assignments: distribution, deadlines, and submissions
+- Exam results and academic records
+- Fee invoicing, receipt upload, and admin verification
+- Notices & announcements with push notifications (FCM + local notifications)
+- Class timetable management
+- Dark mode with full Material 3 theming (`themeModeProvider`)
+- PDF report generation and CSV data export
+- Role-tinted UI: Admin (sky blue), Teacher (emerald), Student (violet)
+
+**Academic analytics engines** (`lib/core/utils/`)
+- `GpaCalculator` — 4.0-scale GPA/CGPA with academic standing classification (Dean's List → Academic Probation)
+- `ExamAssessmentEngine` — cohort statistics (mean, median, mode, std. dev., IQR), Z/T-scores, percentile ranks, and four grade-curving strategies (anchor-to-max, linear boost, square root, bell curve)
+- `SecurityHelper` — input sanitization, XSS/SQL-injection pattern detection, PII masking (email, phone, national ID)
+- `AppLogger` — structured, severity-leveled logging with an in-memory ring buffer for diagnostics
+
+**Backend (`edumanage-backend/`, optional REST API)**
+- JWT auth with role-based access control (RBAC) and a granular permission matrix
+- Exam scheduling, grade submission, and non-destructive curving simulations
+- Timetable collision guard (teacher/room/section overlap detection)
+- Student leave applications with attendance-deficit impact analysis
+- Bulk student admission with atomic rollback
+- System snapshot/backup engine with SHA-256 checksum verification
+- Audit logging, sliding-window rate limiting, and health/integrity probes
 
 ---
 
-## Testing & Verification
+## 🛠️ Tech Stack
 
-Run automated test suites across both layers (total **306** automated tests with 100% pass rate):
+| Layer | Technology |
+|---|---|
+| Client framework | Flutter 3.x, Dart `^3.11.5` |
+| State management | `flutter_riverpod` ^3.3.2 |
+| Routing | `go_router` ^17.3.0 |
+| Backend-as-a-service | `firebase_core`, `firebase_auth`, `cloud_firestore`, `firebase_storage`, `firebase_messaging` |
+| Local persistence | `shared_preferences`, `flutter_local_notifications` |
+| Charts / PDF | `fl_chart`, `pdf` |
+| Media | `image_picker`, `cached_network_image`, `flutter_svg`, `lottie` |
+| REST API | Node.js, Express 4, `jsonwebtoken`, `bcryptjs`, `helmet`, `morgan`, `cors` |
+| API data store | File-based JSON (`data/edumanage.db.json`) — lightweight, not intended as a production database |
 
-```bash
-# Flutter Test Suite (193 tests)
-flutter test
+---
 
-# Backend API Tests (113 tests across 19 suites)
-cd edumanage-backend && npm test
+## 🗂️ Project Structure
+
 ```
+school_management_system/
+├── lib/
+│   ├── core/               # Theme, router, constants, shared utils & engines
+│   │   ├── theme/          # AppColors, AppTextStyles, AppTheme
+│   │   ├── router/          # go_router configuration
+│   │   ├── utils/           # GpaCalculator, ExamAssessmentEngine, SecurityHelper, AppLogger...
+│   │   └── widgets/         # Reusable buttons, text fields, dropdowns
+│   ├── data/                # Repositories, models, services (notifications, roll numbers...)
+│   └── features/            # Feature-first screens
+│       ├── auth/             # Login, register, approval flow
+│       ├── admin/            # Students, teachers, classes, fees, notices, reports
+│       ├── teacher/          # Attendance, assignments, results
+│       ├── parents/          # Fee tracking, notifications
+│       └── shared/           # Profile, notifications, help, about, legal
+├── firebase_options.dart      # FlutterFire-generated config (project: edumanage-1b145)
+└── edumanage-backend/         # Standalone Node/Express REST API (see its own README)
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Flutter SDK `>=3.38.4` (stable channel), Dart `>=3.11.5`
+- Node.js `>=18` (only needed if you're running the backend)
+- A Firebase project (or use the one already wired up in `firebase_options.dart` for local development)
+
+### Run the Flutter app
+```bash
+git clone https://github.com/mrabukust-cmd/EduManage.git
+cd EduManage
+flutter pub get
+flutter run
+```
+> `firebase_options.dart` already points at a live Firebase project for development. To use your own project, run `flutterfire configure` and it will be regenerated.
+
+### Run the backend API (optional)
+```bash
+cd edumanage-backend
+npm install
+cp .env.example .env
+npm run dev      # auto-reloading dev server
+# or: npm start   # production
+npm test          # runs the automated test suites
+```
+Default `.env` values: `PORT=5000`, `JWT_EXPIRES_IN=7d`, `CORS_ORIGIN=*`.
+
+### Demo login (backend, seeded data)
+```
+Email:    admin@edumanage.edu
+Password: Password@123
+```
+
+---
+
+## 🧪 Testing
+
+- **Backend**: `npm test` runs Node's built-in test runner across the suites in `edumanage-backend/tests/` (auth, exams, timetable conflicts, leaves, bulk enrollment, RBAC, backups, and more).
+- **Flutter**: `flutter test` runs the client-side unit tests.
+
+---
+
+## 🤝 Contributing
+
+Contribution guidelines, commit conventions, and architecture rules for both the Flutter client and the Node backend are documented in [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+## 📄 License
+
+Released under the [MIT License](./LICENSE).
